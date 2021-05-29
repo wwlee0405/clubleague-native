@@ -14,7 +14,7 @@ export const logUserIn = async (token) => {
 };
 
 const client = new ApolloClient({
-  uri: "http://763f0a76eb81.ngrok.io/graphql",
+  uri: "http://5027f55d7d04.ngrok.io/graphql",
   cache: new InMemoryCache(),
 });
 export default client;
