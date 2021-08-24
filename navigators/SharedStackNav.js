@@ -10,6 +10,9 @@ import { Image } from "react-native";
 import Likes from "../screens/Likes";
 import Comments from "../screens/Comments";
 
+import { TouchableOpacity } from "react-native";
+import { isLoggedInVar, logUserOut } from "../apollo";
+
 const Stack = createStackNavigator();
 
 export default function SharedStackNav({ screenName }) {
@@ -32,14 +35,17 @@ export default function SharedStackNav({ screenName }) {
           component={Feed}
           options={{
             headerTitle: () => (
-              <Image
-                style={{
-                  width: 120,
-                  height: 40,
-                }}
-                resizeMode="contain"
-                source={require("../assets/logo.png")}
-              />
+
+              <TouchableOpacity onPress={() => logUserOut()}>
+                <Image
+                  style={{
+                    width: 120,
+                    height: 40,
+                  }}
+                  resizeMode="contain"
+                  source={require("../assets/logo.png")}
+                />
+              </TouchableOpacity>
             ),
           }}
         />
