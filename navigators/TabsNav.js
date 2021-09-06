@@ -4,6 +4,7 @@ import { Image, View } from "react-native";
 import TabIcon from "../components/nav/TabIcon";
 import SharedStackNav from "./SharedStackNav";
 import useMe from "../hooks/useMe";
+import { colors } from "../colors";
 
 const Tabs = createBottomTabNavigator();
 
@@ -12,11 +13,11 @@ export default function TabsNav() {
   return (
     <Tabs.Navigator
       tabBarOptions={{
-        activeTintColor: "white",
+        activeTintColor: colors.seaGreen,
         showLabel: false,
         style: {
           borderTopColor: "rgba(255, 255, 255, 0.3)",
-          backgroundColor: "black",
+          backgroundColor: colors.white,
         },
       }}
     >

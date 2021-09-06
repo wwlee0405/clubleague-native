@@ -6,6 +6,7 @@ import styled from "styled-components/native";
 import { Image, useWindowDimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { gql, useMutation } from "@apollo/client";
+import { colors } from "../colors";
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -29,7 +30,7 @@ const UserAvatar = styled.Image`
   border-radius: 12.5px;
 `;
 const Username = styled.Text`
-  color: white;
+  color: ${colors.black};
   font-weight: 600;
 `;
 const File = styled.Image``;
@@ -44,11 +45,11 @@ const Caption = styled.View`
   flex-direction: row;
 `;
 const CaptionText = styled.Text`
-  color: white;
+  color: ${colors.darkGrey};
   margin-left: 5px;
 `;
 const Likes = styled.Text`
-  color: white;
+  color: ${colors.lightGrey};
   margin: 7px 0px;
   font-weight: 600;
 `;
@@ -120,12 +121,12 @@ function Photo({ id, user, caption, file, isLiked, likes }) {
           <Action onPress={toggleLikeMutation}>
             <Ionicons
               name={isLiked ? "heart" : "heart-outline"}
-              color={isLiked ? "tomato" : "white"}
+              color={isLiked ? "tomato" : "grey"}
               size={22}
             />
           </Action>
           <Action onPress={() => navigation.navigate("Comments")}>
-            <Ionicons name="chatbubble-outline" color="white" size={22} />
+            <Ionicons name="chatbubble-outline" color="grey" size={22} />
           </Action>
         </Actions>
         <TouchableOpacity

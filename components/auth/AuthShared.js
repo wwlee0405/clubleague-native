@@ -1,9 +1,10 @@
 import styled from "styled-components/native";
+import { colors } from "../../colors";
 
 export const TextInput = styled.TextInput`
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: ${colors.whiteSmoke};
   padding: 15px 7px;
   border-radius: 4px;
-  color: white;
+  color: black;
   margin-bottom: ${(props) => (props.lastOne ? "15" : 8)}px;
 `;

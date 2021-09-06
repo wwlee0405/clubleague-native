@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Photo from "../screens/Photo";
 import Profile from "../screens/Profile";
-import Feed from "../screens/Feed";
+import Feed from "../screens/home/Feed";
 import Search from "../screens/Search";
 import Notifications from "../screens/Notifications";
 import Me from "../screens/Me";
 import { Image } from "react-native";
+import NewClub from "../screens/home/NewClub";
+import SearchClub from "../screens/home/SearchClub";
 import Likes from "../screens/Likes";
 import Comments from "../screens/Comments";
+import { colors } from "../colors";
 
 import { TouchableOpacity } from "react-native";
 import { isLoggedInVar, logUserOut } from "../apollo";
@@ -21,11 +24,11 @@ export default function SharedStackNav({ screenName }) {
       headerMode="screen"
       screenOptions={{
         headerBackTitleVisible: false,
-        headerTintColor: "white",
+        headerTintColor: "black",
         headerStyle: {
           borderBottomColor: "rgba(255, 255, 255, 0.3)",
           shadowColor: "rgba(255, 255, 255, 0.3)",
-          backgroundColor: "black",
+          backgroundColor: colors.white,
         },
       }}
     >
@@ -61,6 +64,8 @@ export default function SharedStackNav({ screenName }) {
       <Stack.Screen name="Photo" component={Photo} />
       <Stack.Screen name="Likes" component={Likes} />
       <Stack.Screen name="Comments" component={Comments} />
+      <Stack.Screen name="NewClub" component={NewClub} />
+      <Stack.Screen name="SearchClub" component={SearchClub} />
     </Stack.Navigator>
   );
 }

@@ -28,7 +28,7 @@ const MessageContainer = styled.View`
 `;
 const MessageText = styled.Text`
   margin-top: 15px;
-  color: white;
+  color: black;
   font-weight: 600;
 `;
 
@@ -90,7 +90,7 @@ export default function Search({ navigation }) {
   );
   return (
     <DismissKeyboard>
-      <View style={{ flex: 1, backgroundColor: "black" }}>
+      <View style={{ flex: 1, backgroundColor: "white" }}>
         {loading ? (
           <MessageContainer>
             <ActivityIndicator size="large" />

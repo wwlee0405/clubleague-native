@@ -32,12 +32,26 @@ export const logUserOut = async () => {
   tokenVar(null);
 };
 
+export const darkModeVar = makeVar(false);
+
+const DARK_MODE = "darkMode";
+
+export const enableDarkMode = async () => {
+  await AsyncStorage.setItem(DARK_MODE, "enabled");
+  darkModeVar(true);
+};
+
+export const disableDarkMode = async () => {
+  await AsyncStorage.removeItem(DARK_MODE);
+  darkModeVar(false);
+};
+
 const uploadHttpLink = createUploadLink({
-  uri: "http://27ec-175-124-231-170.ngrok.io/graphql",
+  uri: "http://fa86-175-124-231-170.ngrok.io/graphql",
 });
 
 const wsLink = new WebSocketLink({
-  uri: "ws://27ec-175-124-231-170.ngrok.io/graphql",
+  uri: "ws://fa86-175-124-231-170.ngrok.io/graphql",
   options: {
     connectionParams: () => ({
       token: tokenVar(),
