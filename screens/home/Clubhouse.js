@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { RefreshControl, View, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import styled from "styled-components/native";
-import { colors } from "../colors";
-import ScreenLayout from "../components/ScreenLayout";
-import ClubItem from "../components/home/ClubItem";
+import { colors } from "../../colors";
+import ScreenLayout from "../../components/ScreenLayout";
+import ClubItem from "../../components/home/ClubItem";
 
-import AuthButton from "../components/auth/AuthButton";
+import AuthButton from "../../components/auth/AuthButton";
 
 const JOIN_CLUB_MUTATION = gql`
   mutation joinClub($id: Int!) {
@@ -22,22 +22,22 @@ const SEE_CLUB = gql`
     seeClub(id: $id) {
       id
       clubname
-      totalMember
-      isJoining
+      clubArea
       clubLeader{
         id
         username
       }
       clubMember{
-        user{
-          id
+        id
+        user {
           username
         }
-        club{
-          id
+        club {
           clubname
         }
       }
+      totalMember
+      isJoining
     }
   }
 `;
@@ -49,7 +49,7 @@ const JoinBtn = styled(AuthButton)`
   background-color: ${colors.darkGrey};
 `;
 
-export default function Comments({ route }) {
+export default function Clubhouse({ route }) {
   const { data, loading } = useQuery(SEE_CLUB, {
     variables: {
       id: route?.params?.clubId,
@@ -63,13 +63,13 @@ export default function Comments({ route }) {
   };
   const [joinClub] = useMutation(JOIN_CLUB_MUTATION, {
     variables: {
-      id: route?.params?.clubId,
+      id: route?.params?.id,
     },
   });
   const getButton = (seeClub) => {
     const { isJoining } = seeClub;
     if (!isJoining) {
-      return <JoinBtn text="Join this Club" />;
+      return <JoinBtn onClick={joinClub} text="Join this Club" />;
     }
   };
   console.log(data);
@@ -87,7 +87,6 @@ export default function Comments({ route }) {
           justifyContent: "center",
         }}
       >
-        <Text style={{ color: "black" }}>Comments</Text>
         <ClubItem {...data?.seeClub} />
         {data?.seeClub ? getButton(data.seeClub) : null}
       </ScrollView>

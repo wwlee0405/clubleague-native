@@ -31,7 +31,7 @@ const MessageContainer = styled.View`
 `;
 const MessageText = styled.Text`
   margin-top: 15px;
-  color: white;
+  color: black;
   font-weight: 600;
 `;
 
@@ -42,7 +42,7 @@ const Input = styled.TextInput`
   border-radius: 7px;
 `;
 
-export default function SearchClub({ navigation }) {
+export default function SearchClub({ navigation, id }) {
   const { setValue, register, watch, handleSubmit } = useForm();
   const [startQueryFn, { loading, data, called }] = useLazyQuery(SEARCH_CLUBS);
   const onValid = ({ keyword }) => {
@@ -74,9 +74,19 @@ export default function SearchClub({ navigation }) {
     });
   }, []);
   console.log(data);
-  const renderItem = ({ item: club }) => {
-    return <SearchedClub {...club} />
-  }
+
+
+  const renderItem = ({ item: club }) => (
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("Comments", {
+          clubId: club.id,
+        })
+      }
+    >
+      <SearchedClub {...club} />
+    </TouchableOpacity>
+  );
   return (
     <DismissKeyboard>
       <View style={{ flex: 1, backgroundColor: "white" }}>

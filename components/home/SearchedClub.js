@@ -4,8 +4,7 @@ import { View, Image } from "react-native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 
-const Container = styled.View``;
-const Touchable = styled.TouchableOpacity`
+const Container = styled.View`
   flex: 1;
   flex-direction: row;
   border-radius: 20px;
@@ -47,30 +46,28 @@ const PaddingText = styled.Text`
   color: ${colors.darkGrey};
 `;
 
-function SearchedClub({ onPress, navigation, clubname, clubInfo, sports, clubArea, members, clubLeader }) {
+function SearchedClub({ clubname, clubInfo, sports, clubArea, members, clubLeader }) {
   return (
     <Container>
-      <Touchable onPress={onPress}>
-        <Emblem>
-          <ClubEmblem source={require('../../data/1ars.jpg')} />
-        </Emblem>
-        <ExtraContainer>
-          <View>
-            <ClubName>{clubname}</ClubName>
-          </View>
-          <View>
-            <ClubArea>{clubArea}</ClubArea>
-          </View>
-          <ClubInfoContainer>
-            <Text>sports</Text>
-            <PaddingText>clubInfo</PaddingText>
-          </ClubInfoContainer>
-          <ClubInfoContainer>
-            <Text>Members  <Text>{members}</Text></Text>
-            <PaddingText>Leader  <Text>{clubLeader}</Text></PaddingText>
-          </ClubInfoContainer>
-        </ExtraContainer>
-      </Touchable>
+      <Emblem>
+        <ClubEmblem source={require('../../data/1ars.jpg')} />
+      </Emblem>
+      <ExtraContainer>
+        <View>
+          <ClubName>{clubname}</ClubName>
+        </View>
+        <View>
+          <ClubArea>{clubArea}</ClubArea>
+        </View>
+        <ClubInfoContainer>
+          <Text>sports</Text>
+          <PaddingText>clubInfo</PaddingText>
+        </ClubInfoContainer>
+        <ClubInfoContainer>
+          <Text>Members  <Text>{members}</Text></Text>
+          <PaddingText>Leader  <Text>{clubLeader}</Text></PaddingText>
+        </ClubInfoContainer>
+      </ExtraContainer>
     </Container>
   );
 }

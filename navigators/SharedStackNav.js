@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Image } from "react-native";
 import Photo from "../screens/Photo";
 import Profile from "../screens/Profile";
 import Feed from "../screens/home/Feed";
 import Search from "../screens/Search";
 import Notifications from "../screens/Notifications";
 import Me from "../screens/Me";
-import { Image } from "react-native";
 import NewClub from "../screens/home/NewClub";
 import SearchClub from "../screens/home/SearchClub";
 import Likes from "../screens/Likes";

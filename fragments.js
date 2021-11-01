@@ -10,6 +10,14 @@ export const PHOTO_FRAGMENT = gql`
   }
 `;
 
+export const CLUB_FRAGMENT = gql`
+  fragment ClubFragment on Club {
+    id
+    clubname
+    clubArea
+  }
+`;
+
 export const COMMENT_FRAGMENT = gql`
   fragment CommentFragment on Comment {
     id

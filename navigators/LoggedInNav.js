@@ -2,6 +2,7 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabsNav from "./TabsNav";
+import ClubNav from "./ClubNav";
 import UploadNav from "./UploadNav";
 import UploadForm from "../screens/UploadForm";
 import MessagesNav from "./MessagesNav";
@@ -15,6 +16,11 @@ export default function LoggedInNav() {
         name="Tabs"
         options={{ headerShown: false }}
         component={TabsNav}
+      />
+      <Stack.Screen
+        name="Clubs"
+        options={{ headerShown: false }}
+        component={ClubNav}
       />
       <Stack.Screen
         name="Upload"
