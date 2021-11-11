@@ -20,6 +20,10 @@ const SEARCH_CLUBS = gql`
       id
       clubname
       clubArea
+      totalMember
+      clubLeader{
+        username
+      }
     }
   }
 `;

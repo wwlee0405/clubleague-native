@@ -15,16 +15,16 @@ const Container = styled.View`
 const Emblem = styled.View`
   align-items: center;
   justify-content: center;
-  padding-left: 20px;
+  padding-left: 30px;
 `;
 const ClubEmblem = styled.Image`
-  width: 85px;
-  height: 85px;
+  width: 75px;
+  height: 75px;
   border-radius: 100px;
 `;
 const ExtraContainer = styled.View`
   flex: 1;
-  padding: 5px 10px 5px 30px;
+  padding: 5px 10px 5px 50px;
 `;
 const ClubName = styled.Text`
   font-weight: bold;
@@ -46,7 +46,7 @@ const PaddingText = styled.Text`
   color: ${colors.darkGrey};
 `;
 
-function SearchedClub({ clubname, clubInfo, sports, clubArea, members, clubLeader }) {
+function SearchedClub({ clubname, clubInfo, sports, clubArea, totalMember, clubLeader, username }) {
   return (
     <Container>
       <Emblem>
@@ -64,8 +64,8 @@ function SearchedClub({ clubname, clubInfo, sports, clubArea, members, clubLeade
           <PaddingText>clubInfo</PaddingText>
         </ClubInfoContainer>
         <ClubInfoContainer>
-          <Text>Members  <Text>{members}</Text></Text>
-          <PaddingText>Leader  <Text>{clubLeader}</Text></PaddingText>
+          <Text><Text>{totalMember}</Text> Members</Text>
+          <PaddingText>Leader <Text>{clubLeader.username}</Text></PaddingText>          
         </ClubInfoContainer>
       </ExtraContainer>
     </Container>
@@ -77,8 +77,10 @@ SearchedClub.propTypes = {
   clubname: PropTypes.string.isRequired,
   clubArea: PropTypes.string,
   sports: PropTypes.string,
-  members: PropTypes.string,
-  clubLeader: PropTypes.string,
+  totalMember: PropTypes.number,
+  clubLeader: PropTypes.shape({
+    username: PropTypes.string,
+  }),
 };
 
 export default SearchedClub;

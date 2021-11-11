@@ -58,7 +58,7 @@ const ClubProfileTeamInfoTextWrap = styled.View`
   flex-direction: row;
 `;
 
-function ClubItem({ onPress, joinOnPress,navigation, clubname, clubInfo, sports, clubArea, clubLeader, username }) {
+function ClubItem({ onPress, joinOnPress,navigation, clubname, clubInfo, sports, clubArea, clubLeader, username, totalMember }) {
   return (
     <Container>
       <Header>
@@ -70,7 +70,7 @@ function ClubItem({ onPress, joinOnPress,navigation, clubname, clubInfo, sports,
           <ClubAreaText>clubArea</ClubAreaText>
           <Text>sports</Text>
           <LeaderText>Leader <Text>{clubLeader.username}</Text></LeaderText>
-          <MemberText>Members <Text>members</Text></MemberText>
+          <MemberText>Members <Text>{totalMember}</Text></MemberText>
         </InfoContainer>
       </Header>
 
@@ -106,6 +106,7 @@ ClubItem.propTypes = {
   clubLeader: PropTypes.shape({
     username: PropTypes.string,
   }),
+  totalMember: PropTypes.number,
 };
 
 export default ClubItem;
