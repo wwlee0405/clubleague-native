@@ -58,7 +58,7 @@ export default function Comments({ route, clubId }) {
       id: route?.params?.clubId,
     },
   });
-  const [refreshing, setRefreshing] = useState();
+  const [refreshing, setRefreshing] = useState(false);
   const onRefresh = async () => {
     setRefreshing(true);
     await refetch();
@@ -131,15 +131,13 @@ export default function Comments({ route, clubId }) {
         refreshControl={
           <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
         }
-        style={{ backgroundColor: "white" }}
+        style={{ backgroundColor: "white", width: "100%" }}
         contentContainerStyle={{
           backgroundColor: "white",
-
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Text style={{ color: "black" }}>Comments</Text>
         <ClubItem {...data?.seeClub} />
         {data?.seeClub ? getButton(data.seeClub) : null}
       </ScrollView>

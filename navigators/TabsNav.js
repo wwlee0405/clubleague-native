@@ -31,6 +31,18 @@ export default function TabsNav() {
       >
         {() => <SharedStackNav screenName="Feed" />}
       </Tabs.Screen>
+
+      <Tabs.Screen
+        name="Match"
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <TabIcon iconName={"home"} color={color} focused={focused} />
+          ),
+        }}
+      >
+        {() => <SharedStackNav screenName="Match" />}
+      </Tabs.Screen>
+
       <Tabs.Screen
         name="Search"
         options={{

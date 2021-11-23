@@ -55,13 +55,13 @@ export default function Feed({ navigation }) {
         style={{ marginRight: 25 }}
         onPress={() => navigation.navigate("Messages")}
       >
-        <Ionicons name="paper-plane" color="#2e8b57" size={20} />
+        <Ionicons name="paper-plane" color="#2e8b57" size={25} />
       </TouchableOpacity>
       <TouchableOpacity
         style={{ marginRight: 25 }}
         onPress={() => navigation.navigate("SearchClub")}
       >
-        <Ionicons name="search" color="#2e8b57" size={20} />
+        <Ionicons name="search" color="#2e8b57" size={25} />
       </TouchableOpacity>
     </View>
   );

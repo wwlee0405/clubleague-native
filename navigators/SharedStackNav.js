@@ -4,11 +4,13 @@ import { Image } from "react-native";
 import Photo from "../screens/Photo";
 import Profile from "../screens/Profile";
 import Feed from "../screens/home/Feed";
+import Match from "../screens/Match";
 import Search from "../screens/Search";
 import Notifications from "../screens/Notifications";
 import Me from "../screens/Me";
 import NewClub from "../screens/home/NewClub";
 import SearchClub from "../screens/home/SearchClub";
+import NewMatch from "../screens/match/NewMatch";
 import Likes from "../screens/Likes";
 import Comments from "../screens/Comments";
 import { colors } from "../colors";
@@ -53,6 +55,9 @@ export default function SharedStackNav({ screenName }) {
           }}
         />
       ) : null}
+      {screenName === "Match" ? (
+        <Stack.Screen name={"Match"} component={Match} />
+      ) : null}
       {screenName === "Search" ? (
         <Stack.Screen name={"Search"} component={Search} />
       ) : null}
@@ -66,6 +71,7 @@ export default function SharedStackNav({ screenName }) {
       <Stack.Screen name="Comments" component={Comments} />
       <Stack.Screen name="NewClub" component={NewClub} />
       <Stack.Screen name="SearchClub" component={SearchClub} />
+      <Stack.Screen name="NewMatch" component={NewMatch} />
     </Stack.Navigator>
   );
 }

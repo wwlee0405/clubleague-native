@@ -45,7 +45,20 @@ font-size: 12px;
 color: ${colors.darkGrey};
 `;
 
-function ClubItem({ onPress, navigation, clubname, clubInfo, sports, clubArea, clubLeader, username, totalMember }) {
+const Touchable = styled.TouchableOpacity``;
+const ClubProfileImgBtn = styled.View`
+  padding-right: 15px;
+`;
+const ClubProfileTextWrap = styled.View`
+  flex: 1;
+  justify-content: center;
+`;
+
+const ClubProfileTeamInfoTextWrap = styled.View`
+  flex-direction: row;
+`;
+
+function ClubItem({ onPress, joinOnPress,navigation, clubname, clubInfo, sports, clubArea, clubLeader, username, totalMember }) {
   return (
     <Container>
       <Header>
@@ -61,8 +74,26 @@ function ClubItem({ onPress, navigation, clubname, clubInfo, sports, clubArea, c
         </InfoContainer>
       </Header>
 
-      <View style={{ flex: 1 }}></View>
+      <View style={{ flex: 2, flexDirection: 'row' }}>
 
+        <Touchable
+          onPress={joinOnPress}
+          style={{ flex: 1, height: 50, backgroundColor: colors.seaGreen }}
+        >
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 18, color: colors.white }}>Join this Club</Text>
+          </View>
+        </Touchable>
+        <Touchable
+          onPress={() => alert("ask the match!")}
+          style={{ flex: 1, height: 50, backgroundColor: colors.blue }}
+        >
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 18, color: colors.white }}>Ask the match</Text>
+          </View>
+        </Touchable>
+
+      </View>
     </Container>
   );
 }
