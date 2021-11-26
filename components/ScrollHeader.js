@@ -1,44 +1,49 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useState } from "react";
+import { FontAwesome5 } from '@expo/vector-icons';
+import styled from "styled-components"
 import { colors } from "../colors";
-import { useNavigation } from '@react-navigation/native';
 
-const ScrollHeader = ({
-    onPress,
-    username
-  }) => {
+const Container = styled.View`
+  height: 60px;
+  background-color: ${colors.white};
+  flex-direction: row;
+  justify-content: space-between;
+  elevation: 3;
+`;
+const LeftWrap = styled.View`
+  flex-direction: row;
+`;
+const GoBack = styled.TouchableOpacity`
+  justify-content: center;
+  margin-left: 15px;
+  width: 70px;
+`;
+const Username = styled.Text`
+  font-size: 20px;
+  margin-top: 12px;
+  align-items: center;
+  color: ${colors.black};
+  font-weight: bold;
+`;
+const Acteion = styled.TouchableOpacity`
+  justify-content: center;
+  margin-right: 25px;
+`;
+
+function ScrollHeader({ onPress, username, iconName }) {
   return (
-    <View style={{
-       // marginTop:Constant.statusBarHeight,
-        height: 60,
-        backgroundColor: colors.white,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        elevation: 4,
-    }}>
-      <View style={{ flexDirection:"row" }}>
-        <View style={{
-            paddingLeft: 15,
-            paddingTop: 20,
-            width: 70,
-        }}>
-          <TouchableOpacity onPress={onPress}>
-            <MaterialCommunityIcons name="arrow-left" size={25}  />
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text style={{
-              fontSize: 20,
-              marginTop: 18,
-              color: colors.black,
-              fontWeight: "bold"
-          }}>{username}</Text>
-        </View>
-      </View>
-    </View>
+    <Container>
+      <LeftWrap>
+        <GoBack onPress={onPress}>
+          <FontAwesome5 name="angle-left" size={25} />
+        </GoBack>
+        <Username>{username}</Username>
+      </LeftWrap>
+      <Acteion onPress={onPress}>
+        <FontAwesome5 name={iconName} color="#2e8b57" size={25} />
+      </Acteion>
+    </Container>
   );
 };
-
 
 export default ScrollHeader;

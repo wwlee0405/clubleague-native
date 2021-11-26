@@ -36,7 +36,7 @@ export default function TabsNav() {
         name="Match"
         options={{
           tabBarIcon: ({ focused, color, size }) => (
-            <TabIcon iconName={"home"} color={color} focused={focused} />
+            <TabIcon iconName={"tv"} color={color} focused={focused} />
           ),
         }}
       >
