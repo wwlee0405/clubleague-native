@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { Pressable } from "react-native";
 import styled from "styled-components"
 import { colors } from "../colors";
+import { useNavigation } from "@react-navigation/core";
 
 const Container = styled.View`
   height: 60px;
@@ -29,16 +31,31 @@ const Acteion = styled.TouchableOpacity`
   justify-content: center;
   margin-right: 25px;
 `;
+const InputBox = styled.TouchableOpacity`
+  flex-direction: row;
+  background-color: rgba(255, 255, 255, 1);
+  color: black;
+  margin-left: 25px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  align-items: center;
+`;
+const Text = styled.Text`
+  margin-left: 15px;
+`;
 
-function ScrollHeader({ onPress, username, iconName }) {
+function ScrollMatchHeader({ onPress, username, iconName }) {
+  const navigation = useNavigation();
+  const goToRoom = () =>
+    navigation.navigate("SearchClub");
   return (
     <Container>
-      <LeftWrap>
-        <GoBack onPress={onPress}>
-          <FontAwesome5 name="angle-left" size={25} />
-        </GoBack>
-        <Username>{username}</Username>
-      </LeftWrap>
+      <InputBox onPress={goToRoom}>
+        <Ionicons name="search" size={25} />
+        <Text>search</Text>
+      </InputBox>
       <Acteion onPress={onPress}>
         <FontAwesome5 name={iconName} color="#2e8b57" size={25} />
       </Acteion>
@@ -46,4 +63,4 @@ function ScrollHeader({ onPress, username, iconName }) {
   );
 };
 
-export default ScrollHeader;
+export default ScrollMatchHeader;

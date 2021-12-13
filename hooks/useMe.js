@@ -8,6 +8,12 @@ const ME_QUERY = gql`
       id
       username
       avatar
+      userMember {
+        id
+        club {
+          clubname
+        }
+      }
     }
   }
 `;

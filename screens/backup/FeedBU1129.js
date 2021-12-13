@@ -8,11 +8,27 @@ import ScreenLayout from "../../components/ScreenLayout";
 import HomeLayout from "../../components/home/HomeLayout";
 import MyClubList from "../../components/home/MyClubList";
 import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from "../../fragments";
-import useMe, { ME_QUERY } from "../../hooks/useMe";
 
 const ClubText = styled.Text`
   font-weight: bold;
 	font-size: 18px;
+`;
+
+const SEEMYCLUB_QUERY = gql`
+  query seeMyClub($id: Int!) {
+    seeMyClub(id: $id) {
+      id
+      clubname
+      clubMember{
+        user {
+          username
+        }
+        club {
+          clubname
+        }
+      }
+    }
+  }
 `;
 
 const FEED_QUERY = gql`
@@ -37,9 +53,21 @@ const FEED_QUERY = gql`
 `;
 
 export default function Feed({ navigation, route }) {
-  const { data: meData, loading } = useMe();
+  const { data: clubData, loading: loadingClub } = useQuery(SEEMYCLUB_QUERY, {
+    variables: {
+      id: route?.params?.clubId,
+    },
+  });
+  const { data, loading, refetch, fetchMore } = useQuery(FEED_QUERY, {
+    variables: {
+      offset: 0,
+    },
+  });
   const renderMyClubs = ({ item: myClubs }) => {
     return <MyClubList {...myClubs} />;
+  };
+  const renderPhoto = ({ item: photo }) => {
+    return <Photo {...photo} />;
   };
   const refresh = async () => {
     setRefreshing(true);
@@ -69,16 +97,40 @@ export default function Feed({ navigation, route }) {
     });
   }, []);
   return (
-    <ScreenLayout loading={loading}>
-      <FlatList
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        refreshing={refreshing}
-        onRefresh={refresh}
-        data={meData?.me?.userMember}
-        keyExtractor={(myClubs) => "" + myClubs.id}
-        renderItem={renderMyClubs}
-      />
-    </ScreenLayout>
+    <View style={{ flex: 1 }}>
+      <View style={{ paddingTop: 10, paddingBottom: 10, backgroundColor: "green" }}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("NewClub")}
+          style={{ paddingBottom: 10 }}
+        >
+          <ClubText>New Club</ClubText>
+        </TouchableOpacity>
+        <FlatList
+          data={clubData?.seeMyClub}
+          keyExtractor={(myClubs) => "" + myClubs.id}
+          renderItem={renderMyClubs}
+        />
+      </View>
+
+      <HomeLayout loading={loading}>
+        <FlatList
+          onEndReachedThreshold={0.02}
+          onEndReached={() =>
+            fetchMore({
+              variables: {
+                offset: data?.seeFeed?.length,
+              },
+            })
+          }
+          refreshing={refreshing}
+          onRefresh={refresh}
+          style={{ width: "100%" }}
+          showsVerticalScrollIndicator={false}
+          data={data?.seeFeed}
+          keyExtractor={(photo) => "" + photo.id}
+          renderItem={renderPhoto}
+        />
+      </HomeLayout>
+    </View>
   );
 }
