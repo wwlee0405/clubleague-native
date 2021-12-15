@@ -4,10 +4,8 @@ import { StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 
-const View = styled.View`
-`;
-const Text = styled.Text`
-`;
+const View = styled.View``;
+const Text = styled.Text``;
 const Container = styled.View`
   width: 100%;
 `;
@@ -28,21 +26,21 @@ const ClubEmblem = styled.Image`
   border-radius: 50px;
 `;
 const ClubnameText = styled.Text`
-font-weight: bold;
-font-size: 20px;
+  font-weight: bold;
+  font-size: 20px;
 `;
 const ClubAreaText = styled.Text`
-font-size: 14px;
-color: ${colors.darkGrey};
+  font-size: 14px;
+  color: ${colors.darkGrey};
 `;
 const LeaderText = styled.Text`
-margin-top: 15px;
-font-size: 12px;
-color: ${colors.darkGrey};
+  margin-top: 15px;
+  font-size: 12px;
+  color: ${colors.darkGrey};
 `;
 const MemberText = styled.Text`
-font-size: 12px;
-color: ${colors.darkGrey};
+  font-size: 12px;
+  color: ${colors.darkGrey};
 `;
 
 function ClubItem({ onPress, navigation, clubname, clubInfo, sports, clubArea, clubLeader, username, totalMember }) {

@@ -5,7 +5,7 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
-  TouchableOpacity,
+  Pressable,
   useWindowDimensions,
   View,
   Text,
@@ -81,7 +81,7 @@ export default function SearchClub({ navigation, id }) {
 
 
   const renderItem = ({ item: club }) => (
-    <TouchableOpacity
+    <Pressable
       onPress={() =>
         navigation.navigate("Comments", {
           clubId: club.id,
@@ -89,7 +89,7 @@ export default function SearchClub({ navigation, id }) {
       }
     >
       <SearchedClub {...club} />
-    </TouchableOpacity>
+    </Pressable>
   );
   return (
     <DismissKeyboard>

@@ -41,6 +41,7 @@ const InputBox = styled.TouchableOpacity`
   padding: 5px 10px;
   border-radius: 7px;
   align-items: center;
+  width: 70%;
 `;
 const Text = styled.Text`
   margin-left: 15px;

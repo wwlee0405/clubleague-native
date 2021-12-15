@@ -79,6 +79,7 @@ export default function Feed({ navigation, route }) {
         keyExtractor={(myClubs) => "" + myClubs.id}
         renderItem={renderMyClubs}
       />
+      <ClubText>feedback: you have to delete flex 1</ClubText>
     </ScreenLayout>
   );
 }

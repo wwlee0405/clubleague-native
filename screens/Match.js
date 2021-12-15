@@ -10,8 +10,8 @@ import MatchItem from "../components/match/MatchItem";
 
 const MATCH_QUERY = gql`
   query seeMatch($offset: Int!) {
-    id
     seeMatch(offset: $offset) {
+      id
       user {
         id
         username
@@ -105,7 +105,7 @@ export default function Match({ navigation }) {
         onRefresh={refresh}
         style={{ width: "100%" }}
         showsVerticalScrollIndicator={false}
-        data={console.log(data?.seeMatch)}
+        data={data?.seeMatch}
         keyExtractor={(match) => "" + match.id}
         renderItem={renderMatch}
       />

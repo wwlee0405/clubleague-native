@@ -1,78 +1,94 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 
-const View = styled.View``;
-const Text = styled.Text``;
 const Container = styled.View`
-  width: 100%;
+  border-radius: 20px;
+  background-color: ${colors.white};
+  margin-vertical: 5px;
+  padding-vertical: 8px;
+  elevation: 3;
 `;
-const Header = styled.View`
-  padding: 10px;
+const Header = styled.Pressable`
+  padding: 10px 15px;
   flex-direction: row;
   align-items: center;
 `;
 const UserAvatar = styled.Image`
   margin-right: 10px;
-  width: 25px;
-  height: 25px;
-  border-radius: 12.5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
 `;
-const UserData = styled.View`
-  flex-direction: row;
-`;
+const UserData = styled.View``;
 const Username = styled.Text`
   color: ${colors.black};
-  font-weight: 600;
+  font-weight: bold;
 `;
 const Clubname = styled.Text`
   color: ${colors.darkGrey};
+  margin-top: -7px;
 `;
 const ExtraContainer = styled.View`
-  padding: 10px;
+  padding: 0px 10px 8px;
+  align-items: center;
+  justify-content: center;
 `;
 const Sports = styled.Text`
-  color: ${colors.black};
-  font-weight: 600;
+  color: ${colors.seaGreen};
+  font-weight: bold;
+  font-size: 15px;
+  padding: 0px 15px 20px;
 `;
 const ClubData = styled.View`
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
 `;
 const ClubEmblem = styled.Image`
   margin-right: 10px;
-  width: 25px;
-  height: 25px;
-  border-radius: 12.5px;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
 `;
 const Date = styled.Text`
   color: ${colors.black};
-  font-size: 25px;
-  font-weight: 600;
+  font-size: 30px;
+  font-weight: bold;
+  padding-top: 8px;
 `;
 const Time = styled.Text`
-  color: ${colors.lightGrey};
+  color: ${colors.black};
 `;
 const Location = styled.Text`
-  color: ${colors.black};
+  color: ${colors.darkGrey};
   font-weight: 600;
 `;
 
-function MatchItem({ id }) {
+function MatchItem({ id, games, clubname, username, user }) {
+  const navigation = useNavigation();
+  const goToProfile = () => {
+    navigation.navigate("Profile", {
+      username: user.username,
+      id: user.id,
+    });
+  };
   return (
     <Container>
-      <Header>
-        <UserAvatar source={require('../../data/2bar.jpg')} />
+      <Header onPress={goToProfile}>
+        <UserAvatar source={require('../../data/eeee.png')} />
         <UserData>
-          <Username>karina</Username>
-          <Clubname>aespa</Clubname>
+          <Username>{user.username}</Username>
+          <Clubname>{games.clubname}</Clubname>
         </UserData>
       </Header>
+      <Sports>Soccer Match</Sports>
       <ExtraContainer>
-        <Sports>Soccer</Sports>
         <ClubData>
           <ClubEmblem source={require('../../data/2bar.jpg')} />
+          <ClubEmblem source={require('../../data/1ars.jpg')} />
         </ClubData>
         <Date>Jul 20 Sun</Date>
         <Time>10:00-14:00</Time>
@@ -84,6 +100,16 @@ function MatchItem({ id }) {
 
 MatchItem.propTypes = {
   id: PropTypes.number,
+  user: PropTypes.shape({
+    username: PropTypes.string,
+  }),
+  games: PropTypes.arrayOf(
+    PropTypes.shape({
+      club: PropTypes.shape({
+        clubname: PropTypes.string,
+      }),
+    }),
+  ),
 };
 
 export default MatchItem;

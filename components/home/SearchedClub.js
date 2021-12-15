@@ -11,6 +11,7 @@ const Container = styled.View`
   background-color: ${colors.white};
   margin-vertical: 5px;
   padding-vertical: 8px;
+  elevation: 3;
 `;
 const Emblem = styled.View`
   align-items: center;
@@ -65,7 +66,7 @@ function SearchedClub({ clubname, clubInfo, sports, clubArea, totalMember, clubL
         </ClubInfoContainer>
         <ClubInfoContainer>
           <Text><Text>{totalMember}</Text> Members</Text>
-          <PaddingText>Leader <Text>{clubLeader.username}</Text></PaddingText>          
+          <PaddingText>Leader <Text>{clubLeader.username}</Text></PaddingText>
         </ClubInfoContainer>
       </ExtraContainer>
     </Container>

@@ -17,7 +17,7 @@ const ClubName = styled.Text`
   overflow: hidden;
 `;
 
-function MyClubList({ club, clubname }) {
+function MyClubList({ id, club, clubname }) {
   const navigation = useNavigation();
   const goToClub = () => {
     navigation.navigate("Comments", {
