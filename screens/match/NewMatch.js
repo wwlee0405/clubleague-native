@@ -17,7 +17,7 @@ const TextInput = styled.TextInput`
 	background-color: ${colors.white};
 `;
 
-export default function NewMatch() {
+export default function NewMatch({ navigation }) {
   const { setValue } = useForm();
   return (
     <DismissKeyboard>
@@ -33,7 +33,9 @@ export default function NewMatch() {
         <Text>Date</Text>
         <Text>Time</Text>
         <Text>Location</Text>
-        <Text>Home</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("SelectClub")}>
+          <Text>Home</Text>
+        </TouchableOpacity>
         <Text>Away</Text>
       </View>
     </DismissKeyboard>

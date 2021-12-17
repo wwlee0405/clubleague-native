@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { TouchableOpacity, Pressable, Image } from "react-native";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../colors";
 
-const Container = styled.View``;
-const Touchable = styled.TouchableOpacity``;
+const View = styled.View``;
+const Touchable = styled.Pressable`
+  margin-horizontal: 9px;
+`;
 const ClubTeam = styled.View`
   align-items: center;
   margin-top: 10px;
 `;
+const ClubEmblem = styled.Image`
+  width: 85px;
+  height: 85px;
+  border-radius: 47.5px;
+`;
 const ClubName = styled.Text`
   font-weight: bold;
-  width: 70px;
+  width: 100%;
   overflow: hidden;
 `;
+
 
 function MyClubList({ id, club, clubname }) {
   const navigation = useNavigation();
@@ -27,17 +34,14 @@ function MyClubList({ id, club, clubname }) {
 
 
   return (
-    <Container>
-      <Pressable onPress={goToClub}>
-        <ClubTeam>
-          <Image
-            style={{ marginHorizontal: 10, width: 85, height: 85, borderRadius: 100 }}
-            source={require('../../data/2bar.jpg')}
-          />
+    <Touchable onPress={goToClub}>
+      <ClubTeam>
+        <ClubEmblem source={require('../../data/2bar.jpg')} />
+        <View>
           <ClubName numberOfLines={1}>{club.clubname}</ClubName>
-        </ClubTeam>
-      </Pressable>
-    </Container>
+        </View>
+      </ClubTeam>
+    </Touchable>
   );
 }
 

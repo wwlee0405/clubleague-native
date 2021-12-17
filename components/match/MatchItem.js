@@ -5,10 +5,9 @@ import styled from "styled-components/native";
 import { colors } from "../../colors";
 
 const Container = styled.View`
-  border-radius: 20px;
+  border-radius: 15px;
   background-color: ${colors.white};
-  margin-vertical: 5px;
-  padding-vertical: 8px;
+  margin: 5px;
   elevation: 3;
 `;
 const Header = styled.Pressable`
@@ -33,14 +32,19 @@ const Clubname = styled.Text`
 `;
 const ExtraContainer = styled.View`
   padding: 0px 10px 8px;
-  align-items: center;
-  justify-content: center;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: ${colors.whiteSmoke};
 `;
 const Sports = styled.Text`
   color: ${colors.seaGreen};
   font-weight: bold;
   font-size: 15px;
   padding: 0px 15px 20px;
+`;
+const MatchContent = styled.View`
+  align-items: center;
+  justify-content: center;
 `;
 const ClubData = styled.View`
   flex-direction: row;
@@ -84,15 +88,17 @@ function MatchItem({ id, games, clubname, username, user }) {
           <Clubname>{games.clubname}</Clubname>
         </UserData>
       </Header>
-      <Sports>Soccer Match</Sports>
       <ExtraContainer>
-        <ClubData>
-          <ClubEmblem source={require('../../data/2bar.jpg')} />
-          <ClubEmblem source={require('../../data/1ars.jpg')} />
-        </ClubData>
-        <Date>Jul 20 Sun</Date>
-        <Time>10:00-14:00</Time>
-        <Location>London</Location>
+        <Sports>Soccer Match</Sports>
+        <MatchContent>
+          <ClubData>
+            <ClubEmblem source={require('../../data/2bar.jpg')} />
+            <ClubEmblem source={require('../../data/1ars.jpg')} />
+          </ClubData>
+          <Date>Jul 20 Sun</Date>
+          <Time>10:00-14:00</Time>
+          <Location>London</Location>
+        </MatchContent>
       </ExtraContainer>
     </Container>
   );

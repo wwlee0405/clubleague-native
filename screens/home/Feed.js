@@ -70,6 +70,13 @@ export default function Feed({ navigation, route }) {
   }, []);
   return (
     <ScreenLayout loading={loading}>
+      <View style={{ paddingVertical: 10 }}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("NewClub")}
+        >
+          <ClubText>New Club</ClubText>
+        </TouchableOpacity>
+      </View>
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
