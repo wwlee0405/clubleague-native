@@ -1,8 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { colors } from "../../colors";
 import styled from "styled-components/native";
-import useMe from "../../hooks/useMe";
-import { useNavigation } from "@react-navigation/core";
 
 const Container = styled.TouchableOpacity`
   flex-direction: row;
@@ -11,6 +10,7 @@ const Container = styled.TouchableOpacity`
   border-radius: 15px;
   background-color: ${colors.white};
   elevation: 3;
+  width: 100%;
 `;
 const Column = styled.View`
   flex-direction: row;
@@ -32,19 +32,28 @@ const ClubArea = styled.Text`
 	font-size: 14px;
 `;
 
-export default function SelectClubItem() {
-  const { data: meData } = useMe();
-  const navigation = useNavigation();
-
+function SelectClubItem({ club, clubname }) {
   return (
     <Container>
       <Column>
         <Emblem source={require('../../data/aaaa.jpg')} />
         <Data>
-          <ClubName>RealMadrid</ClubName>
+          <ClubName>{club.clubname}</ClubName>
           <ClubArea>Madrid, Spain</ClubArea>
         </Data>
       </Column>
     </Container>
   );
 }
+
+SelectClubItem.propTypes = {
+  userMember: PropTypes.arrayOf(
+    PropTypes.shape({
+      club: PropTypes.shape({
+        clubname: PropTypes.string.isRequired,
+      }),
+    }),
+  ),
+};
+
+export default SelectClubItem;
