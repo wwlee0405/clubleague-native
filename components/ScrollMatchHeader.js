@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { Pressable } from "react-native";
-import styled from "styled-components"
+import styled from "styled-components/native";
 import { colors } from "../colors";
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/native";
 
 const Container = styled.View`
   height: 60px;

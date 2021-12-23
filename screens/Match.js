@@ -1,12 +1,13 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components"
+import styled from "styled-components/native";
 import { colors } from "../colors";
 import { SafeAreaView, View, Text, TouchableOpacity, Modal, Pressable, ScrollView, Animated, FlatList } from "react-native";
 import ScrollMatchHeader from "../components/ScrollMatchHeader";
 import ScreenLayout from "../components/ScreenLayout";
 import { FontAwesome } from "@expo/vector-icons";
 import MatchItem from "../components/match/MatchItem";
+import ScrollFeedHeader from "../components/ScrollFeedHeader";
 
 const MATCH_QUERY = gql`
   query seeMatch($offset: Int!) {
