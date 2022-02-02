@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
   Keyboard,
@@ -17,8 +17,11 @@ const TextInput = styled.TextInput`
 	background-color: ${colors.white};
 `;
 
-export default function NewMatch({ navigation }) {
+export default function NewMatch({ navigation, route }) {
   const { setValue } = useForm();
+
+  console.log(route);
+
   return (
     <DismissKeyboard>
       <View>
@@ -35,6 +38,7 @@ export default function NewMatch({ navigation }) {
         <Text>Location</Text>
         <TouchableOpacity onPress={() => navigation.navigate("SelectClub")}>
           <Text>Home</Text>
+          <Text>Post: </Text>
         </TouchableOpacity>
         <Text>Away</Text>
       </View>

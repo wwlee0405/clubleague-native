@@ -32,9 +32,9 @@ const ClubArea = styled.Text`
 	font-size: 14px;
 `;
 
-function SelectClubItem({ club, clubname }) {
+function SelectClubItem({ onPress ,club, clubname }) {
   return (
-    <Container>
+    <Container onPress={onPress}>
       <Column>
         <Emblem source={require('../../data/aaaa.jpg')} />
         <Data>

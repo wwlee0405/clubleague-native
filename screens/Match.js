@@ -46,7 +46,17 @@ export default function Match({ navigation }) {
   });
   const [modalVisible, setModalVisible] = useState(false);
   const renderMatch = ({ item: match }) => {
-    return <MatchItem {...match} />;
+    return (
+      <Pressable
+        onPress={() =>
+          navigation.navigate("Game", {
+            matchId: match.id,
+          })
+        }
+      >
+        <MatchItem {...match} />
+      </Pressable>
+    );
   };
   const { data, loading, refetch, fetchMore } = useQuery(MATCH_QUERY, {
     variables: {
