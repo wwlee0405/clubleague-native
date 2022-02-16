@@ -49,7 +49,7 @@ export default function Match({ navigation }) {
     return (
       <Pressable
         onPress={() =>
-          navigation.navigate("Game", {
+          navigation.navigate("GameMatch", {
             matchId: match.id,
           })
         }

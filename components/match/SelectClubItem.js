@@ -32,7 +32,7 @@ const ClubArea = styled.Text`
 	font-size: 14px;
 `;
 
-function SelectClubItem({ onPress ,club, clubname }) {
+function SelectClubItem({ onPress, club, clubname }) {
   return (
     <Container onPress={onPress}>
       <Column>
