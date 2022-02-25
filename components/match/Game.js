@@ -37,7 +37,7 @@ function Game({ id, user }) {
   const navigation = useNavigation();
   return (
     <Container>
-      <Header>
+      <Header onPress={() => navigation.navigate("Profile")}>
         <UserAvatar resizeMode="cover" source={require('../../data/eeee.png')} />
         <Username>{id}</Username>
       </Header>

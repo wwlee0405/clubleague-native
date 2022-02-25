@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Text, View, Image, Pressable } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../colors";
 import styled from "styled-components/native";
 
@@ -45,7 +46,7 @@ const BtnText = styled.Text`
   color: ${colors.white};
   align-items: center;
 `;
-const Entry = styled.View`
+const Entry = styled.Pressable`
   flex-direction: row;
   padding-top: 5px;
   padding-horizontal: 15px;
@@ -62,6 +63,7 @@ const UserAvatar = styled.Image`
 `;
 
 function HomeAway({ onPress, clubname, entry }) {
+  const navigation = useNavigation();
   return (
     <Container>
       <RequestingMatch>
@@ -82,17 +84,15 @@ function HomeAway({ onPress, clubname, entry }) {
         </TouchableOpacity>
       </RequestingMatch>
 
-      <Pressable onPress={null}>
-        <Entry>
-          <EntryText><Text>{entry}</Text> Entry</EntryText>
-          <View style={{ paddingRight: 3 }}>
-            <UserAvatar source={require('../../data/ffff.jpg')} />
-          </View>
-          <View style={{ paddingRight: 3 }}>
-            <UserAvatar source={require('../../data/gggg.jpg')} />
-          </View>
-        </Entry>
-      </Pressable>
+      <Entry onPress={() => navigation.navigate("Entry")}>
+        <EntryText><Text>{entry}</Text> Entry</EntryText>
+        <View style={{ paddingRight: 3 }}>
+          <UserAvatar source={require('../../data/ffff.jpg')} />
+        </View>
+        <View style={{ paddingRight: 3 }}>
+          <UserAvatar source={require('../../data/gggg.jpg')} />
+        </View>
+      </Entry>
     </Container>
   );
 }

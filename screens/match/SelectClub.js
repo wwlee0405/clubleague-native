@@ -54,7 +54,7 @@ export default function SelectClub({ navigation, route }) {
     );
   };
   return (
-    <ScreenLayout>
+    <View>
       <Top>
         {chosenClub !== "" ? (
           <Image
@@ -68,6 +68,6 @@ export default function SelectClub({ navigation, route }) {
         keyExtractor={(myClubs) => "" + myClubs.id}
         renderItem={renderMyClubs}
       />
-    </ScreenLayout>
+    </View>
   )
 }
