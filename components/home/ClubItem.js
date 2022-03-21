@@ -43,7 +43,16 @@ const MemberText = styled.Text`
   color: ${colors.darkGrey};
 `;
 
-function ClubItem({ onPress, navigation, clubname, clubInfo, sports, clubArea, clubLeader, username, totalMember }) {
+function ClubItem({
+  onPress,
+  navigation,
+  clubname,
+  clubArea,
+  sports,
+  clubInfo,
+  clubLeader,
+  totalMember
+}) {
   return (
     <Container>
       <Header>
@@ -52,7 +61,7 @@ function ClubItem({ onPress, navigation, clubname, clubInfo, sports, clubArea, c
         </EmblemContainer>
         <InfoContainer>
           <ClubnameText>{clubname}</ClubnameText>
-          <ClubAreaText>clubArea</ClubAreaText>
+          <ClubAreaText>{clubArea}</ClubAreaText>
           <Text>sports</Text>
           <LeaderText>Leader <Text>{clubLeader.username}</Text></LeaderText>
           <MemberText>Members <Text>{totalMember}</Text></MemberText>
@@ -71,7 +80,7 @@ ClubItem.propTypes = {
   clubArea: PropTypes.string,
   sports: PropTypes.string,
   clubLeader: PropTypes.shape({
-    username: PropTypes.string,
+    username: PropTypes.string.isRequired,
   }),
   totalMember: PropTypes.number,
 };

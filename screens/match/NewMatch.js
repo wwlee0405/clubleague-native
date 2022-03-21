@@ -20,6 +20,13 @@ const TextInput = styled.TextInput`
 export default function NewMatch({ navigation, route }) {
   const { setValue } = useForm();
 
+  React.useEffect(() => {
+    if (route.params?.clubname) {
+      // Post updated, do something with `route.params.post`
+      // For example, send the post to the server
+    }
+  }, [route.params?.clubname]);
+
   console.log(route);
 
   return (
@@ -38,7 +45,7 @@ export default function NewMatch({ navigation, route }) {
         <Text>Location</Text>
         <TouchableOpacity onPress={() => navigation.navigate("SelectClub")}>
           <Text>Home</Text>
-          <Text>Post: </Text>
+          <Text>Post: {route.params?.clubname}</Text>
         </TouchableOpacity>
         <Text>Away</Text>
       </View>

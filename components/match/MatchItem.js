@@ -8,7 +8,7 @@ const Container = styled.View`
   border-radius: 15px;
   background-color: ${colors.white};
   margin: 5px;
-  elevation: 3;
+  elevation: 2;
 `;
 const Header = styled.Pressable`
   padding: 10px 15px;
@@ -71,7 +71,7 @@ const Location = styled.Text`
   font-weight: 600;
 `;
 
-function MatchItem({ id, games, clubname, username, user }) {
+function MatchItem({ id, user, games, club }) {
   const navigation = useNavigation();
   const goToProfile = () => {
     navigation.navigate("Profile", {
@@ -85,7 +85,7 @@ function MatchItem({ id, games, clubname, username, user }) {
         <UserAvatar source={require('../../data/eeee.png')} />
         <UserData>
           <Username>{user.username}</Username>
-          <Clubname>{games.clubname}</Clubname>
+          <Clubname>{games?.club?.clubname}</Clubname>
         </UserData>
       </Header>
       <ExtraContainer>

@@ -10,7 +10,7 @@ const Container = styled.View``;
 const RequestingMatch = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  padding-horizontal: 15px;
+  padding: 15px;
 `;
 const ClubData = styled.View`
   flex-direction: row;
@@ -85,7 +85,7 @@ function HomeAway({ onPress, clubname, entry }) {
       </RequestingMatch>
 
       <Entry onPress={() => navigation.navigate("Entry")}>
-        <EntryText><Text>{entry}</Text> Entry</EntryText>
+        <EntryText><Text>3</Text> Entry</EntryText>
         <View style={{ paddingRight: 3 }}>
           <UserAvatar source={require('../../data/ffff.jpg')} />
         </View>

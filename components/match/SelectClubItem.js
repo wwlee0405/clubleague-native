@@ -9,7 +9,7 @@ const Container = styled.TouchableOpacity`
   margin: 3px;
   border-radius: 15px;
   background-color: ${colors.white};
-  elevation: 3;
+  elevation: 1;
   width: 100%;
 `;
 const Column = styled.View`

@@ -9,9 +9,9 @@ const Container = styled.View`
   flex-direction: row;
   border-radius: 15px;
   background-color: ${colors.white};
-  margin-vertical: 5px;
+  margin: 5px;
   padding-vertical: 10px;
-  elevation: 3;
+  elevation: 1;
 `;
 const Emblem = styled.View`
   align-items: center;
@@ -44,7 +44,14 @@ const PaddingText = styled.Text`
   color: ${colors.darkGrey};
 `;
 
-function SearchedClub({ clubname, clubInfo, sports, clubArea, totalMember, clubLeader, username }) {
+function SearchedClub({
+  clubname,
+  clubArea,
+  sports,
+  clubInfo,
+  totalMember,
+  clubLeader,
+}) {
   return (
     <Container>
       <Emblem>
@@ -75,7 +82,7 @@ SearchedClub.propTypes = {
   clubname: PropTypes.string.isRequired,
   clubArea: PropTypes.string,
   sports: PropTypes.string,
-  totalMember: PropTypes.number,
+  totalMember: PropTypes.number.isRequired,
   clubLeader: PropTypes.shape({
     username: PropTypes.string,
   }),

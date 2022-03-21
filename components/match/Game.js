@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import PropTypes from "prop-types";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components/native";
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, FlatList } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { colors } from "../../colors";
 import HomeAway from "./HomeAway";
@@ -33,13 +33,16 @@ const BodyTextWrap = styled.View`
   padding-horizontal: 15px;
 `;
 
-function Game({ id, user }) {
+function Game({ id, user, games }) {
   const navigation = useNavigation();
+  const renderItem = ({ item: matching }) => (
+    <HomeAway {...matching.club} />
+  );
   return (
     <Container>
       <Header onPress={() => navigation.navigate("Profile")}>
         <UserAvatar resizeMode="cover" source={require('../../data/eeee.png')} />
-        <Username>{id}</Username>
+        <Username>{user?.username}</Username>
       </Header>
       <ExtraContainer>
 
@@ -49,9 +52,11 @@ function Game({ id, user }) {
         </BodyTextWrap>
 
         <View style={{ backgroundColor: colors.greyColor }}>
-          <HomeAway clubname={"Barcelona"} entry={"12"} />
-          <HomeAway clubname={"Arsnal"} entry={"13"} />
-          <HomeAway clubname={"Austin"} entry={"15"} />
+          <FlatList
+            data={games}
+            keyExtractor={(matching) => "" + matching.club.clubname}
+            renderItem={renderItem}
+          />
         </View>
 
       </ExtraContainer>
@@ -62,8 +67,16 @@ function Game({ id, user }) {
 Game.propTypes = {
   id: PropTypes.number,
   user: PropTypes.shape({
-    username: PropTypes.string,
+    username: PropTypes.string.isRequired,
   }),
+  games: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      club: PropTypes.shape({
+        clubname: PropTypes.string.isRequired,
+      }),
+    }),
+  ),
 
 };
 
