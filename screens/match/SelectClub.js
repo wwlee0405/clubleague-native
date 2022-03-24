@@ -42,7 +42,7 @@ export default function SelectClub({ navigation, route }) {
     <TouchableOpacity
     onPress={() =>
       navigation.navigate("NewMatch", {
-        clubname: chosenClub,
+        homeClub: chosenClub,
       })
     }
     >
