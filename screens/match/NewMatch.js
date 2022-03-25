@@ -1,3 +1,4 @@
+import { gql, useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -12,16 +13,28 @@ import DismissKeyboard from "../../components/DismissKeyboard";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 
-const HeaderRightText = styled.Text`
-  color: ${colors.blue};
-  font-size: 16px;
-  font-weight: 600;
-  margin-right: 7px;
+const CREATE_GAME_MUTATION = gql`
+  mutation createGame($clubId: Int!, $file: String, $caption: String) {
+    createGame(clubId: $clubId, file: $file, caption: $caption) {
+      id
+      ok
+      error
+    }
+  }
 `;
-const TextInput = styled.TextInput`
-  padding-horizontal: 15px;
-  padding-top: 15px;
-	background-color: ${colors.white};
+
+const Container = styled.View`
+  flex: 1;
+  padding: 0px 20px;
+`;
+const CaptionContainer = styled.View`
+  margin-top: 10px;
+`;
+const Caption = styled.TextInput`
+  background-color: ${colors.white};
+  color: black;
+  padding: 10px 20px;
+  border-radius: 100px;
 `;
 const LabelText = styled.Text`
   font-size: 15px;
@@ -55,6 +68,12 @@ const BtnText = styled.Text`
   color: ${colors.white};
   align-items: center;
 `;
+const HeaderRightText = styled.Text`
+color: ${colors.blue};
+font-size: 16px;
+font-weight: 600;
+margin-right: 7px;
+`;
 
 export default function NewMatch({ navigation, route }) {
   const { setValue } = useForm();
@@ -87,14 +106,16 @@ export default function NewMatch({ navigation, route }) {
 
   return (
     <DismissKeyboard>
-      <View>
-        <TextInput
-          placeholderTextColor="rgba(0, 0, 0, 0.8)"
-          placeholder="If you make match, select match icon below."
-          autoCapitalize="none"
-          autoCorrect={false}
-          onChangeText={(text) => (text)}
-        />
+      <Container>
+        <CaptionContainer>
+          <Caption
+            placeholder="If you make match, select match icon below."
+            placeholderTextColor="rgba(0, 0, 0, 0.5)"
+            autoCapitalize="none"
+            autoCorrect={false}
+            onChangeText={(text) => (text)}
+          />
+        </CaptionContainer>
         <Text>Sports</Text>
         <Text>Date</Text>
         <Text>Time</Text>
@@ -119,7 +140,8 @@ export default function NewMatch({ navigation, route }) {
             </TouchableOpacity>
           </BtnRow>
         </Row>
-      </View>
+        <Text>요청받을 클럽의 개수를 정하시오.</Text>
+      </Container>
     </DismissKeyboard>
   )
 }
