@@ -15,6 +15,20 @@ export const CLUB_FRAGMENT = gql`
     id
     clubname
     clubArea
+    emblem
+    clubLeader {
+      username
+      avatar
+    }
+    clubMember {
+      user {
+        username
+        avatar
+      }
+    }
+    createdAt
+    totalMember
+    isJoining
   }
 `;
 
@@ -36,8 +50,8 @@ export const USER_FRAGMENT = gql`
     id
     username
     avatar
-    isFollowing
     isMe
+    isFollowing
   }
 `;
 
