@@ -1,7 +1,10 @@
 import { gql, useApolloClient, useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
-import { Text, View } from "react-native";
+import { View, Text } from "react-native";
+import styled from "styled-components/native";
+import { colors } from "../colors";
 import useMe, { ME_QUERY } from "../hooks/useMe";
+import UserProfile from "../components/profile/UserProfile";
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
@@ -49,15 +52,8 @@ export default function Profile({ navigation, route }) {
   console.log(data);
 
   return (
-    <View
-      style={{
-        backgroundColor: "black",
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Text style={{ color: "white" }}>Someones Profile</Text>
+    <View backgroundColor="white">
+      <UserProfile {...data?.seeProfile} />
     </View>
   );
 }

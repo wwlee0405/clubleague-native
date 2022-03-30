@@ -6,7 +6,7 @@ import { colors } from "../../colors";
 
 const View = styled.View``;
 const Touchable = styled.Pressable`
-  margin-horizontal: 9px;
+  margin-horizontal: 10px;
 `;
 const ClubTeam = styled.View`
   align-items: center;
