@@ -1,12 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
+import { View, Text, Pressable, TouchableOpacity, Image, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 
 const Container = styled.View`
-  padding: 10px;
   background-color: ${colors.white};
 `;
 const ProfileWrap = styled.View`
@@ -45,9 +44,45 @@ const EditProfileBtnText = styled.Text`
   font-weight: 600;
   color: ${colors.emerald};
 `;
+const SubText = styled.Text`
+  padding: 20px 0px 10px 20px;
+  font-weight: bold;
+`;
+const Touchable = styled.Pressable`
+  margin-horizontal: 3px;
+`;
+const ClubTeam = styled.View`
+  border: 0.3px solid ${colors.emerald};
+  border-radius: 8px;
+  width: 100px;
+  height: 140px;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 20px;
+`;
+const ClubEmblem = styled.Image`
+  width: 75px;
+  height: 75px;
+  border-radius: 37.5px;
+`;
+const ClubName = styled.Text`
+  font-weight: bold;
+  width: 100%;
+  overflow: hidden;
+`;
 
-function UserProfile({ onPress, username, firstName, lastName }) {
+function UserProfile({ onPress, username, firstName, lastName, userMember }) {
   const navigation = useNavigation();
+  const renderItem = ({ item: myClubs }) => (
+    <Touchable onPress={null}>
+      <ClubTeam>
+        <ClubEmblem source={require('../../data/2bar.jpg')} />
+        <View>
+          <ClubName numberOfLines={1}>{myClubs?.club?.clubname}</ClubName>
+        </View>
+      </ClubTeam>
+    </Touchable>
+  );
   return (
     <Container>
       <ProfileWrap>
@@ -80,6 +115,17 @@ function UserProfile({ onPress, username, firstName, lastName }) {
           <EditProfileBtnText>Edit Profile</EditProfileBtnText>
         </EditProfileBtn>
       </TouchableOpacity>
+
+      <SubText>My Club</SubText>
+      <FlatList
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingStart: 20, paddingEnd: 20 }}
+        data={userMember}
+        keyExtractor={(myClubs) => "" + myClubs.club.clubname}
+        renderItem={renderItem}
+      />
+
     </Container>
   );
 }
@@ -88,6 +134,14 @@ UserProfile.propTypes = {
   username: PropTypes.string,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
+  userMember: PropTypes.arrayOf(
+    PropTypes.shape({
+      club: PropTypes.shape({
+        clubname: PropTypes.string,
+      }),
+    }),
+  ),
+
 };
 
 export default UserProfile;
