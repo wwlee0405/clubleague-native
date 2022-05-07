@@ -21,6 +21,7 @@ const MATCH_QUERY = gql`
       games {
         club {
           clubname
+          emblem
         }
       }
       file

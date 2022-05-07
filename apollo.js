@@ -47,11 +47,11 @@ export const disableDarkMode = async () => {
 };
 
 const uploadHttpLink = createUploadLink({
-  uri: "http://f5f0-175-124-231-170.ngrok.io/graphql",
+  uri: "http://724c-2001-2d8-e24a-24cb-4cad-a7b9-def2-1880.ngrok.io/graphql",
 });
 
 const wsLink = new WebSocketLink({
-  uri: "ws://f5f0-175-124-231-170.ngrok.io/graphql",
+  uri: "ws://724c-2001-2d8-e24a-24cb-4cad-a7b9-def2-1880.ngrok.io/graphql",
   options: {
     connectionParams: () => ({
       token: tokenVar(),
@@ -81,7 +81,7 @@ export const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        seeFeed: offsetLimitPagination(),
+        seeMatch: offsetLimitPagination(),
       },
     },
   },

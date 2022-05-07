@@ -133,9 +133,7 @@ export default function NewMatch({ navigation, route }) {
 
     createGameMutation({
       variables: {
-        //clubId: route.params?.clubId,
-        clubId: route,
-        clubId: 11,
+        clubId: route.params?.clubId,
         caption,
         file,
       },

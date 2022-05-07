@@ -76,11 +76,92 @@ const BtnText = styled.Text`
   font-size: 15px;
 `;
 
-function Game({ id, user, clubsInGame, games, route, clubId }) {
+const JOIN_GAME_MUTATION = gql`
+  mutation joinGame($matchId: Int!, $clubId: Int!) {
+    joinGame(matchId: $matchId) {
+      ok
+      error
+      id
+    }
+  }
+`;
+
+function Game({ id, user, clubsInGame, joinedGame,games, route, clubId }) {
+  const { data: userData } = useMe();
   const navigation = useNavigation();
   const renderItem = ({ item: matching }) => (
     <HomeAway {...matching.club} />
   );
+
+
+  const joinGameUpdate = (cache, result) => {
+    const {
+      data: {
+        joinGame: { ok, id },
+      },
+    } = result;
+    if (ok && userData?.me) {
+      const joinAway = {
+        __typename: "Game",
+        createdAt: Date.now() + "",
+        id,
+        club: {
+          clubname,
+          emblem,
+        },
+        match: {
+        },
+        joinedGame: true,
+      };
+      const newCacheAway = cache.writeFragment({
+        data: joinAway,
+        fragment: gql`
+          fragment BSName on Game {
+            id
+            joinedGame
+            club {
+              clubname
+              emblem
+            }
+            match{
+            }
+            createdAt
+          }
+        `,
+      });
+      cache.modify({
+        id: `Match:${route.params.clubId}`,
+        fields: {
+          games(prev) {
+            return [...prev, newCacheAway];
+          },
+          clubsInGame(prev) {
+            return prev + 1;
+          },
+        },
+      });
+    };
+  }
+
+  const [joinGame] = useMutation(JOIN_GAME_MUTATION, {
+    variables: {
+      clubId: route?.params?.clubId
+    },
+    update: joinGameUpdate,
+  });
+  const getButton = (seeGame) => {
+    const { joinedGame } = seeGame;
+    if (!joinedGame) {
+      return (
+        <View style={{ alignItems: 'center', paddingTop: 10 }}>
+          <JoinGame onPress={joinGame}>
+            <BtnText>Join Game</BtnText>
+          </JoinGame>
+        </View>
+      );
+    }
+  };
+
   return (
     <Container>
       <Header onPress={() => navigation.navigate("Profile")}>
@@ -112,11 +193,7 @@ function Game({ id, user, clubsInGame, games, route, clubId }) {
           />
         </View>
 
-        <View style={{ alignItems: 'center', paddingTop: 10 }}>
-          <JoinGame onPress={() => navigation.navigate("SelectAway")}>
-            <BtnText>Join Game</BtnText>
-          </JoinGame>
-        </View>
+        {joinedGame? getButton(seeGame) : null}
 
         <Text>file</Text>
         <BodyTextWrap>

@@ -11,6 +11,7 @@ const ME_QUERY = gql`
       userMember {
         id
         club {
+          id
           clubname
         }
       }

@@ -13,15 +13,15 @@ import {
 import DismissKeyboard from "../../components/DismissKeyboard";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
-import { FEED_MATCH } from "../../fragments";
 
 const CREATE_GAME_MUTATION = gql`
   mutation createGame($clubId: Int!, $file: String, $caption: String) {
     createGame(clubId: $clubId, file: $file, caption: $caption) {
-      ...FeedMatch
+      id
+      ok
+      error
     }
   }
-  ${FEED_MATCH}
 `;
 
 const Container = styled.View`
@@ -102,11 +102,11 @@ export default function NewMatch({ navigation, route }) {
   );
 
   React.useEffect(() => {
-    if (route.params?.clubId) {
+    if (route.params?.homeClub) {
       // Post updated, do something with `route.params.post`
       // For example, send the post to the server
     }
-  }, [route.params?.clubId]);
+  }, [route.params?.homeClub]);
 
   const [awayCount, setAwayCount] = useState(1);
 
@@ -129,13 +129,11 @@ export default function NewMatch({ navigation, route }) {
     });
   }, [loading]);
 
-  const onValid = ({ file, caption }) => {
+  const onValid = ({ caption }) => {
 
     createGameMutation({
       variables: {
-        //clubId: route.params?.clubId,
-        clubId: route,
-        clubId: 11,
+        clubId: route.params?.homeClub,
         caption,
         file,
       },
@@ -162,7 +160,7 @@ export default function NewMatch({ navigation, route }) {
         <Text>Location</Text>
         <Pressable onPress={() => navigation.navigate("SelectClub")}>
           <LabelText>Home</LabelText>
-          <SubmitText>{route.params?.clubId}</SubmitText>
+          <SubmitText>{{ clubId: route.params?.homeClub }}</SubmitText>
         </Pressable>
         <LabelText>Away</LabelText>
         <Row>

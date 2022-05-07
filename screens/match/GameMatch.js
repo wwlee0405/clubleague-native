@@ -15,10 +15,13 @@ const SEE_GAME = gql`
       }
       file
       caption
+      clubsInGame
       games {
         id
+        joinedGame
         club {
           clubname
+          emblem
           isJoining
           clubMember {
             user {

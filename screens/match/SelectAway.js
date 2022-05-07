@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { gql, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { TouchableOpacity, View, Text, FlatList, Image } from "react-native";
 import styled from "styled-components/native";
@@ -33,19 +34,82 @@ const ClubnameText = styled.Text`
   font-weight: bold;
 `;
 
-export default function SelectClub({ navigation, route }) {
-  const { data: meData } = useMe();
+const JOIN_GAME_MUTATION = gql`
+  mutation joinGame($matchId: Int!, $clubId: Int!) {
+    joinGame(matchId: $matchId) {
+      ok
+      error
+      id
+    }
+  }
+`;
 
+export default function SelectAway({ navigation, route }) {
+  const { data: meData } = useMe();
   const [chosenClub, setChosenClub] = useState("");
+  console.log(chosenClub);
+
+  const joinGameUpdate = (cache, result) => {
+    const {
+      data: {
+        joinGame: { ok, id },
+      },
+    } = result;
+    if (ok && userData?.me) {
+      const joinAway = {
+        __typename: "Game",
+        createdAt: Date.now() + "",
+        id,
+        club: {
+          clubname,
+          emblem,
+        },
+        match: {
+        },
+        joinedGame: true,
+      };
+      const newCacheAway = cache.writeFragment({
+        data: joinAway,
+        fragment: gql`
+          fragment BSName on Game {
+            id
+            joinedGame
+            club {
+              clubname
+              emblem
+            }
+            match{
+            }
+            createdAt
+          }
+        `,
+      });
+      cache.modify({
+        id: `Match:${route.params.clubId}`,
+        fields: {
+          games(prev) {
+            return [...prev, newCacheAway];
+          },
+          clubsInGame(prev) {
+            return prev + 1;
+          },
+        },
+      });
+      navigation.navigate("GameMatch", {
+        clubId: chosenClub,
+      });
+    };
+  }
+
+  const [joinGame] = useMutation(JOIN_GAME_MUTATION, {
+    variables: {
+      clubId: route?.params?.clubId
+    },
+    update: joinGameUpdate,
+  });
 
   const HeaderRight = () => (
-    <TouchableOpacity
-    onPress={() =>
-      navigation.navigate("NewMatch", {
-        clubId: chosenClub,
-      })
-    }
-    >
+    <TouchableOpacity onPress={joinGame}>
       <HeaderRightText>Next</HeaderRightText>
     </TouchableOpacity>
   );

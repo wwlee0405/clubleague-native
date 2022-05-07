@@ -71,7 +71,7 @@ const ClubName = styled.Text`
   overflow: hidden;
 `;
 
-function UserProfile({ onPress, username, firstName, lastName, userMember }) {
+function UserProfile({ onPress, username, firstName, lastName, userMember, isMe }) {
   const navigation = useNavigation();
   const renderItem = ({ item: myClubs }) => (
     <Touchable onPress={null}>
@@ -90,7 +90,7 @@ function UserProfile({ onPress, username, firstName, lastName, userMember }) {
           <TouchableOpacity onPress={() => null}>
             <Image
               source={require('../../data/dddd.jpg')}
-              style={{ width: 150, height: 150, borderRadius: 100 }}
+              style={{ width: 120, height: 120, borderRadius: 60 }}
             />
           </TouchableOpacity>
         </AvatarWrap>
@@ -110,11 +110,13 @@ function UserProfile({ onPress, username, firstName, lastName, userMember }) {
         </ProfileInfoWrap>
       </ProfileWrap>
 
-      <TouchableOpacity onPress={null}>
-        <EditProfileBtn>
-          <EditProfileBtnText>Edit Profile</EditProfileBtnText>
-        </EditProfileBtn>
-      </TouchableOpacity>
+      {isMe ? (
+        <TouchableOpacity onPress={() => navigation.navigate("EditProfile")}>
+          <EditProfileBtn>
+            <EditProfileBtnText>Edit Profile</EditProfileBtnText>
+          </EditProfileBtn>
+        </TouchableOpacity>
+      ) : null}
 
       <SubText>My Club</SubText>
       <FlatList
@@ -131,6 +133,7 @@ function UserProfile({ onPress, username, firstName, lastName, userMember }) {
 }
 
 UserProfile.propTypes = {
+  isMe: PropTypes.bool,
   username: PropTypes.string,
   firstName: PropTypes.string,
   lastName: PropTypes.string,

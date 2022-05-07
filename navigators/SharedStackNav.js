@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Image } from "react-native";
 import Photo from "../screens/Photo";
-import Profile from "../screens/Profile";
 import Feed from "../screens/home/Feed";
 import Match from "../screens/Match";
 import Search from "../screens/Search";
@@ -13,8 +12,11 @@ import SearchClub from "../screens/home/SearchClub";
 import GameMatch from "../screens/match/GameMatch";
 import NewMatch from "../screens/match/NewMatch";
 import SelectClub from "../screens/match/SelectClub";
+import SelectAway from "../screens/match/SelectAway";
 import Entry from "../screens/match/Entry";
 import Likes from "../screens/Likes";
+import Profile from "../screens/profile/Profile";
+import EditProfile from "../screens/profile/EditProfile";
 import Comments from "../screens/Comments";
 import { colors } from "../colors";
 
@@ -69,12 +71,14 @@ export default function SharedStackNav({ screenName }) {
       ) : null}
       {screenName === "Me" ? <Stack.Screen name={"Me"} component={Me} /> : null}
       <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="Photo" component={Photo} />
       <Stack.Screen name="Likes" component={Likes} />
       <Stack.Screen name="Comments" component={Comments} />
       <Stack.Screen name="GameMatch" component={GameMatch} />
       <Stack.Screen name="NewClub" component={NewClub} />
       <Stack.Screen name="SelectClub" component={SelectClub} />
+      <Stack.Screen name="SelectAway" component={SelectAway} />
       <Stack.Screen name="Entry" component={Entry} />
       <Stack.Screen name="SearchClub" component={SearchClub} />
       <Stack.Screen name="NewMatch" component={NewMatch} />

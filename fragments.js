@@ -80,3 +80,23 @@ export const ROOM_FRAGMENT = gql`
     }
   }
 `;
+
+export const FEED_MATCH = gql`
+  fragment FeedMatch on Match {
+
+    id
+    user {
+      id
+      username
+      avatar
+    }
+    games {
+      club {
+        clubname
+        emblem
+      }
+    }
+    createdAt
+  }
+
+`;
