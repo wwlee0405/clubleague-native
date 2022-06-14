@@ -1,6 +1,6 @@
 import {
   ApolloClient,
-  HttpLink,
+  createHttpLink,
   InMemoryCache,
   makeVar,
   split,
@@ -12,9 +12,8 @@ import {
   offsetLimitPagination,
 } from "@apollo/client/utilities";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
-import { createClient } from "graphql-ws";
-
+import { createUploadLink } from "apollo-upload-client";
+import { WebSocketLink } from "@apollo/client/link/ws";
 
 export const isLoggedInVar = makeVar(false);
 export const tokenVar = makeVar("");
@@ -47,16 +46,18 @@ export const disableDarkMode = async () => {
   darkModeVar(false);
 };
 
-const uploadHttpLink = new HttpLink({
+const uploadHttpLink = createUploadLink({
   uri: "http://dd43-175-124-231-170.ngrok.io/graphql",
 });
 
-const wsLink = new GraphQLWsLink(createClient({
-  url: 'ws://dd43-175-124-231-170.ngrok.io/graphql',
-  connectionParams: {
-    token: tokenVar(),
+const wsLink = new WebSocketLink({
+  uri: "ws://dd43-175-124-231-170.ngrok.io/graphql",
+  options: {
+    connectionParams: () => ({
+      token: tokenVar(),
+    }),
   },
-}));
+});
 
 const authLink = setContext((_, { headers }) => {
   return {

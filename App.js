@@ -12,8 +12,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AsyncStorageWrapper, persistCache } from "apollo3-cache-persist";
 
 export default function App() {
-  const [loading, setLoading] = useState(true);
-  const onFinish = () => setLoading(false);
+  const [loading, setLoading] = useState(false);
+  const onFinish = () => setLoading(true);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const preloadAssets = () => {
     const fontsToLoad = [Ionicons.font];
