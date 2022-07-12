@@ -8,7 +8,8 @@ import { Text, View, Image, FlatList } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { colors } from "../../colors";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
-import HomeAway from "./HomeAway";
+import MatchGames from "./MatchGames";
+import Comments from "./Comments";
 
 const Container = styled.View``;
 const Header = styled.TouchableOpacity`
@@ -76,11 +77,8 @@ const BtnText = styled.Text`
   font-size: 15px;
 `;
 
-function Game({ id, user, clubsInGame, games, route, clubId }) {
+function Game({ id, user, clubsInGame, games, caption, commentNumber, comments, route, clubId }) {
   const navigation = useNavigation();
-  const renderItem = ({ item: matching }) => (
-    <HomeAway {...matching.club} />
-  );
   return (
     <Container>
       <Header onPress={() => navigation.navigate("Profile")}>
@@ -104,13 +102,9 @@ function Game({ id, user, clubsInGame, games, route, clubId }) {
 
         <TimeLocation>{clubsInGame}</TimeLocation>
 
-        <View style={{ backgroundColor: colors.greyColor }}>
-          <FlatList
-            data={games}
-            keyExtractor={(matching) => "" + matching.club.clubname}
-            renderItem={renderItem}
-          />
-        </View>
+        <MatchGames
+          games={games}
+        />
 
         <View style={{ alignItems: 'center', paddingTop: 10 }}>
           <JoinGame onPress={() => navigation.navigate("SelectAway")}>
@@ -123,6 +117,15 @@ function Game({ id, user, clubsInGame, games, route, clubId }) {
           <Text>캄푸누에서 뛸 매치 상대를 구합니다.</Text>
         </BodyTextWrap>
 
+        <View>
+          <Username>{user?.username}</Username>
+        </View>
+
+        <Comments
+          caption={caption}
+          commentNumber={commentNumber}
+          comments={comments}
+        />
       </ExtraContainer>
     </Container>
   );
@@ -134,15 +137,6 @@ Game.propTypes = {
     username: PropTypes.string.isRequired,
   }),
   clubsInGame: PropTypes.number,
-  games: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      joinedGame: PropTypes.bool,
-      club: PropTypes.shape({
-        clubname: PropTypes.string.isRequired,
-      }),
-    }),
-  ),
 
 };
 

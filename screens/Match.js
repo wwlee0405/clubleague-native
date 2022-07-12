@@ -8,6 +8,7 @@ import ScreenLayout from "../components/ScreenLayout";
 import { FontAwesome } from "@expo/vector-icons";
 import MatchItem from "../components/match/MatchItem";
 import ScrollFeedHeader from "../components/ScrollFeedHeader";
+import { GAME_FRAGMENT } from "../fragments";
 
 const MATCH_QUERY = gql`
   query seeMatch($offset: Int!) {
@@ -19,14 +20,12 @@ const MATCH_QUERY = gql`
         avatar
       }
       games {
-        club {
-          clubname
-          emblem
-        }
+        ...GameFragment
       }
       file
     }
   }
+  ${GAME_FRAGMENT}
 `;
 
 const HEADER_HEIGHT = 60;

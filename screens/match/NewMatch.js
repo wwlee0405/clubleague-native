@@ -78,33 +78,18 @@ margin-right: 7px;
 
 export default function NewMatch({ navigation, route }) {
 
-  const updateCreateGame = (cache, result) => {
-    const {
-      data: { createGame },
-    } = result;
-    if (createGame.id) {
-      cache.modify({
-        id: "ROOT_QUERY",
-        fields: {
-          seeMatch(prev) {
-            return [createGame, ...prev];
-          },
-        },
-      });
-      navigation.navigate("Match");
-    }
-  };
-  const [createGameMutation, { loading }] = useMutation(
+
+  const [createGameMutation, { loading, error }] = useMutation(
     CREATE_GAME_MUTATION,
-    {
-      update: updateCreateGame,
-    }
+
   );
 
   React.useEffect(() => {
     if (route.params?.clubId) {
       // Post updated, do something with `route.params.post`
       // For example, send the post to the server
+      handleSubmit(onValid);
+
     }
   }, [route.params?.clubId]);
 
@@ -133,16 +118,14 @@ export default function NewMatch({ navigation, route }) {
 
     createGameMutation({
       variables: {
-        //clubId: route.params?.clubId,
-        clubId: route,
-        clubId: 11,
+        clubId: route.params?.clubId,
         caption,
         file,
       },
     });
   };
 
-  console.log(route);
+  console.log(route.params?.clubId);
 
   return (
     <DismissKeyboard>

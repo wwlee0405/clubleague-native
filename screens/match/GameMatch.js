@@ -11,6 +11,7 @@ const SEE_GAME = gql`
     seeGame(id: $id) {
       id
       user {
+        avatar
         username
       }
       file
@@ -32,10 +33,20 @@ const SEE_GAME = gql`
           }
         }
       }
+      comments {
+        id
+        user {
+          avatar
+          username
+        }
+        payload
+        isMine
+        createdAt
+      }
+      commentNumber
     }
   }
 `;
-
 
 export default function GameMatch({ route }) {
   const { data } = useQuery(SEE_GAME, {

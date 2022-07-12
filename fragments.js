@@ -81,9 +81,19 @@ export const ROOM_FRAGMENT = gql`
   }
 `;
 
+export const GAME_FRAGMENT = gql`
+  fragment GameFragment on Game {
+    id
+    club {
+      id
+      clubname
+      emblem
+    }
+  }
+`;
+
 export const FEED_MATCH = gql`
   fragment FeedMatch on Match {
-
     id
     user {
       id
@@ -91,12 +101,12 @@ export const FEED_MATCH = gql`
       avatar
     }
     games {
-      club {
-        clubname
-        emblem
+      ...GameFragment
+      match {
+        id
       }
     }
     createdAt
   }
-
+  ${GAME_FRAGMENT}
 `;
