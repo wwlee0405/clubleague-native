@@ -2,7 +2,6 @@ import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { RefreshControl, View, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import ScreenLayout from "../../components/ScreenLayout";
 import Game from "../../components/match/Game";
 import { colors } from "../../colors";
 

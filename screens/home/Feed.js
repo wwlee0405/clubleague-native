@@ -10,11 +10,6 @@ import MyClubList from "../../components/home/MyClubList";
 import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from "../../fragments";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
 
-const ClubText = styled.Text`
-  font-weight: bold;
-	font-size: 18px;
-`;
-
 const FEED_QUERY = gql`
   query seeFeed($offset: Int!) {
     seeFeed(offset: $offset) {
@@ -34,6 +29,14 @@ const FEED_QUERY = gql`
   }
   ${PHOTO_FRAGMENT}
   ${COMMENT_FRAGMENT}
+`;
+
+const theme = {
+  center: "center"
+};
+const ClubText = styled.Text`
+  font-weight: bold;
+	font-size: 18px;
 `;
 
 export default function Feed({ navigation, route }) {
@@ -69,7 +72,7 @@ export default function Feed({ navigation, route }) {
     });
   }, []);
   return (
-    <ScreenLayout loading={loading}>
+    <ScreenLayout theme={theme} loading={loading}>
       <View style={{ paddingVertical: 10 }}>
         <TouchableOpacity
           onPress={() => navigation.navigate("NewClub")}

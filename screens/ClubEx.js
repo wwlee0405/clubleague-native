@@ -44,6 +44,9 @@ const SEE_CLUB = gql`
   }
 `;
 
+const theme = {
+  center: "center"
+};
 const JoinBtn = styled(AuthButton)`
   margin-left: 20px;
   margin-top: 30px;
@@ -51,7 +54,7 @@ const JoinBtn = styled(AuthButton)`
   background-color: ${colors.darkGrey};
 `;
 
-export default function Comments({ route, clubId }) {
+export default function ClubEx({ route, clubId }) {
   const { data: userData } = useMe();
   const { data, loading } = useQuery(SEE_CLUB, {
     variables: {
@@ -126,7 +129,7 @@ export default function Comments({ route, clubId }) {
   };
   console.log(data);
   return (
-    <ScreenLayout loading={loading}>
+    <ScreenLayout theme={theme} loading={loading}>
       <ScrollView
         refreshControl={
           <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />

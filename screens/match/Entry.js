@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import ScreenLayout from "../../components/ScreenLayout";
 import UserEntryRow from "../../components/UserEntryRow";
 import { colors } from "../../colors";
 

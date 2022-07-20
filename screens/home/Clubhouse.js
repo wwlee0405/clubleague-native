@@ -5,14 +5,17 @@ import { ScrollView } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 import ScreenLayout from "../../components/ScreenLayout";
+import useMe, { ME_QUERY } from "../../hooks/useMe";
 import ClubItem from "../../components/home/ClubItem";
 
 import AuthButton from "../../components/auth/AuthButton";
 
 const JOIN_CLUB_MUTATION = gql`
-  mutation joinClub($id: Int!) {
-    joinClub(id: $id) {
+  mutation joinClub($clubId: Int!) {
+    joinClub(clubId: $clubId) {
       ok
+      error
+      id
     }
   }
 `;
@@ -23,25 +26,27 @@ const SEE_CLUB = gql`
       id
       clubname
       clubArea
+      totalMember
+      isJoining
       clubLeader{
-        id
         username
       }
       clubMember{
         id
-        user {
+        user{
           username
         }
-        club {
+        club{
           clubname
         }
       }
-      totalMember
-      isJoining
     }
   }
 `;
 
+const theme = {
+  center: "center"
+};
 const JoinBtn = styled(AuthButton)`
   margin-left: 20px;
   margin-top: 30px;
@@ -49,40 +54,89 @@ const JoinBtn = styled(AuthButton)`
   background-color: ${colors.darkGrey};
 `;
 
-export default function Clubhouse({ route }) {
+export default function Clubhouse({ route, clubId }) {
+  const { data: userData } = useMe();
   const { data, loading } = useQuery(SEE_CLUB, {
     variables: {
       id: route?.params?.clubId,
     },
   });
-  const [refreshing, setRefreshing] = useState();
+  const [refreshing, setRefreshing] = useState(false);
   const onRefresh = async () => {
     setRefreshing(true);
     await refetch();
     setRefreshing(false);
   };
+
+  const joinClubUpdate = (cache, result) => {
+    const {
+      data: {
+        joinClub: { ok, id },
+      },
+    } = result;
+    if (ok && userData?.me) {
+      const newMember = {
+        __typename: "Member",
+        createdAt: Date.now() + "",
+        id,
+        user: {
+          ...userData.me,
+        },
+        club: {
+          isJoining: true,
+        },
+      };
+      const newCacheMember = cache.writeFragment({
+        data: newMember,
+        fragment: gql`
+          fragment BSName on Member {
+            id
+            user {
+              username
+            }
+            club {
+              isJoining
+            }
+            createdAt
+          }
+        `,
+      });
+      cache.modify({
+        id: `Club:${route.params.clubId}`,
+        fields: {
+          clubMember(prev) {
+            return [...prev, newCacheMember];
+          },
+          totalMember(prev) {
+            return prev + 1;
+          },
+        },
+      });
+    };
+  }
+
   const [joinClub] = useMutation(JOIN_CLUB_MUTATION, {
     variables: {
-      id: route?.params?.id,
+      clubId: route?.params?.clubId
     },
+    update: joinClubUpdate,
   });
   const getButton = (seeClub) => {
     const { isJoining } = seeClub;
     if (!isJoining) {
-      return <JoinBtn onClick={joinClub} text="Join this Club" />;
+      return <JoinBtn onPress={joinClub} text="Join this Club" />;
     }
   };
   console.log(data);
   return (
-    <ScreenLayout loading={loading}>
+    <ScreenLayout theme={theme} loading={loading}>
       <ScrollView
         refreshControl={
           <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
         }
-        style={{ backgroundColor: "white" }}
+        style={{ backgroundColor: "white", width: "100%" }}
         contentContainerStyle={{
           backgroundColor: "white",
-
           alignItems: "center",
           justifyContent: "center",
         }}

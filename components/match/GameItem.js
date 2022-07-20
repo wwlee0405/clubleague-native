@@ -11,7 +11,7 @@ const MatchContainer  = styled.View`
   background-color: ${colors.greyColor};
 `;
 
-function MatchGames({ id, games }) {
+function GameItem({ id, games }) {
   const renderItem = ({ item: matching }) => (
     <HomeAway {...matching.club} />
   );
@@ -26,7 +26,7 @@ function MatchGames({ id, games }) {
   );
 }
 
-MatchGames.propTypes = {
+GameItem.propTypes = {
   games: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
@@ -38,4 +38,4 @@ MatchGames.propTypes = {
   ),
 };
 
-export default MatchGames;
+export default GameItem;

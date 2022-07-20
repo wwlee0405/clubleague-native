@@ -7,6 +7,10 @@ import ScreenLayout from "../components/ScreenLayout";
 import { ROOM_FRAGMENT } from "../fragments";
 import useMe from "../hooks/useMe";
 
+const theme = {
+  center: "center"
+};
+
 const SEE_ROOMS_QUERY = gql`
   query seeRooms {
     seeRooms {
@@ -20,7 +24,7 @@ export default function Rooms() {
   const { data, loading } = useQuery(SEE_ROOMS_QUERY);
   const renderItem = ({ item: room }) => <RoomItem {...room} />;
   return (
-    <ScreenLayout loading={loading}>
+    <ScreenLayout theme={theme} loading={loading}>
       <FlatList
         ItemSeparatorComponent={
           <View

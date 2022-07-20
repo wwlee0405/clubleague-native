@@ -8,7 +8,7 @@ import { Text, View, Image, FlatList } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { colors } from "../../colors";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
-import MatchGames from "./MatchGames";
+import GameItem from "./GameItem";
 import Comments from "./Comments";
 
 const Container = styled.View``;
@@ -76,8 +76,14 @@ const BtnText = styled.Text`
   font-weight: 600;
   font-size: 15px;
 `;
+const CommentCount = styled.Text`
+  opacity: 0.7;
+  margin: 10px 0px;
+  font-weight: 600;
+  font-size: 10px;
+`;
 
-function Game({ id, user, clubsInGame, games, caption, commentNumber, comments, route, clubId }) {
+function Game({ id, user, clubsInGame, games, caption, commentNumber, route, clubId }) {
   const navigation = useNavigation();
   return (
     <Container>
@@ -102,7 +108,7 @@ function Game({ id, user, clubsInGame, games, caption, commentNumber, comments, 
 
         <TimeLocation>{clubsInGame}</TimeLocation>
 
-        <MatchGames
+        <GameItem
           games={games}
         />
 
@@ -121,11 +127,14 @@ function Game({ id, user, clubsInGame, games, caption, commentNumber, comments, 
           <Username>{user?.username}</Username>
         </View>
 
-        <Comments
-          caption={caption}
-          commentNumber={commentNumber}
-          comments={comments}
-        />
+        <View style={{ paddingTop: 10 }}>
+          <TouchableOpacity onPress={() => navigation.navigate("Comments", {
+            matchId: id
+          })}>
+            <CommentCount>{commentNumber === 1 ? "1 comment" : `${commentNumber} comments`}</CommentCount>
+          </TouchableOpacity>
+        </View>
+
       </ExtraContainer>
     </Container>
   );
@@ -137,7 +146,7 @@ Game.propTypes = {
     username: PropTypes.string.isRequired,
   }),
   clubsInGame: PropTypes.number,
-
+  commentNumber: PropTypes.number,
 };
 
 export default Game;

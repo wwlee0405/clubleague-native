@@ -81,7 +81,6 @@ const TextInput = styled.TextInput`
   width: 90%;
   margin-right: 10px;
 `;
-
 const InputContainer = styled.View`
   width: 95%;
   margin-bottom: 50px;
@@ -89,8 +88,10 @@ const InputContainer = styled.View`
   flex-direction: row;
   align-items: center;
 `;
-
 const SendButton = styled.TouchableOpacity``;
+const theme = {
+  center: "center"
+};
 
 export default function Room({ route, navigation }) {
   const { data: meData } = useMe();
@@ -234,7 +235,7 @@ export default function Room({ route, navigation }) {
       behavior="padding"
       keyboardVerticalOffset={50}
     >
-      <ScreenLayout loading={loading}>
+      <ScreenLayout theme={theme} loading={loading}>
         <FlatList
           style={{ width: "100%", marginVertical: 10 }}
           inverted

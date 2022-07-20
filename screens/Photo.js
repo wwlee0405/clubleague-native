@@ -21,6 +21,10 @@ const SEE_PHOTO = gql`
   ${PHOTO_FRAGMENT}
 `;
 
+const theme = {
+  center: "center"
+};
+
 export default function PhotoScreen({ route }) {
   const { data, loading, refetch } = useQuery(SEE_PHOTO, {
     variables: {
@@ -35,7 +39,7 @@ export default function PhotoScreen({ route }) {
   };
   console.log(data);
   return (
-    <ScreenLayout loading={loading}>
+    <ScreenLayout theme={theme} loading={loading}>
       <ScrollView
         refreshControl={
           <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />

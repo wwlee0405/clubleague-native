@@ -17,9 +17,9 @@ import Entry from "../screens/match/Entry";
 import Likes from "../screens/Likes";
 import Profile from "../screens/profile/Profile";
 import EditProfile from "../screens/profile/EditProfile";
-import Comments from "../screens/Comments";
+import Comments from "../screens/match/Comments";
+import ClubEx from "../screens/ClubEx";
 import { colors } from "../colors";
-
 import { TouchableOpacity } from "react-native";
 import { isLoggedInVar, logUserOut } from "../apollo";
 
@@ -74,8 +74,9 @@ export default function SharedStackNav({ screenName }) {
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="Photo" component={Photo} />
       <Stack.Screen name="Likes" component={Likes} />
-      <Stack.Screen name="Comments" component={Comments} />
+      <Stack.Screen name="ClubEx" component={ClubEx} />
       <Stack.Screen name="GameMatch" component={GameMatch} />
+      <Stack.Screen name="Comments" component={Comments} />
       <Stack.Screen name="NewClub" component={NewClub} />
       <Stack.Screen name="SelectClub" component={SelectClub} />
       <Stack.Screen name="SelectAway" component={SelectAway} />

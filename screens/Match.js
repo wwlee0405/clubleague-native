@@ -29,6 +29,9 @@ const MATCH_QUERY = gql`
 `;
 
 const HEADER_HEIGHT = 60;
+const theme = {
+  center: "center"
+};
 const ModalContent = styled.View`
   background-color: ${colors.white};
   margin: 60px;
@@ -70,7 +73,7 @@ export default function Match({ navigation }) {
   };
   const [refreshing, setRefreshing] = useState(false);
   return (
-    <ScreenLayout loading={loading}>
+    <ScreenLayout theme={theme} loading={loading}>
       <Animated.View
         style={{
           transform: [{ translateY: translateY }],

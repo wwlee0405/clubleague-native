@@ -14,6 +14,10 @@ const LIKES_QUERY = gql`
   ${USER_FRAGMENT}
 `;
 
+const theme = {
+  center: "center"
+};
+
 export default function Likes({ route }) {
   const [refreshing, setRefreshing] = useState(false);
   const { data, loading, refetch } = useQuery(LIKES_QUERY, {
@@ -29,7 +33,7 @@ export default function Likes({ route }) {
     setRefreshing(false);
   };
   return (
-    <ScreenLayout loading={loading}>
+    <ScreenLayout theme={theme} loading={loading}>
       <FlatList
         ItemSeparatorComponent={() => (
           <View

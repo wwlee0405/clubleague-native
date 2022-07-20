@@ -5,7 +5,6 @@ import { TouchableOpacity, View, Text, FlatList, Image } from "react-native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
-import ScreenLayout from "../../components/ScreenLayout";
 import SelectClubItem from "../../components/match/SelectClubItem";
 
 const HeaderRightText = styled.Text`
