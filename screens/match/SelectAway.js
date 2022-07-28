@@ -56,6 +56,52 @@ export default function SelectAway({ navigation, route, id, matchId }) {
       },
     } = result;
 
+    if (ok && meData?.me) {
+      const joinAway = {
+        __typename: "Game",
+        createdAt: Date.now() + "",
+        id,
+        club: {
+          clubname,
+          emblem,
+        },
+        match: {
+        },
+        joinedGame: true,
+      };
+      const newCacheAway = cache.writeFragment({
+        data: joinAway,
+        fragment: gql`
+          fragment BSName on Game {
+            id
+            joinedGame
+            club {
+              clubname
+              emblem
+            }
+            match{
+            }
+            createdAt
+          }
+        `,
+      });
+      cache.modify({
+        id: `Match:${matchId}`,
+        fields: {
+          games(prev) {
+            return [...prev, newCacheAway];
+          },
+          clubsInGame(prev) {
+            return prev + 1;
+          },
+        },
+      });
+      navigation.navigate("GameMatch", {
+        clubId: chosenClub,
+        matchId: id
+      });
+    };
+    
   }
 
   const [joinGame] = useMutation(JOIN_GAME_MUTATION, {
