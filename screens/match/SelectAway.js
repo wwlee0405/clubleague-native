@@ -35,7 +35,7 @@ const ClubnameText = styled.Text`
 
 const JOIN_GAME_MUTATION = gql`
   mutation joinGame($matchId: Int!, $clubId: Int!) {
-    joinGame(matchId: $matchId) {
+    joinGame(matchId: $matchId, clubId: $clubId) {
       ok
       error
       id
@@ -43,9 +43,10 @@ const JOIN_GAME_MUTATION = gql`
   }
 `;
 
-export default function SelectAway({ navigation, route }) {
+export default function SelectAway({ navigation, route, id, matchId }) {
   const { data: meData } = useMe();
   const [chosenClub, setChosenClub] = useState("");
+  console.log(route);
   console.log(chosenClub);
 
   const joinGameUpdate = (cache, result) => {
@@ -54,55 +55,13 @@ export default function SelectAway({ navigation, route }) {
         joinGame: { ok, id },
       },
     } = result;
-    if (ok && userData?.me) {
-      const joinAway = {
-        __typename: "Game",
-        createdAt: Date.now() + "",
-        id,
-        club: {
-          clubname,
-          emblem,
-        },
-        match: {
-        },
-        joinedGame: true,
-      };
-      const newCacheAway = cache.writeFragment({
-        data: joinAway,
-        fragment: gql`
-          fragment BSName on Game {
-            id
-            joinedGame
-            club {
-              clubname
-              emblem
-            }
-            match{
-            }
-            createdAt
-          }
-        `,
-      });
-      cache.modify({
-        id: `Match:${route.params.clubId}`,
-        fields: {
-          games(prev) {
-            return [...prev, newCacheAway];
-          },
-          clubsInGame(prev) {
-            return prev + 1;
-          },
-        },
-      });
-      navigation.navigate("GameMatch", {
-        clubId: chosenClub,
-      });
-    };
+
   }
 
   const [joinGame] = useMutation(JOIN_GAME_MUTATION, {
     variables: {
-      clubId: route?.params?.clubId
+      clubId: chosenClub,
+      matchId: route?.params?.matchId
     },
     update: joinGameUpdate,
   });
@@ -118,8 +77,8 @@ export default function SelectAway({ navigation, route }) {
     });
   }, [chosenClub]);
 
-  const chooseClub = (id) => {
-    setChosenClub(id);
+  const chooseClub = (clubId) => {
+    setChosenClub(clubId);
   };
 
   const renderMyClubs = ({ item: myClubs }) => {
@@ -127,7 +86,9 @@ export default function SelectAway({ navigation, route }) {
       <TouchableOpacity>
         <SelectClubItem
           onPress={() => chooseClub(myClubs.club.id)}
-          {...myClubs}
+
+          clubId={{ clubId: myClubs.club.id }}
+          clubname={myClubs.club.clubname}
         />
       </TouchableOpacity>
     );

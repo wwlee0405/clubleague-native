@@ -22,7 +22,7 @@ const SEE_GAME = gql`
         club {
           clubname
           emblem
-          isJoining
+          isJoined
           clubMember {
             user {
               id

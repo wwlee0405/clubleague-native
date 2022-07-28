@@ -83,7 +83,7 @@ const CommentCount = styled.Text`
   font-size: 10px;
 `;
 
-function Game({ id, user, clubsInGame, games, caption, commentNumber, route, clubId }) {
+function Game({ id, user, clubsInGame, games, clubId, caption, commentNumber, route }) {
   const navigation = useNavigation();
   return (
     <Container>
@@ -113,7 +113,10 @@ function Game({ id, user, clubsInGame, games, caption, commentNumber, route, clu
         />
 
         <View style={{ alignItems: 'center', paddingTop: 10 }}>
-          <JoinGame onPress={() => navigation.navigate("SelectAway")}>
+          <JoinGame onPress={() => navigation.navigate("SelectAway", {
+            matchId: id,
+            clubId,
+          })}>
             <BtnText>Join Game</BtnText>
           </JoinGame>
         </View>
@@ -129,7 +132,7 @@ function Game({ id, user, clubsInGame, games, caption, commentNumber, route, clu
 
         <View style={{ paddingTop: 10 }}>
           <TouchableOpacity onPress={() => navigation.navigate("Comments", {
-            matchId: id
+            matchId: id,
           })}>
             <CommentCount>{commentNumber === 1 ? "1 comment" : `${commentNumber} comments`}</CommentCount>
           </TouchableOpacity>

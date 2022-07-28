@@ -28,7 +28,7 @@ export const CLUB_FRAGMENT = gql`
     }
     createdAt
     totalMember
-    isJoining
+    isJoined
   }
 `;
 

@@ -11,9 +11,13 @@ const MatchContainer  = styled.View`
   background-color: ${colors.greyColor};
 `;
 
-function GameItem({ id, games }) {
+function GameItem({ matchId, games }) {
   const renderItem = ({ item: matching }) => (
-    <HomeAway {...matching.club} />
+    <HomeAway
+      matchId={matchId}
+      clubname={matching?.club.clubname}
+      isJoined={matching?.club.isJoined}
+    />
   );
   return (
     <MatchContainer>
@@ -27,12 +31,14 @@ function GameItem({ id, games }) {
 }
 
 GameItem.propTypes = {
+  matchId: PropTypes.number,
   games: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
       joinedGame: PropTypes.bool,
       club: PropTypes.shape({
         clubname: PropTypes.string.isRequired,
+        isJoined: PropTypes.bool,
       }),
     }),
   ),

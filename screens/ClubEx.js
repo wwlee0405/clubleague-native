@@ -27,7 +27,7 @@ const SEE_CLUB = gql`
       clubname
       clubArea
       totalMember
-      isJoining
+      isJoined
       clubLeader{
         username
       }
