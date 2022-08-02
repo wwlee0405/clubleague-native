@@ -86,7 +86,7 @@ export default function SelectAway({ navigation, route, id, matchId }) {
         `,
       });
       cache.modify({
-        id: `Match:${matchId}`,
+        id: `Match:${route?.params?.matchId}`,
         fields: {
           games(prev) {
             return [...prev, newCacheAway];
@@ -96,12 +96,9 @@ export default function SelectAway({ navigation, route, id, matchId }) {
           },
         },
       });
-      navigation.navigate("GameMatch", {
-        clubId: chosenClub,
-        matchId: id
-      });
+      navigation.navigate("GameMatch", { matchId });
     };
-    
+
   }
 
   const [joinGame] = useMutation(JOIN_GAME_MUTATION, {

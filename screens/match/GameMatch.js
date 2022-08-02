@@ -10,12 +10,12 @@ const SEE_GAME = gql`
     seeGame(id: $id) {
       id
       user {
+        id
         avatar
         username
       }
       file
       caption
-      clubsInGame
       games {
         id
         joinedGame
@@ -32,17 +32,9 @@ const SEE_GAME = gql`
           }
         }
       }
-      comments {
-        id
-        user {
-          avatar
-          username
-        }
-        payload
-        isMine
-        createdAt
-      }
+      entryNumber
       commentNumber
+      clubsInGame
     }
   }
 `;

@@ -1,31 +1,50 @@
 import { gql, useQuery } from "@apollo/client";
-import React, { useState } from "react";
-import { View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import ScreenLayout from "../../components/ScreenLayout";
-import UserEntryRow from "../../components/UserEntryRow";
-import { colors } from "../../colors";
+import React from "react";
+import { View, FlatList } from "react-native";
+import UserEntryRow from "../../components/match/UserEntryRow";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Entry() {
+const SEE_MATCH_ENTRIES = gql`
+  query seeMatchEntries($id: Int!) {
+    seeMatchEntries(id: $id) {
+      id
+      user {
+        id
+        username
+      }
+      isEntry
+      createdAt
+    }
+  }
+`;
+
+export default function Entry({ route }) {
+  const navigation = useNavigation();
+  const { data, loading, refetch } = useQuery(SEE_MATCH_ENTRIES, {
+    variables: {
+      id: route?.params?.matchId,
+    },
+  });
+  const renderEntry = ({ item: entry }) => {
+    return (
+      <UserEntryRow
+        onPress={() => navigation.navigate("Profile",{
+          username: entry?.user.username,
+          id: entry?.user.id,
+        })}
+        username={entry?.user.username}
+      />
+    );
+  };
+
+  console.log(data?.seeMatchEntries);
   return (
-    //<ScrollView>를 <View>로 수정할 것==>Flatlist로 할꺼임
-    <ScrollView>
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-      <UserEntryRow />
-    </ScrollView>
+    <View>
+      <FlatList
+        data={data?.seeMatchEntries}
+        keyExtractor={(entry) => "" + entry.id}
+        renderItem={renderEntry}
+      />
+    </View>
   )
 }

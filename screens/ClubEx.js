@@ -83,7 +83,7 @@ export default function ClubEx({ route, clubId }) {
           ...userData.me,
         },
         club: {
-          isJoining: true,
+          isJoined: true,
         },
       };
       const newCacheMember = cache.writeFragment({
@@ -95,7 +95,7 @@ export default function ClubEx({ route, clubId }) {
               username
             }
             club {
-              isJoining
+              isJoined
             }
             createdAt
           }
@@ -122,8 +122,8 @@ export default function ClubEx({ route, clubId }) {
     update: joinClubUpdate,
   });
   const getButton = (seeClub) => {
-    const { isJoining } = seeClub;
-    if (!isJoining) {
+    const { isJoined } = seeClub;
+    if (!isJoined) {
       return <JoinBtn onPress={joinClub} text="Join this Club" />;
     }
   };

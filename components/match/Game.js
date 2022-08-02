@@ -83,11 +83,17 @@ const CommentCount = styled.Text`
   font-size: 10px;
 `;
 
-function Game({ id, user, clubsInGame, games, clubId, caption, commentNumber, route }) {
+function Game({ route, id, user, clubsInGame, games, entryNumber, clubId, caption, commentNumber }) {
   const navigation = useNavigation();
+  const goToProfile = () => {
+    navigation.navigate("Profile", {
+      username: user.username,
+      id: user.id,
+    });
+  };
   return (
     <Container>
-      <Header onPress={() => navigation.navigate("Profile")}>
+      <Header onPress={goToProfile}>
         <UserAvatar resizeMode="cover" source={require('../../data/eeee.png')} />
         <Username>{user?.username}</Username>
       </Header>
@@ -110,6 +116,10 @@ function Game({ id, user, clubsInGame, games, clubId, caption, commentNumber, ro
 
         <GameItem
           games={games}
+          goToEntry={() => navigation.navigate("Entry", {
+            matchId: id,
+          })}
+          entryNumber={entryNumber}
         />
 
         <View style={{ alignItems: 'center', paddingTop: 10 }}>
@@ -126,9 +136,6 @@ function Game({ id, user, clubsInGame, games, clubId, caption, commentNumber, ro
           <Text>캄푸누에서 뛸 매치 상대를 구합니다.</Text>
         </BodyTextWrap>
 
-        <View>
-          <Username>{user?.username}</Username>
-        </View>
 
         <View style={{ paddingTop: 10 }}>
           <TouchableOpacity onPress={() => navigation.navigate("Comments", {
@@ -148,8 +155,9 @@ Game.propTypes = {
   user: PropTypes.shape({
     username: PropTypes.string.isRequired,
   }),
-  clubsInGame: PropTypes.number,
+  entryNumber: PropTypes.number,
   commentNumber: PropTypes.number,
+  clubsInGame: PropTypes.number,
 };
 
 export default Game;

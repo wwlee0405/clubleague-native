@@ -62,7 +62,7 @@ const UserAvatar = styled.Image`
   border-radius: 12.5px;
 `;
 
-function HomeAway({ matchId, onPress, clubname, isJoined, entry }) {
+function HomeAway({ matchId, onPress, clubname, isJoined, goToEntry, entryNumber }) {
   const navigation = useNavigation();
   return (
     <Container>
@@ -85,8 +85,8 @@ function HomeAway({ matchId, onPress, clubname, isJoined, entry }) {
       </RequestingMatch>
       { isJoined ? <TouchableOpacity onPress={null}><Text>참석</Text></TouchableOpacity> : null }
 
-      <Entry onPress={() => navigation.navigate("Entry")}>
-        <EntryText><Text>3</Text> Entry</EntryText>
+      <Entry onPress={goToEntry}>
+        <EntryText>{entryNumber === 1 ? "1 entry" : `${entryNumber} entries`}</EntryText>
         <View style={{ paddingRight: 3 }}>
           <UserAvatar source={require('../../data/ffff.jpg')} />
         </View>
@@ -102,7 +102,7 @@ HomeAway.propTypes = {
   matchId: PropTypes.number,
   clubname: PropTypes.string.isRequired,
   isJoined: PropTypes.bool,
-  entry: PropTypes.string,
+  entryNumber: PropTypes.number,
 };
 
 export default HomeAway;

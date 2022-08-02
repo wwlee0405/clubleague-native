@@ -11,12 +11,14 @@ const MatchContainer  = styled.View`
   background-color: ${colors.greyColor};
 `;
 
-function GameItem({ matchId, games }) {
+function GameItem({ matchId, goToEntry, entryNumber, games }) {
   const renderItem = ({ item: matching }) => (
     <HomeAway
       matchId={matchId}
       clubname={matching?.club.clubname}
       isJoined={matching?.club.isJoined}
+      goToEntry={goToEntry}
+      entryNumber={entryNumber}
     />
   );
   return (
@@ -42,6 +44,7 @@ GameItem.propTypes = {
       }),
     }),
   ),
+  entryNumber: PropTypes.number,
 };
 
 export default GameItem;
