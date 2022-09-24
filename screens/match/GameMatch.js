@@ -18,21 +18,17 @@ const SEE_GAME = gql`
       caption
       games {
         id
-        joinedGame
         club {
           clubname
-          emblem
-          isJoined
-          clubMember {
-            user {
-              id
-              username
-              isMe
-            }
+        }
+        entries {
+          id
+          user {
+            username
           }
         }
+        entryNumber
       }
-      entryNumber
       commentNumber
       clubsInGame
     }

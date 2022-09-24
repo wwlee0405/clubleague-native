@@ -8,29 +8,14 @@ import { Text, View, Image, FlatList } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { colors } from "../../colors";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
+import HeaderAvatar from "../HeaderAvatar.js";
 import GameItem from "./GameItem";
 import Comments from "./Comments";
 
 const Container = styled.View``;
-const Header = styled.TouchableOpacity`
-  padding: 10px;
-  flex-direction: row;
-  align-items: center;
-`;
-const UserAvatar = styled.Image`
-  margin-right: 10px;
-  width: 35px;
-  height: 35px;
-  border-radius: 17.5px;
-`;
-const Username = styled.Text`
-  color: ${colors.black};
-  font-weight: 600;
-`;
 const ExtraContainer = styled.View`
   padding-bottom: 10px;
 `;
-
 
 const Dates = styled.View`
   padding-top: 10px;
@@ -83,7 +68,7 @@ const CommentCount = styled.Text`
   font-size: 10px;
 `;
 
-function Game({ route, id, user, clubsInGame, games, entryNumber, clubId, caption, commentNumber }) {
+function Game({ route, id, user, clubsInGame, games, entryNumber, clubId, caption, commentNumber, entries, isJoined }) {
   const navigation = useNavigation();
   const goToProfile = () => {
     navigation.navigate("Profile", {
@@ -93,12 +78,14 @@ function Game({ route, id, user, clubsInGame, games, entryNumber, clubId, captio
   };
   return (
     <Container>
-      <Header onPress={goToProfile}>
-        <UserAvatar resizeMode="cover" source={require('../../data/eeee.png')} />
-        <Username>{user?.username}</Username>
-      </Header>
-      <ExtraContainer>
+      <HeaderAvatar
+        onPress={goToProfile}
+        source={require('../../data/eeee.png')}
+        topData={user?.username}
+        bottomData="Seoul, Korea"
+      />
 
+      <ExtraContainer>
         <Dates>
           <MatchDate>APR 23</MatchDate>
           <MatchWeek>Saturday</MatchWeek>
@@ -114,13 +101,16 @@ function Game({ route, id, user, clubsInGame, games, entryNumber, clubId, captio
 
         <TimeLocation>{clubsInGame}</TimeLocation>
 
-        <GameItem
+
+       <GameItem
           games={games}
           goToEntry={() => navigation.navigate("Entry", {
             matchId: id,
           })}
           entryNumber={entryNumber}
+          entries={entries}
         />
+
 
         <View style={{ alignItems: 'center', paddingTop: 10 }}>
           <JoinGame onPress={() => navigation.navigate("SelectAway", {
@@ -135,7 +125,6 @@ function Game({ route, id, user, clubsInGame, games, entryNumber, clubId, captio
         <BodyTextWrap>
           <Text>캄푸누에서 뛸 매치 상대를 구합니다.</Text>
         </BodyTextWrap>
-
 
         <View style={{ paddingTop: 10 }}>
           <TouchableOpacity onPress={() => navigation.navigate("Comments", {
@@ -155,7 +144,6 @@ Game.propTypes = {
   user: PropTypes.shape({
     username: PropTypes.string.isRequired,
   }),
-  entryNumber: PropTypes.number,
   commentNumber: PropTypes.number,
   clubsInGame: PropTypes.number,
 };

@@ -10,22 +10,27 @@ import HomeAway from "./HomeAway";
 const MatchContainer  = styled.View`
   background-color: ${colors.greyColor};
 `;
+const Row  = styled.View`
+  flex-direction: row;
+  background-color: ${colors.greyColor};
+`;
 
-function GameItem({ matchId, goToEntry, entryNumber, games }) {
+function GameItem({ matchId, goToEntry, entryNumber, games, entries, isEntry }) {
   const renderItem = ({ item: matching }) => (
     <HomeAway
       matchId={matchId}
       clubname={matching?.club.clubname}
-      isJoined={matching?.club.isJoined}
       goToEntry={goToEntry}
-      entryNumber={entryNumber}
+      entryNumber={matching?.entryNumber}
     />
   );
+
+  console.log(entries);
   return (
     <MatchContainer>
       <FlatList
         data={games}
-        keyExtractor={(matching) => "" + matching.club.clubname}
+        keyExtractor={(matching) => "" + matching.id}
         renderItem={renderItem}
       />
     </MatchContainer>
@@ -38,12 +43,24 @@ GameItem.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       joinedGame: PropTypes.bool,
+      entryNumber: PropTypes.number,
       club: PropTypes.shape({
         clubname: PropTypes.string.isRequired,
-        isJoined: PropTypes.bool,
       }),
+      match: PropTypes.shape({
+        id: PropTypes.number,
+      }),
+      entries: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          user: PropTypes.shape({
+            username: PropTypes.string,
+          }),
+        }),
+      ),
+
     }),
-  ),
+  ),  
   entryNumber: PropTypes.number,
 };
 

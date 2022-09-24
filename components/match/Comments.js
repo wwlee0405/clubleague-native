@@ -9,7 +9,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { colors } from "../../colors";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
 import Comment from "./Comment";
-
 import AuthButton from "../auth/AuthButton";
 
 const CREATE_COMMENT_MUTATION = gql`
@@ -33,7 +32,6 @@ const CommentCount = styled.Text`
   font-size: 10px;
 `;
 
-
 const PostCommentContainer = styled.View`
   background-color: ${colors.white};
   height: 55px;
@@ -55,7 +53,6 @@ const Post = styled.View`
   height: 50px;
   width: 50px;
 `;
-
 
 function Comments({ route, matchId, author, caption, refreshing, refresh, comments }) {
   const { data: meData } = useMe();
@@ -128,7 +125,6 @@ function Comments({ route, matchId, author, caption, refreshing, refresh, commen
     });
   };
 
-
   const renderComment = ({ item: comment }) => {
     return (
       <Comment
@@ -170,7 +166,6 @@ function Comments({ route, matchId, author, caption, refreshing, refresh, commen
     </CommentsContainer>
   );
 }
-
 
 Comments.propTypes = {
   matchId: PropTypes.number.isRequired,

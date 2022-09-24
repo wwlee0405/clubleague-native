@@ -6,6 +6,7 @@ export default function HomeLayout({ loading, children }) {
   return (
     <View
       style={{
+        flex: 1,
         backgroundColor: colors.white,
         alignItems: "center",
         justifyContent: "center",

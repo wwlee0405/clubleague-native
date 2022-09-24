@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
+import HeaderAvatar from "../HeaderAvatar.js";
+
+import { Text, View } from "react-native";
 
 const Container = styled.View`
   border-radius: 15px;
@@ -10,65 +13,80 @@ const Container = styled.View`
   margin: 5px;
   elevation: 2;
 `;
-const Header = styled.Pressable`
-  padding: 10px 15px;
-  flex-direction: row;
-  align-items: center;
-`;
-const UserAvatar = styled.Image`
-  margin-right: 10px;
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-`;
-const UserData = styled.View``;
-const Username = styled.Text`
-  color: ${colors.black};
-  font-weight: bold;
-`;
-const Clubname = styled.Text`
-  color: ${colors.darkGrey};
-  margin-top: -7px;
-`;
 const ExtraContainer = styled.View`
   padding: 0px 10px 8px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   background-color: ${colors.whiteSmoke};
 `;
-const Sports = styled.Text`
-  color: ${colors.seaGreen};
+const Row = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+`;
+const DateContent = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+const DateText = styled.Text`
+  color: ${colors.black};
+  font-size: 30px;
   font-weight: bold;
+`;
+const WeekText = styled.Text`
+  color: ${colors.black};
+  font-weight: bold;
+`;
+const MonthText = styled.Text`
+  color: ${colors.darkGrey};
+  margin-top: -8px;
+`;
+const Sports = styled.Text`
+  color: ${colors.black};
   font-size: 15px;
+  font-weight: bold;
   padding: 0px 15px 20px;
 `;
-const MatchContent = styled.View`
-  align-items: center;
-  justify-content: center;
-`;
-const ClubData = styled.View`
+const GameContent = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
 `;
-const ClubEmblem = styled.Image`
-  margin-right: 10px;
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
+const ClubData = styled.View`
+  margin: 15px 0px;
+  justify-content: center;
+  align-items: center;
 `;
-const Date = styled.Text`
+const ClubEmblem = styled.Image`
+  padding: 0px 15px;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+`;
+const ClubName = styled.Text`
   color: ${colors.black};
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+`;
+const KickOffData = styled.View`
+  align-items: center;
+  width: 30%;
+`;
+const KickOffTime = styled.Text`
+  color: ${colors.yellow};
   font-size: 30px;
   font-weight: bold;
-  padding-top: 8px;
-`;
-const Time = styled.Text`
-  color: ${colors.black};
+  text-align: center;
 `;
 const Location = styled.Text`
   color: ${colors.darkGrey};
-  font-weight: 600;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
 `;
 
 function MatchItem({ id, user, games, club }) {
@@ -81,24 +99,41 @@ function MatchItem({ id, user, games, club }) {
   };
   return (
     <Container>
-      <Header onPress={goToProfile}>
-        <UserAvatar source={require('../../data/eeee.png')} />
-        <UserData>
-          <Username>{user.username}</Username>
-          <Clubname>{games?.club?.clubname}</Clubname>
-        </UserData>
-      </Header>
+      <HeaderAvatar
+        onPress={goToProfile}
+        source={require('../../data/eeee.png')}
+        topData={user.username}
+        bottomData={games?.club?.clubname}
+      />
       <ExtraContainer>
-        <Sports>Soccer Match</Sports>
-        <MatchContent>
+
+        <Row>
+          <DateContent>
+            <DateText>23</DateText>
+            <View style={{ paddingLeft: 10 }}>
+              <WeekText>SUNDAY</WeekText>
+              <MonthText>OCT</MonthText>
+            </View>
+          </DateContent>
+          <View>
+            <Sports>Soccer Match</Sports>
+          </View>
+        </Row>
+
+        <GameContent>
           <ClubData>
             <ClubEmblem source={require('../../data/2bar.jpg')} />
-            <ClubEmblem source={require('../../data/1ars.jpg')} />
+            <ClubName>{games[0].club?.clubname}</ClubName>
           </ClubData>
-          <Date>Jul 20 Sun</Date>
-          <Time>10:00-14:00</Time>
-          <Location>London</Location>
-        </MatchContent>
+          <KickOffData>
+            <KickOffTime>10:00</KickOffTime>
+            <Location numberOfLines={1}>Santiago Bernabéu</Location>
+          </KickOffData>
+          <ClubData>
+            <ClubEmblem source={require('../../data/1ars.jpg')} />
+            <ClubName>{games[0].club?.clubname}</ClubName>
+          </ClubData>
+        </GameContent>
       </ExtraContainer>
     </Container>
   );

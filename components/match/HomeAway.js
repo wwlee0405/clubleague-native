@@ -62,8 +62,17 @@ const UserAvatar = styled.Image`
   border-radius: 12.5px;
 `;
 
-function HomeAway({ matchId, onPress, clubname, isJoined, goToEntry, entryNumber }) {
+function HomeAway({ matchId, onPress, clubname, isEntry, goToEntry, entryNumber, games }) {
   const navigation = useNavigation();
+
+  const getButton = (seeGame) => {
+    const { isEntry } = seeGame;
+    if (isEntry) {
+      return <TouchableOpacity onPress={null}><Text>Unentry</Text></TouchableOpacity>;
+    } else {
+      return <TouchableOpacity onPress={null}><Text>Entry</Text></TouchableOpacity>;
+    }
+  };
   return (
     <Container>
       <RequestingMatch>
@@ -77,13 +86,22 @@ function HomeAway({ matchId, onPress, clubname, isJoined, goToEntry, entryNumber
           </ClubData>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={null}>
-          <AttendBtn>
-            <BtnText>참석</BtnText>
-          </AttendBtn>
-        </TouchableOpacity>
+        { isEntry ?
+          <TouchableOpacity onPress={null}>
+            <AttendBtn>
+              <BtnText>Unentry</BtnText>
+            </AttendBtn>
+          </TouchableOpacity>
+          :
+          <TouchableOpacity onPress={null}>
+            <AttendBtn>
+              <BtnText>Entry</BtnText>
+            </AttendBtn>
+          </TouchableOpacity>
+        }
       </RequestingMatch>
-      { isJoined ? <TouchableOpacity onPress={null}><Text>참석</Text></TouchableOpacity> : null }
+
+      { games ? getButton(data.games) : null }
 
       <Entry onPress={goToEntry}>
         <EntryText>{entryNumber === 1 ? "1 entry" : `${entryNumber} entries`}</EntryText>
@@ -101,7 +119,7 @@ function HomeAway({ matchId, onPress, clubname, isJoined, goToEntry, entryNumber
 HomeAway.propTypes = {
   matchId: PropTypes.number,
   clubname: PropTypes.string.isRequired,
-  isJoined: PropTypes.bool,
+  isEntry: PropTypes.bool,
   entryNumber: PropTypes.number,
 };
 

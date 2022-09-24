@@ -7,6 +7,7 @@ import Photo from "../../components/Photo";
 import ScreenLayout from "../../components/ScreenLayout";
 import HomeLayout from "../../components/home/HomeLayout";
 import MyClubList from "../../components/home/MyClubList";
+import MySchedItem from "../../components/home/MySchedItem";
 import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from "../../fragments";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
 
@@ -31,10 +32,38 @@ const FEED_QUERY = gql`
   ${COMMENT_FRAGMENT}
 `;
 
+const SEE_MY_SCHED = gql`
+  query seeMySched($offset: Int!) {
+    seeMySched(offset: $offset) {
+      id
+      club {
+        clubname
+      }
+      match {
+        id
+        clubsInGame
+        isEntry
+        games {
+          id
+        }
+      }
+      entries {
+        id
+        user {
+          username
+        }
+      }
+      createdAt
+      entryNumber
+
+    }
+  }
+`
+
 const theme = {
   center: "center"
 };
-const ClubText = styled.Text`
+const Text = styled.Text`
   font-weight: bold;
 	font-size: 18px;
 `;
@@ -50,6 +79,14 @@ export default function Feed({ navigation, route }) {
     setRefreshing(false);
   };
   const [refreshing, setRefreshing] = useState(false);
+  const { data, refetch, fetchMore } = useQuery(SEE_MY_SCHED, {
+    variables: {
+      offset: 0,
+    },
+  });
+  const renderSched = ({ item: sched }) => {
+    return <MySchedItem {...sched} />;
+  };
   const MessagesButton = () => (
     <View style={{ flexDirection: "row" }}>
       <TouchableOpacity
@@ -71,25 +108,35 @@ export default function Feed({ navigation, route }) {
       headerRight: MessagesButton,
     });
   }, []);
+  console.log(data?.seeMySched)
   return (
-    <ScreenLayout theme={theme} loading={loading}>
+    <ScreenLayout loading={loading}>
       <View style={{ paddingVertical: 10 }}>
         <TouchableOpacity
           onPress={() => navigation.navigate("NewClub")}
         >
-          <ClubText>New Club</ClubText>
+          <Text>New Club</Text>
         </TouchableOpacity>
       </View>
+
+      <View style={{ paddingVertical: 10 }}>
+        <FlatList
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          refreshing={refreshing}
+          onRefresh={refresh}
+          data={meData?.me?.userMember}
+          keyExtractor={(myClubs) => "" + myClubs.id}
+          renderItem={renderMyClubs}
+        />
+      </View>
+
+      <Text>My Scheule</Text>
       <FlatList
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        refreshing={refreshing}
-        onRefresh={refresh}
-        data={meData?.me?.userMember}
-        keyExtractor={(myClubs) => "" + myClubs.id}
-        renderItem={renderMyClubs}
+        data={data?.seeMySched}
+        keyExtractor={(sched) => "" + sched.id}
+        renderItem={renderSched}
       />
-      <ClubText>feedback: you have to delete flex 1</ClubText>
     </ScreenLayout>
   );
 }
