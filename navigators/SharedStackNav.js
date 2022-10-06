@@ -23,7 +23,16 @@ import { colors } from "../colors";
 import { TouchableOpacity } from "react-native";
 import { isLoggedInVar, logUserOut } from "../apollo";
 
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import Clubhouse from "../screens/home/Clubhouse";
+import ClubCalendar from "../screens/home/ClubCalendar";
+import Clubhouse3 from "../screens/home/Clubhouse3";
+import ClubNav from "./ClubNav";
+
 const Stack = createStackNavigator();
+const MaterialTab = createMaterialTopTabNavigator();
+
+
 
 export default function SharedStackNav({ screenName }) {
   return (
@@ -83,6 +92,24 @@ export default function SharedStackNav({ screenName }) {
       <Stack.Screen name="Entry" component={Entry} />
       <Stack.Screen name="SearchClub" component={SearchClub} />
       <Stack.Screen name="NewMatch" component={NewMatch} />
+
+      <Stack.Screen name="Clubhouse">
+        { (props) => (
+          <MaterialTab.Navigator>
+            <MaterialTab.Screen
+              name="ClubHome"
+              component={Clubhouse}
+              initialParams={ props.route.params }
+            />
+            <MaterialTab.Screen
+              name="Calendar"
+              component={ClubCalendar}
+              initialParams={ props.route.params }
+            />
+          </MaterialTab.Navigator>
+        )}
+      </Stack.Screen>
+
     </Stack.Navigator>
   );
 }

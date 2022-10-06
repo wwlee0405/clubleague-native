@@ -83,7 +83,7 @@ export default function SearchClub({ navigation, id }) {
   const renderItem = ({ item: club }) => (
     <Pressable
       onPress={() =>
-        navigation.navigate("ClubEx", {
+        navigation.navigate("Clubhouse", {
           clubId: club.id,
         })
       }

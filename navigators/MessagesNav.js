@@ -21,12 +21,12 @@ export default function MessagesNav() {
     >
       <Stack.Screen
         name="Rooms"
+        component={Rooms}
         options={{
           headerBackImage: ({ tintColor }) => (
             <Ionicons color={tintColor} name="chevron-down" size={30} />
           ),
         }}
-        component={Rooms}
       />
       <Stack.Screen name="Room" component={Room} />
     </Stack.Navigator>

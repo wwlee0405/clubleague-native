@@ -22,10 +22,10 @@ const ClubName = styled.Text`
   overflow: hidden;
 `;
 
-function MyClubList({ id, club, clubname }) {
+function MyClubList({ id, club }) {
   const navigation = useNavigation();
   const goToClub = () => {
-    navigation.navigate("Comments", {
+    navigation.navigate("Clubhouse", {
       clubId: club.id,
     });
   };

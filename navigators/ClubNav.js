@@ -1,14 +1,20 @@
+//수정 혹은 삭제 예정
+
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Clubhouse from "../screens/home/Clubhouse";
-import Clubhouse2 from "../screens/home/Clubhouse2";
+import ClubCalendar from "../screens/home/ClubCalendar";
+import Clubhouse3 from "../screens/home/Clubhouse3";
+
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
-export default function ClubNav() {
+export default function ClubNav({ route, clubId }) {
+
   return (
     <Tab.Navigator
       tabBarPosition="top"
@@ -23,7 +29,7 @@ export default function ClubNav() {
         },
       }}
     >
-      <Tab.Screen name="Home">
+      <Tab.Screen name="ClubHome">
         {() => (
           <Stack.Navigator
             screenOptions={{
@@ -39,14 +45,14 @@ export default function ClubNav() {
             }}
           >
             <Stack.Screen
-              name="Home"
+              name="ClubHome"
               options={{ title: "Choose a photo" }}
-              component={Clubhouse}
+              component={ClubCalendar}
             />
           </Stack.Navigator>
         )}
       </Tab.Screen>
-      <Tab.Screen name="Calender" component={Clubhouse2} />
+      <Tab.Screen name="Calender" component={Clubhouse3} />
     </Tab.Navigator>
   );
 }

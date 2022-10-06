@@ -14,21 +14,17 @@ export default function LoggedInNav() {
     <Stack.Navigator mode="modal">
       <Stack.Screen
         name="Tabs"
-        options={{ headerShown: false }}
         component={TabsNav}
-      />
-      <Stack.Screen
-        name="Clubs"
         options={{ headerShown: false }}
-        component={ClubNav}
       />
       <Stack.Screen
         name="Upload"
-        options={{ headerShown: false }}
         component={UploadNav}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="UploadForm"
+        component={UploadForm}
         options={{
           headerBackTitleVisible: false,
           headerBackImage: ({ tintColor }) => (
@@ -40,12 +36,11 @@ export default function LoggedInNav() {
             backgroundColor: "black",
           },
         }}
-        component={UploadForm}
       />
       <Stack.Screen
         name="Messages"
-        options={{ headerShown: false }}
         component={MessagesNav}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

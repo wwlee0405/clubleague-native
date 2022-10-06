@@ -104,7 +104,7 @@ const Location = styled.Text`
   font-weight: 600;
 `;
 
-function MySchedItem({ route, id, matchId, club, match, entries, entryNumber }) {
+function MySchedItem({ route, id, matchId, club, match, entries, entryNumber, games }) {
   const { data: meData } = useMe();
   const navigation = useNavigation();
   const joinEntryUpdate = (cache, result) => {
@@ -169,24 +169,11 @@ function MySchedItem({ route, id, matchId, club, match, entries, entryNumber }) 
         unjoinEntry: { ok },
       },
     } = result;
-    if (ok && meData?.me) {
-      cache.evict({ id: `Entry:${entries.id}` });
-      cache.modify({
-        id: `Game:${id}`,
-        fields:{
-          isEntry(prev) {
-            return false;
-          },
-          entryNumber(prev) {
-            return prev - 1;
-          },
-        },
-      });
-    }
+    
   };
   const [unjoinEntry] = useMutation(UNJOIN_ENTRY_MUTATION, {
     variables: {
-      id: entries.id,
+      id: games?.entries.id,
     },
     update: unjoinEntryUpdate,
   });
@@ -199,7 +186,7 @@ function MySchedItem({ route, id, matchId, club, match, entries, entryNumber }) 
       return <Button primary text="Entry" onPress={joinEntry} />;
     }
   };
-  console.log(entries);
+  console.log(match.isEntry);
   return (
     <Container>
       <HeaderAvatar

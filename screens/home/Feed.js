@@ -45,6 +45,13 @@ const SEE_MY_SCHED = gql`
         isEntry
         games {
           id
+          entries {
+            id
+            user {
+              username
+            }
+          }
+          
         }
       }
       entries {

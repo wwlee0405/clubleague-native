@@ -18,10 +18,8 @@ export default function LoggedOutNav() {
     >
       <Stack.Screen
         name="Welcome"
-        options={{
-          headerShown: false,
-        }}
         component={Welcome}
+        options={{ headerShown: false }}
       />
       <Stack.Screen name="LogIn" component={LogIn} />
       <Stack.Screen name="CreateAccount" component={CreateAccount} />

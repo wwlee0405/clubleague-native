@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-export default function Clubhouse2() {
+export default function Clubhouse3({ route, clubId }) {
+
   return (
     <View>
-      <Text>Clubhouse2</Text>
+      <Text>Clubhouse3</Text>
     </View>
   )
 }
