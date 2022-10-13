@@ -5,15 +5,24 @@ import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 import { Text, View, Image } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import useMe, { ME_QUERY } from "../../hooks/useMe";
 import HeaderAvatar from "../HeaderAvatar.js";
 import Button from "../Button.js";
 
-const TOGGLE_ENTRY_MUTATION = gql`
-  mutation toggleEntry($gameId: Int!) {
-    toggleEntry(gameId: $gameId) {
+const JOIN_ENTRY_MUTATION = gql`
+  mutation joinEntry($gameId: Int!) {
+    joinEntry(gameId: $gameId) {
       ok
       error
       id
+    }
+  }
+`;
+const UNJOIN_ENTRY_MUTATION = gql`
+  mutation unjoinEntry($id: Int!) {
+    unjoinEntry(id: $id) {
+      ok
     }
   }
 `;
@@ -94,45 +103,90 @@ const Location = styled.Text`
   color: ${colors.darkGrey};
   font-weight: 600;
 `;
-const buttonColor = {
-  main: colors.blue
-};
-const textColor = {
-  main: colors.white
-};
-function MySchedItem({ id, club, entryNumber, isEntry }) {
+
+function MySchedItem({ route, id, matchId, club, match, entries, entryNumber, games }) {
+  const { data: meData } = useMe();
   const navigation = useNavigation();
-  const toggleEntryUpdate = (cache, result) => {
+  const joinEntryUpdate = (cache, result) => {
     const {
       data: {
-        toggleEntry: { ok },
+        joinEntry: { ok, id },
       },
     } = result;
-    if (ok) {
-      const gameId = `Game:${id}`;
+    if (ok && meData?.me) {
+      const enterGame = {
+        __typename: "Entry",
+        createdAt: Date.now() + "",
+        id,
+        user: {
+          ...meData.me,
+        },
+        game: {
+          match: {
+            isEntry: true,
+          }
+        },
+      };
+      const newCacheEntry = cache.writeFragment({
+        data: enterGame,
+        fragment: gql`
+          fragment BSName on Entry {
+            id
+            user {
+              username
+            }
+            game {
+              match {
+                isEntry
+              }
+            }
+            createdAt
+          }
+        `,
+      });
       cache.modify({
-        id: gameId,
+        id: `Match:${match.id}`,
         fields: {
           isEntry(prev) {
-            return !prev;
-          },
-          entryNumber(prev) {
-            if (isEntry) {
-              return prev - 1;
-            }
-            return prev + 1;
+            return true;
           },
         },
       });
-    }
-  };
-  const [toggleEntry] = useMutation(TOGGLE_ENTRY_MUTATION, {
+    };
+
+  }
+
+  const [joinEntry] = useMutation(JOIN_ENTRY_MUTATION, {
     variables: {
       gameId: id,
     },
-    update: toggleEntryUpdate,
+    update: joinEntryUpdate,
   });
 
+  const unjoinEntryUpdate = (cache, result) => {
+    const {
+      data: {
+        unjoinEntry: { ok },
+      },
+    } = result;
+
+  };
+  const [unjoinEntry] = useMutation(UNJOIN_ENTRY_MUTATION, {
+    variables: {
+      id: games?.entries.id,
+    },
+    update: unjoinEntryUpdate,
+  });
+
+  const getButton = (match) => {
+    const { isEntry } = match;
+    if (isEntry) {
+      return <Button text="Unentry" onPress={unjoinEntry} />;
+    } else {
+      return <Button primary text="Entry" onPress={joinEntry} />;
+    }
+  };
+  console.log(match.isEntry);
   return (
     <Container>
       <HeaderAvatar
@@ -157,20 +211,13 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
         <MatchContent>
           <MatchData>
             <HomeAway>
+              <MatchEmblem source={require('../../data/2bar.jpg')} />
               <MatchEmblem source={require('../../data/1ars.jpg')} />
               <MatchEmblem source={require('../../data/2bar.jpg')} />
             </HomeAway>
           </MatchData>
-
-          <Button
-            onPress={toggleEntry}
-            buttonColor={isEntry ? { main : colors.lightGrey } : buttonColor}
-            textColor={isEntry ? { main : colors.black } : textColor}
-            text={isEntry ? "Unentry" : "Entry"}
-          />
-
+          {match ? getButton(match) : null}
         </MatchContent>
-        <Text>{entryNumber === 1 ? "1 entry" : `${entryNumber} entries`}</Text>
         <TimeLocationContent>
           <TimeText>10:00-14:00</TimeText>
           <Location>Santiago Bernabéu</Location>
@@ -181,15 +228,15 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
 }
 
 MySchedItem.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number,
   club: PropTypes.shape({
     clubname: PropTypes.string.isRequired,
   }),
   match: PropTypes.shape({
     id: PropTypes.number,
+    isEntry: PropTypes.bool,
   }),
-  entryNumber: PropTypes.number,
-  isEntry: PropTypes.bool,
+
 };
 
 export default MySchedItem;

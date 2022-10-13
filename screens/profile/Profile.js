@@ -24,10 +24,7 @@ const SEE_PROFILE_QUERY = gql`
           emblem
         }
       }
-      totalFollowing
-      totalFollowers
       isMe
-      isFollowing
     }
   }
 `;
@@ -40,7 +37,6 @@ export default function Profile({ navigation, route }) {
       username: route?.params?.username
     },
   });
-
   useEffect(() => {
     if (route?.params?.username) {
       navigation.setOptions({
@@ -48,7 +44,7 @@ export default function Profile({ navigation, route }) {
       });
     }
   }, []);
-
+  
   console.log(data?.seeProfile?.userMember);
 
   return (

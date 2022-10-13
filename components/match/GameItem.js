@@ -6,6 +6,7 @@ import { Text, View, Image, FlatList } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { colors } from "../../colors";
 import HomeAway from "./HomeAway";
+import { useNavigation } from "@react-navigation/native";
 
 const MatchContainer  = styled.View`
   background-color: ${colors.greyColor};
@@ -15,17 +16,18 @@ const Row  = styled.View`
   background-color: ${colors.greyColor};
 `;
 
-function GameItem({ matchId, goToEntry, entryNumber, games, entries, isEntry }) {
+function GameItem({ goToEntry, entryNumber, games, isEntry }) {
+  const navigation = useNavigation();
   const renderItem = ({ item: matching }) => (
     <HomeAway
-      matchId={matchId}
       clubname={matching?.club.clubname}
-      goToEntry={goToEntry}
+      goToEntry={() => navigation.navigate("Entry", {
+        gameId: matching?.id,
+      })}
       entryNumber={matching?.entryNumber}
     />
   );
 
-  console.log(entries);
   return (
     <MatchContainer>
       <FlatList
@@ -60,7 +62,7 @@ GameItem.propTypes = {
       ),
 
     }),
-  ),  
+  ),
   entryNumber: PropTypes.number,
 };
 

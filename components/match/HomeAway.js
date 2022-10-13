@@ -62,7 +62,7 @@ const UserAvatar = styled.Image`
   border-radius: 12.5px;
 `;
 
-function HomeAway({ matchId, onPress, clubname, isEntry, goToEntry, entryNumber, games }) {
+function HomeAway({ onPress, clubname, isEntry, goToEntry, entryNumber }) {
   const navigation = useNavigation();
 
   const getButton = (seeGame) => {
@@ -101,7 +101,7 @@ function HomeAway({ matchId, onPress, clubname, isEntry, goToEntry, entryNumber,
         }
       </RequestingMatch>
 
-      { games ? getButton(data.games) : null }
+      { isEntry ? getButton(data.games) : null }
 
       <Entry onPress={goToEntry}>
         <EntryText>{entryNumber === 1 ? "1 entry" : `${entryNumber} entries`}</EntryText>

@@ -4,24 +4,40 @@ import styled from "styled-components/native";
 import { colors } from "../colors";
 
 const ButtonTochable = styled.TouchableOpacity`
-  background-color: ${props => props.primary ? colors.blue : colors.lightGrey};
+  background-color: ${(props) => (props.buttonColor.main)};
   justify-content: center;
   border-radius: 8px;
   width: 100px;
   height: 40px;
 `;
 const ButtonText = styled.Text`
-  color: ${props => props.primary ? colors.white : colors.black};
+  color: ${(props) => (props.textColor.main)};
   text-align: center;
 `;
+ButtonTochable.defaultProps = {
+  buttonColor: {
+    main: colors.blue
+  }
+}
+ButtonText.defaultProps = {
+  textColor: {
+    main: colors.white
+  }
+}
 
-export default function Button({ onPress, primary, text, loading }) {
+export default function Button({
+  onPress,
+  loading,
+  buttonColor,
+  textColor,
+  text,
+}) {
   return (
-    <ButtonTochable primary={primary} onPress={onPress}>
+    <ButtonTochable buttonColor={buttonColor} onPress={onPress}>
       {loading ? (
         <ActivityIndicator color="white" />
       ) : (
-        <ButtonText primary={primary}>{text}</ButtonText>
+        <ButtonText textColor={textColor}>{text}</ButtonText>
       )}
     </ButtonTochable>
   );

@@ -12,7 +12,6 @@ const SEE_MATCH_ENTRIES = gql`
         id
         username
       }
-      isEntry
       createdAt
     }
   }
@@ -22,7 +21,7 @@ export default function Entry({ route }) {
   const navigation = useNavigation();
   const { data, loading, refetch } = useQuery(SEE_MATCH_ENTRIES, {
     variables: {
-      id: route?.params?.matchId,
+      id: route?.params?.gameId,
     },
   });
   const renderEntry = ({ item: entry }) => {

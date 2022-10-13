@@ -68,7 +68,7 @@ const CommentCount = styled.Text`
   font-size: 10px;
 `;
 
-function Game({ route, id, user, clubsInGame, games, entryNumber, clubId, caption, commentNumber, entries, isJoined }) {
+function Game({ id, user, clubsInGame, games, entryNumber, clubId, caption, commentNumber }) {
   const navigation = useNavigation();
   const goToProfile = () => {
     navigation.navigate("Profile", {
@@ -104,11 +104,7 @@ function Game({ route, id, user, clubsInGame, games, entryNumber, clubId, captio
 
        <GameItem
           games={games}
-          goToEntry={() => navigation.navigate("Entry", {
-            matchId: id,
-          })}
           entryNumber={entryNumber}
-          entries={entries}
         />
 
 

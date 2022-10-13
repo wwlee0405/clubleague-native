@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 import { ScrollView, FlatList, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components/native";
+import Photo from "../../components/Photo";
 import ScreenLayout from "../../components/ScreenLayout";
+import HomeLayout from "../../components/home/HomeLayout";
 import MyClubList from "../../components/home/MyClubList";
 import MySchedItem from "../../components/home/MySchedItem";
 import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from "../../fragments";
@@ -14,7 +16,9 @@ const FEED_QUERY = gql`
     seeFeed(offset: $offset) {
       ...PhotoFragment
       user {
+        id
         username
+        avatar
       }
       caption
       comments {
@@ -37,17 +41,28 @@ const SEE_MY_SCHED = gql`
       }
       match {
         id
+        clubsInGame
+        isEntry
+        games {
+          id
+          entries {
+            id
+            user {
+              username
+            }
+          }
+
+        }
       }
       entries {
         id
         user {
           username
-          avatar
         }
       }
       createdAt
       entryNumber
-      isEntry
+
     }
   }
 `

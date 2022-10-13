@@ -21,12 +21,6 @@ const SEE_GAME = gql`
         club {
           clubname
         }
-        entries {
-          id
-          user {
-            username
-          }
-        }
         entryNumber
       }
       commentNumber

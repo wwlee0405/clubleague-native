@@ -127,7 +127,7 @@ export default function Clubhouse({ route, clubId }) {
       return <JoinBtn onPress={joinClub} text="Join this Club" />;
     }
   };
-  console.log(data);
+  console.log(route);
   return (
     <ScreenLayout theme={theme} loading={loading}>
       <ScrollView
