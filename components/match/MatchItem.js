@@ -101,7 +101,7 @@ function MatchItem({ id, user, games, club }) {
     <Container>
       <HeaderAvatar
         onPress={goToProfile}
-        source={require('../../data/eeee.png')}
+        avatar={user.avatar}
         topData={user.username}
         bottomData={games?.club?.clubname}
       />

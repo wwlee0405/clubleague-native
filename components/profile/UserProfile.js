@@ -71,7 +71,7 @@ const ClubName = styled.Text`
   overflow: hidden;
 `;
 
-function UserProfile({ onPress, username, firstName, lastName, userMember, isMe }) {
+function UserProfile({ onPress, avatar, username, firstName, lastName, userMember, isMe }) {
   const navigation = useNavigation();
   const renderItem = ({ item: myClubs }) => (
     <Touchable onPress={null}>
@@ -88,10 +88,17 @@ function UserProfile({ onPress, username, firstName, lastName, userMember, isMe 
       <ProfileWrap>
         <AvatarWrap>
           <TouchableOpacity onPress={() => null}>
-            <Image
-              source={require('../../data/dddd.jpg')}
-              style={{ width: 120, height: 120, borderRadius: 60 }}
-            />
+            {avatar ?
+              <Image
+                source={{ uri: avatar }}
+                style={{ width: 120, height: 120, borderRadius: 60 }}
+              />
+              :
+              <Image
+                source={require('../../data/dddd.jpg')}
+                style={{ width: 120, height: 120, borderRadius: 60 }}
+              />
+            }
           </TouchableOpacity>
         </AvatarWrap>
         <ProfileInfoWrap>
@@ -133,6 +140,7 @@ function UserProfile({ onPress, username, firstName, lastName, userMember, isMe 
 }
 
 UserProfile.propTypes = {
+  avatar: PropTypes.string,
   isMe: PropTypes.bool,
   username: PropTypes.string,
   firstName: PropTypes.string,

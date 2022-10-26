@@ -80,7 +80,7 @@ function Game({ id, user, clubsInGame, games, entryNumber, clubId, caption, comm
     <Container>
       <HeaderAvatar
         onPress={goToProfile}
-        source={require('../../data/eeee.png')}
+        avatar={user?.avatar}
         topData={user?.username}
         bottomData="Seoul, Korea"
       />

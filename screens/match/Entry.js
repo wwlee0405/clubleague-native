@@ -11,6 +11,7 @@ const SEE_MATCH_ENTRIES = gql`
       user {
         id
         username
+        avatar
       }
       createdAt
     }
@@ -31,6 +32,7 @@ export default function Entry({ route }) {
           username: entry?.user.username,
           id: entry?.user.id,
         })}
+        avatar={entry?.user.avatar}
         username={entry?.user.username}
       />
     );

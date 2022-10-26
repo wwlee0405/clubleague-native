@@ -27,10 +27,17 @@ const Username = styled.Text`
 function UserEntryRow({ onPress, avatar, username }) {
   return (
     <Wrapper>
-      <Column onPress={onPress}>
-        <Avatar source={require('../../data/gggg.jpg')} />
-        <Username>{username}</Username>
-      </Column>
+      {avatar ?
+        <Column onPress={onPress}>
+          <Avatar source={{ uri: avatar }} />
+          <Username>{username}</Username>
+        </Column>
+        :
+        <Column onPress={onPress}>
+          <Avatar source={require('../../data/gggg.jpg')} />
+          <Username>{username}</Username>
+        </Column>
+      }
     </Wrapper>
   );
 }
