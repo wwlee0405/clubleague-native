@@ -24,27 +24,27 @@ const Username = styled.Text`
   color: ${colors.black};
 `;
 
-function UserEntryRow({ onPress, avatar, username }) {
+function UserProfileRow({ onPress, avatar, username }) {
   return (
     <Wrapper>
-      {avatar ?
+      {avatar ? (
         <Column onPress={onPress}>
           <Avatar source={{ uri: avatar }} />
           <Username>{username}</Username>
         </Column>
-        :
+      ) : (
         <Column onPress={onPress}>
           <Avatar source={require('../../data/gggg.jpg')} />
           <Username>{username}</Username>
         </Column>
-      }
+      )}
     </Wrapper>
   );
 }
 
-UserEntryRow.propTypes = {
+UserProfileRow.propTypes = {
   avatar: PropTypes.string,
   username: PropTypes.string.isRequired,
 };
 
-export default UserEntryRow;
+export default UserProfileRow;

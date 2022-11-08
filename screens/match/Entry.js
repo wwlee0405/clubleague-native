@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { View, FlatList } from "react-native";
-import UserEntryRow from "../../components/match/UserEntryRow";
+import UserProfileRow from "../../components/profile/UserProfileRow";
 import { useNavigation } from "@react-navigation/native";
 
 const SEE_MATCH_ENTRIES = gql`
@@ -27,7 +27,7 @@ export default function Entry({ route }) {
   });
   const renderEntry = ({ item: entry }) => {
     return (
-      <UserEntryRow
+      <UserProfileRow
         onPress={() => navigation.navigate("Profile",{
           username: entry?.user.username,
           id: entry?.user.id,

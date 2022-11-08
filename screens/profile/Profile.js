@@ -20,6 +20,7 @@ const SEE_PROFILE_QUERY = gql`
       }
       userMember {
         club {
+          id
           clubname
           emblem
         }
@@ -44,7 +45,7 @@ export default function Profile({ navigation, route }) {
       });
     }
   }, []);
-  
+
   console.log(data?.seeProfile?.userMember);
 
   return (

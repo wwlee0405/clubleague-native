@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Image } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import Photo from "../screens/Photo";
 import Feed from "../screens/home/Feed";
 import Match from "../screens/Match";
@@ -26,12 +27,12 @@ import { isLoggedInVar, logUserOut } from "../apollo";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Clubhouse from "../screens/home/Clubhouse";
 import ClubCalendar from "../screens/home/ClubCalendar";
-import Clubhouse3 from "../screens/home/Clubhouse3";
-import ClubNav from "./ClubNav";
+import ClubMember from "../screens/home/ClubMember";
+import SelectAvatarPhoto from "../screens/profile/SelectAvatarPhoto";
+import TakeAvatarPhoto from "../screens/profile/TakeAvatarPhoto";
 
 const Stack = createStackNavigator();
 const MaterialTab = createMaterialTopTabNavigator();
-
 
 
 export default function SharedStackNav({ screenName }) {
@@ -106,9 +107,67 @@ export default function SharedStackNav({ screenName }) {
               component={ClubCalendar}
               initialParams={ props.route.params }
             />
+            <MaterialTab.Screen
+              name="Member"
+              component={ClubMember}
+              initialParams={ props.route.params }
+            />
           </MaterialTab.Navigator>
         )}
       </Stack.Screen>
+
+
+      <Stack.Screen name="UploadAvatar"
+        options={{ headerShown: false }}
+      >
+        { (props) => (
+          <MaterialTab.Navigator
+            tabBarPosition="bottom"
+            tabBarOptions={{
+              style: {
+                backgroundColor: "black",
+              },
+              activeTintColor: "white",
+              indicatorStyle: {
+                backgroundColor: "yellow",
+                bottom: 0,
+              },
+            }}
+          >
+            <MaterialTab.Screen name="SelectAvatarPhoto">
+              {() => (
+                <Stack.Navigator
+                  screenOptions={{
+                    headerTintColor: "white",
+                    headerBackTitleVisible: false,
+                    headerBackImage: ({ tintColor }) => (
+                      <Ionicons color={tintColor} name="close" size={28} />
+                    ),
+                    headerStyle: {
+                      backgroundColor: "black",
+                      shadowOpacity: 0.3,
+                    },
+                  }}
+                >
+                  <Stack.Screen
+                    name="SelectAvatarPhoto"
+                    options={{ title: "Choose a photo" }}
+                    component={SelectAvatarPhoto}
+                    initialParams={ props.route.params }
+                  />
+                </Stack.Navigator>
+              )}
+            </MaterialTab.Screen>
+
+            <MaterialTab.Screen
+              name="TakeAvatarPhoto"
+              component={TakeAvatarPhoto}
+              initialParams={ props.route.params }
+            />
+          </MaterialTab.Navigator>
+        )}
+      </Stack.Screen>
+
 
     </Stack.Navigator>
   );

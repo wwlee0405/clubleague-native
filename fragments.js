@@ -21,6 +21,7 @@ export const CLUB_FRAGMENT = gql`
       avatar
     }
     clubMember {
+      id
       user {
         username
         avatar

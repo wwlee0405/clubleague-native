@@ -138,6 +138,8 @@ function Game({ id, user, clubsInGame, games, entryNumber, clubId, caption, comm
 Game.propTypes = {
   id: PropTypes.number,
   user: PropTypes.shape({
+    id: PropTypes.number,
+    avatar: PropTypes.string,
     username: PropTypes.string.isRequired,
   }),
   commentNumber: PropTypes.number,

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Text, Pressable, TouchableOpacity, Image, FlatList } from "react-native";
+import { View, Text, Pressable, TouchableOpacity, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
@@ -15,6 +15,11 @@ const ProfileWrap = styled.View`
 const AvatarWrap = styled.View`
   flex: 1;
   align-items: center;
+`;
+const Avatar = styled.Image`
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
 `;
 const ProfileInfoWrap = styled.View`
   flex: 1;
@@ -48,10 +53,8 @@ const SubText = styled.Text`
   padding: 20px 0px 10px 20px;
   font-weight: bold;
 `;
-const Touchable = styled.Pressable`
-  margin-horizontal: 3px;
-`;
 const ClubTeam = styled.View`
+  margin-horizontal: 3px;
   border: 0.3px solid ${colors.emerald};
   border-radius: 8px;
   width: 100px;
@@ -71,35 +74,42 @@ const ClubName = styled.Text`
   overflow: hidden;
 `;
 
-function UserProfile({ onPress, avatar, username, firstName, lastName, userMember, isMe }) {
+function UserProfile({
+  onPress,
+  avatar,
+  username,
+  firstName,
+  lastName,
+  isMe,
+  userMember,
+}) {
   const navigation = useNavigation();
   const renderItem = ({ item: myClubs }) => (
-    <Touchable onPress={null}>
+    <Pressable
+      onPress={() => navigation.navigate("Clubhouse", {
+        clubId: myClubs?.club?.id,
+    })}>
       <ClubTeam>
         <ClubEmblem source={require('../../data/2bar.jpg')} />
         <View>
           <ClubName numberOfLines={1}>{myClubs?.club?.clubname}</ClubName>
         </View>
       </ClubTeam>
-    </Touchable>
+    </Pressable>
   );
   return (
     <Container>
       <ProfileWrap>
         <AvatarWrap>
-          <TouchableOpacity onPress={() => null}>
-            {avatar ?
-              <Image
-                source={{ uri: avatar }}
-                style={{ width: 120, height: 120, borderRadius: 60 }}
-              />
-              :
-              <Image
-                source={require('../../data/dddd.jpg')}
-                style={{ width: 120, height: 120, borderRadius: 60 }}
-              />
-            }
-          </TouchableOpacity>
+          <Pressable
+            onPress={() => isMe ? navigation.navigate("UploadAvatar") : null}
+          >
+            {avatar ? (
+              <Avatar source={{ uri: avatar }} />
+            ) : (
+              <Avatar source={require('../../data/dddd.jpg')} />
+            )}
+          </Pressable>
         </AvatarWrap>
         <ProfileInfoWrap>
           <View>
@@ -134,7 +144,6 @@ function UserProfile({ onPress, avatar, username, firstName, lastName, userMembe
         keyExtractor={(myClubs) => "" + myClubs.club.clubname}
         renderItem={renderItem}
       />
-
     </Container>
   );
 }
@@ -148,6 +157,7 @@ UserProfile.propTypes = {
   userMember: PropTypes.arrayOf(
     PropTypes.shape({
       club: PropTypes.shape({
+        id: PropTypes.number,
         clubname: PropTypes.string,
       }),
     }),

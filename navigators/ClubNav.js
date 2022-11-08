@@ -6,7 +6,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Clubhouse from "../screens/home/Clubhouse";
 import ClubCalendar from "../screens/home/ClubCalendar";
-import Clubhouse3 from "../screens/home/Clubhouse3";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
 
@@ -52,7 +51,6 @@ export default function ClubNav({ route, clubId }) {
           </Stack.Navigator>
         )}
       </Tab.Screen>
-      <Tab.Screen name="Calender" component={Clubhouse3} />
     </Tab.Navigator>
   );
 }
