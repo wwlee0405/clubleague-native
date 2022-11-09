@@ -191,6 +191,5 @@ export default function TakeAvatarPhoto({ navigation }) {
         </PhotoActions>
       )}
     </Container>
-
-  )
+  );
 }

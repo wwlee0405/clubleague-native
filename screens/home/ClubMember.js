@@ -4,7 +4,6 @@ import { View, Text, FlatList } from "react-native";
 import UserProfileRow from "../../components/profile/UserProfileRow";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
-import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from "../../fragments";
 
 const SEE_CLUB = gql`
   query seeClub($id: Int!) {
@@ -55,7 +54,6 @@ export default function ClubMember({ route, clubId }) {
  console.log(data?.seeClub);
   return (
     <View>
-      <Text>ClubMember</Text>
       <MemberCount>{data?.seeClub?.totalMember === 1 ? "1 member" : `${data?.seeClub?.totalMember} members`}</MemberCount>
       <FlatList
         data={data?.seeClub?.clubMember}
