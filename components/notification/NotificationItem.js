@@ -73,7 +73,7 @@ function NotificationItem() {
             <ButtonPadding>
               <Button
                 onPress={null}
-                buttonColor={{ main : colors.lightGrey }}
+                buttonColor={{ main : colors.grey03 }}
                 textColor={{ main : colors.black }}
                 text="No"
               />

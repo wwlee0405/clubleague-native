@@ -1,8 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
-import React from "react";
-import { View, FlatList } from "react-native";
-import UserProfileRow from "../../components/profile/UserProfileRow";
+import React, { useState } from "react";
+import { View, FlatList, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import ScreenLayout from "../../components/ScreenLayout";
+import UserProfileRow from "../../components/profile/UserProfileRow";
 
 const SEE_MATCH_ENTRIES = gql`
   query seeMatchEntries($id: Int!) {
@@ -25,6 +26,12 @@ export default function Entry({ route }) {
       id: route?.params?.gameId,
     },
   });
+  const refresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
+  const [refreshing, setRefreshing] = useState(false);
   const renderEntry = ({ item: entry }) => {
     return (
       <UserProfileRow
@@ -40,12 +47,14 @@ export default function Entry({ route }) {
 
   console.log(data?.seeMatchEntries);
   return (
-    <View>
+    <ScreenLayout loading={loading}>
       <FlatList
         data={data?.seeMatchEntries}
         keyExtractor={(entry) => "" + entry.id}
         renderItem={renderEntry}
+        refreshing={refreshing}
+        refresh={refresh}
       />
-    </View>
+    </ScreenLayout>
   )
 }

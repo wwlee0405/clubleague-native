@@ -11,6 +11,7 @@ import {
   Text,
 } from "react-native";
 import styled from "styled-components/native";
+import { colors } from "../../colors";
 import DismissKeyboard from "../../components/DismissKeyboard";
 import SearchedClub from "../../components/home/SearchedClub";
 
@@ -93,7 +94,7 @@ export default function SearchClub({ navigation, id }) {
   );
   return (
     <DismissKeyboard>
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <View style={{ flex: 1, backgroundColor: colors.grey00 }}>
         {loading ? (
           <MessageContainer>
             <ActivityIndicator size="large" />

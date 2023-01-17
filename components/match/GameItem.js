@@ -27,7 +27,6 @@ function GameItem({ goToEntry, entryNumber, games, isEntry }) {
       entryNumber={matching?.entryNumber}
     />
   );
-
   return (
     <MatchContainer>
       <FlatList

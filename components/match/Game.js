@@ -11,6 +11,7 @@ import useMe, { ME_QUERY } from "../../hooks/useMe";
 import HeaderAvatar from "../HeaderAvatar.js";
 import GameItem from "./GameItem";
 import Comments from "./Comments";
+import HomeAway from "./HomeAway";
 
 const Container = styled.View``;
 const ExtraContainer = styled.View`
@@ -76,6 +77,7 @@ function Game({ id, user, clubsInGame, games, entryNumber, clubId, caption, comm
       id: user.id,
     });
   };
+  console.log(games);
   return (
     <Container>
       <HeaderAvatar

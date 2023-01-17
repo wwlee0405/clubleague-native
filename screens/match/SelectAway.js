@@ -5,6 +5,7 @@ import { TouchableOpacity, View, Text, FlatList, Image } from "react-native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
+import ScreenLayout from "../../components/ScreenLayout";
 import SelectClubItem from "../../components/match/SelectClubItem";
 
 const HeaderRightText = styled.Text`
@@ -137,7 +138,7 @@ export default function SelectAway({ navigation, route, id, matchId }) {
     );
   };
   return (
-    <View>
+    <ScreenLayout>
       <Top>
         {chosenClub !== "" ? (
           <ClubData>
@@ -151,6 +152,6 @@ export default function SelectAway({ navigation, route, id, matchId }) {
         keyExtractor={(myClubs) => "" + myClubs.club.id}
         renderItem={renderMyClubs}
       />
-    </View>
+    </ScreenLayout>
   )
 }

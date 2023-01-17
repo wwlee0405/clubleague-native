@@ -8,11 +8,13 @@ const View = styled.View``;
 const Text = styled.Text``;
 const Container = styled.View`
   width: 100%;
+  background-color: ${colors.grey00};
 `;
 const Header = styled.View`
   flex: 1;
   flex-direction: row;
   border-bottom-width: 0.3px;
+  border-color: ${colors.grey03};
 `;
 const EmblemContainer = styled.View`
   margin: 30px 60px 30px 50px;
@@ -68,7 +70,6 @@ function ClubItem({
         </InfoContainer>
       </Header>
 
-      <View style={{ flex: 1 }}></View>
 
     </Container>
   );

@@ -17,7 +17,7 @@ const ExtraContainer = styled.View`
   padding: 0px 10px 8px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-  background-color: ${colors.whiteSmoke};
+  background-color: ${colors.grey01};
 `;
 const Row = styled.View`
   flex-direction: row;
@@ -89,7 +89,7 @@ const Location = styled.Text`
   overflow: hidden;
 `;
 
-function MatchItem({ id, user, games, club }) {
+function MatchItem({ id, user, games, club, clubsInGame }) {
   const navigation = useNavigation();
   const goToProfile = () => {
     navigation.navigate("Profile", {
@@ -131,7 +131,7 @@ function MatchItem({ id, user, games, club }) {
           </KickOffData>
           <ClubData>
             <ClubEmblem source={require('../../data/1ars.jpg')} />
-            <ClubName>{games[0].club?.clubname}</ClubName>
+            {clubsInGame === 2 ? <ClubName>{games[1].club?.clubname}</ClubName> : <ClubName>없음</ClubName> }
           </ClubData>
         </GameContent>
       </ExtraContainer>

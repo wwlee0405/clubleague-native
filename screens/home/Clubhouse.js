@@ -7,6 +7,7 @@ import { colors } from "../../colors";
 import ScreenLayout from "../../components/ScreenLayout";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
 import ClubItem from "../../components/home/ClubItem";
+import ClubSchedItem from "../../components/home/ClubSchedItem";
 
 import AuthButton from "../../components/auth/AuthButton";
 
@@ -136,13 +137,18 @@ export default function Clubhouse({ route, clubId }) {
         }
         style={{ backgroundColor: "white", width: "100%" }}
         contentContainerStyle={{
-          backgroundColor: "white",
-          alignItems: "center",
+          backgroundColor: colors.grey00,
+
           justifyContent: "center",
         }}
       >
         <ClubItem {...data?.seeClub} />
         {data?.seeClub ? getButton(data.seeClub) : null}
+
+        <ClubSchedItem />
+        <ClubSchedItem />
+        <ClubSchedItem />
+        <ClubSchedItem />
       </ScrollView>
     </ScreenLayout>
   );

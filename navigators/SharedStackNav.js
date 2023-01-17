@@ -11,29 +11,15 @@ import Me from "../screens/Me";
 import NewClub from "../screens/home/NewClub";
 import SearchClub from "../screens/home/SearchClub";
 import GameMatch from "../screens/match/GameMatch";
-import NewMatch from "../screens/match/NewMatch";
 import SelectClub from "../screens/match/SelectClub";
-import SelectAway from "../screens/match/SelectAway";
-import Entry from "../screens/match/Entry";
+
 import Likes from "../screens/Likes";
-import Profile from "../screens/profile/Profile";
 import EditProfile from "../screens/profile/EditProfile";
-import Comments from "../screens/match/Comments";
-import ClubEx from "../screens/ClubEx";
 import { colors } from "../colors";
 import { TouchableOpacity } from "react-native";
 import { isLoggedInVar, logUserOut } from "../apollo";
 
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Clubhouse from "../screens/home/Clubhouse";
-import ClubCalendar from "../screens/home/ClubCalendar";
-import ClubMember from "../screens/home/ClubMember";
-import SelectAvatarPhoto from "../screens/profile/SelectAvatarPhoto";
-import TakeAvatarPhoto from "../screens/profile/TakeAvatarPhoto";
-
 const Stack = createStackNavigator();
-const MaterialTab = createMaterialTopTabNavigator();
-
 
 export default function SharedStackNav({ screenName }) {
   return (
@@ -80,95 +66,12 @@ export default function SharedStackNav({ screenName }) {
         <Stack.Screen name={"Notifications"} component={Notifications} />
       ) : null}
       {screenName === "Me" ? <Stack.Screen name={"Me"} component={Me} /> : null}
-      <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="Photo" component={Photo} />
       <Stack.Screen name="Likes" component={Likes} />
-      <Stack.Screen name="ClubEx" component={ClubEx} />
-      <Stack.Screen name="GameMatch" component={GameMatch} />
-      <Stack.Screen name="Comments" component={Comments} />
       <Stack.Screen name="NewClub" component={NewClub} />
       <Stack.Screen name="SelectClub" component={SelectClub} />
-      <Stack.Screen name="SelectAway" component={SelectAway} />
-      <Stack.Screen name="Entry" component={Entry} />
       <Stack.Screen name="SearchClub" component={SearchClub} />
-      <Stack.Screen name="NewMatch" component={NewMatch} />
-
-      <Stack.Screen name="Clubhouse">
-        { (props) => (
-          <MaterialTab.Navigator>
-            <MaterialTab.Screen
-              name="ClubHome"
-              component={Clubhouse}
-              initialParams={ props.route.params }
-            />
-            <MaterialTab.Screen
-              name="Calendar"
-              component={ClubCalendar}
-              initialParams={ props.route.params }
-            />
-            <MaterialTab.Screen
-              name="Member"
-              component={ClubMember}
-              initialParams={ props.route.params }
-            />
-          </MaterialTab.Navigator>
-        )}
-      </Stack.Screen>
-
-
-      <Stack.Screen name="UploadAvatar"
-        options={{ headerShown: false }}
-      >
-        { (props) => (
-          <MaterialTab.Navigator
-            tabBarPosition="bottom"
-            tabBarOptions={{
-              style: {
-                backgroundColor: "black",
-              },
-              activeTintColor: "white",
-              indicatorStyle: {
-                backgroundColor: "yellow",
-                bottom: 0,
-              },
-            }}
-          >
-            <MaterialTab.Screen name="SelectAvatarPhoto">
-              {() => (
-                <Stack.Navigator
-                  screenOptions={{
-                    headerTintColor: "white",
-                    headerBackTitleVisible: false,
-                    headerBackImage: ({ tintColor }) => (
-                      <Ionicons color={tintColor} name="close" size={28} />
-                    ),
-                    headerStyle: {
-                      backgroundColor: "black",
-                      shadowOpacity: 0.3,
-                    },
-                  }}
-                >
-                  <Stack.Screen
-                    name="SelectAvatarPhoto"
-                    options={{ title: "Choose a photo" }}
-                    component={SelectAvatarPhoto}
-                    initialParams={ props.route.params }
-                  />
-                </Stack.Navigator>
-              )}
-            </MaterialTab.Screen>
-
-            <MaterialTab.Screen
-              name="TakeAvatarPhoto"
-              component={TakeAvatarPhoto}
-              initialParams={ props.route.params }
-            />
-          </MaterialTab.Navigator>
-        )}
-      </Stack.Screen>
-
-
     </Stack.Navigator>
   );
 }

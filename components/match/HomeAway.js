@@ -6,7 +6,12 @@ import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../colors";
 import styled from "styled-components/native";
 
-const Container = styled.View``;
+const Container = styled.View`
+  border-radius: 15px;
+  background-color: ${colors.grey01};
+  margin: 5px;
+  elevation: 2;
+`;
 const RequestingMatch = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -28,7 +33,7 @@ const Label = styled.View`
 `;
 const LabelText = styled.Text`
   font-size: 10px;
-  color: ${colors.darkGrey};
+  color: ${(props) => (props.homeAwayColor.main)};
 `;
 const ClubnameText = styled.Text`
   font-size: 20px;
@@ -49,6 +54,7 @@ const BtnText = styled.Text`
 const Entry = styled.Pressable`
   flex-direction: row;
   padding-top: 5px;
+  padding-bottom: 5px;
   padding-horizontal: 15px;
 `;
 const EntryText = styled.Text`
@@ -61,8 +67,21 @@ const UserAvatar = styled.Image`
   height: 25px;
   border-radius: 12.5px;
 `;
+LabelText.defaultProps = {
+  homeAwayColor: {
+    main: colors.darkGrey
+  }
+}
 
-function HomeAway({ onPress, clubname, isEntry, goToEntry, entryNumber }) {
+function HomeAway({
+  onPress,
+  homeAwayColor,
+  labelText,
+  clubname,
+  isEntry,
+  goToEntry,
+  entryNumber
+}) {
   const navigation = useNavigation();
 
   const getButton = (seeGame) => {
@@ -80,7 +99,7 @@ function HomeAway({ onPress, clubname, isEntry, goToEntry, entryNumber }) {
           <ClubData>
             <Emblem source={require('../../data/2bar.jpg')} />
             <Label>
-              <LabelText>Home</LabelText>
+              <LabelText homeAwayColor={homeAwayColor}>{labelText}</LabelText>
               <ClubnameText numberOfLines={1}>{clubname}</ClubnameText>
             </Label>
           </ClubData>
@@ -118,7 +137,7 @@ function HomeAway({ onPress, clubname, isEntry, goToEntry, entryNumber }) {
 
 HomeAway.propTypes = {
   matchId: PropTypes.number,
-  clubname: PropTypes.string.isRequired,
+  clubname: PropTypes.string,
   isEntry: PropTypes.bool,
   entryNumber: PropTypes.number,
 };

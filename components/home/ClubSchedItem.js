@@ -28,7 +28,6 @@ const ExtraContainer = styled.View`
   padding: 0px 10px 8px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-  background-color: ${colors.grey01};
 `;
 const Row = styled.View`
   flex-direction: row;
@@ -74,11 +73,11 @@ const HomeAway = styled.View`
   justify-content: center;
 `;
 const MatchEmblem = styled.Image`
-  margin-right: -10px;
+  margin-right: 10px;
   width: 40px;
   height: 40px;
-  border-color: ${colors.grey01};
-  border-width: 3px;
+  border-color: ${colors.grey03};
+  border-width: 1px;
   border-radius: 20px;
 `;
 const EnteryText = styled.Text`
@@ -103,47 +102,11 @@ const buttonColor = {
 const textColor = {
   main: colors.white
 };
-function MySchedItem({ id, club, entryNumber, isEntry }) {
+function ClubSchedItem({ }) {
   const navigation = useNavigation();
-  const toggleEntryUpdate = (cache, result) => {
-    const {
-      data: {
-        toggleEntry: { ok },
-      },
-    } = result;
-    if (ok) {
-      const gameId = `Game:${id}`;
-      cache.modify({
-        id: gameId,
-        fields: {
-          isEntry(prev) {
-            return !prev;
-          },
-          entryNumber(prev) {
-            if (isEntry) {
-              return prev - 1;
-            }
-            return prev + 1;
-          },
-        },
-      });
-    }
-  };
-  const [toggleEntry] = useMutation(TOGGLE_ENTRY_MUTATION, {
-    variables: {
-      gameId: id,
-    },
-    update: toggleEntryUpdate,
-  });
 
   return (
     <Container>
-      <HeaderAvatar
-        avatar={null}
-        source={require('../../data/2bar.jpg')}
-        topData={club?.clubname}
-        bottomData="Seoul, Korea"
-      />
       <ExtraContainer>
         <Row>
           <DateContent>
@@ -160,20 +123,21 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
         <MatchContent>
           <MatchData>
             <HomeAway>
-              <MatchEmblem source={require('../../data/1ars.jpg')} />
+              <Text style={{fontSize: 20, fontWeight: 'bold', color: "grey"}}>VS</Text>
               <MatchEmblem source={require('../../data/2bar.jpg')} />
+              <Text style={{fontSize: 15, fontWeight: 'bold', marginLeft: -10}}>barcelona</Text>
             </HomeAway>
           </MatchData>
 
           <Button
-            onPress={toggleEntry}
-            buttonColor={isEntry ? { main : colors.grey03 } : buttonColor}
-            textColor={isEntry ? { main : colors.black } : textColor}
-            text={isEntry ? "Unentry" : "Entry"}
+            onPress={null}
+            buttonColor={buttonColor}
+            textColor={textColor}
+            text="Unentry"
           />
 
         </MatchContent>
-        <EnteryText>{entryNumber === 1 ? "1 entry" : `${entryNumber} entries`}</EnteryText>
+        <EnteryText>1 entry</EnteryText>
         <TimeLocationContent>
           <TimeText>10:00-14:00</TimeText>
           <Location>Santiago Bernabéu</Location>
@@ -183,10 +147,10 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
   );
 }
 
-MySchedItem.propTypes = {
-  id: PropTypes.number.isRequired,
+ClubSchedItem.propTypes = {
+  id: PropTypes.number,
   club: PropTypes.shape({
-    clubname: PropTypes.string.isRequired,
+    clubname: PropTypes.string,
   }),
   match: PropTypes.shape({
     id: PropTypes.number,
@@ -195,4 +159,4 @@ MySchedItem.propTypes = {
   isEntry: PropTypes.bool,
 };
 
-export default MySchedItem;
+export default ClubSchedItem;
