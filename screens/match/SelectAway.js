@@ -8,6 +8,16 @@ import useMe, { ME_QUERY } from "../../hooks/useMe";
 import ScreenLayout from "../../components/ScreenLayout";
 import SelectClubItem from "../../components/match/SelectClubItem";
 
+const JOIN_GAME_MUTATION = gql`
+  mutation joinGame($matchId: Int!, $clubId: Int!) {
+    joinGame(matchId: $matchId, clubId: $clubId) {
+      ok
+      error
+      id
+    }
+  }
+`;
+
 const HeaderRightText = styled.Text`
   color: ${colors.blue};
   font-size: 16px;
@@ -32,16 +42,6 @@ const ClubnameText = styled.Text`
   padding-left: 10px;
   font-size: 15px;
   font-weight: bold;
-`;
-
-const JOIN_GAME_MUTATION = gql`
-  mutation joinGame($matchId: Int!, $clubId: Int!) {
-    joinGame(matchId: $matchId, clubId: $clubId) {
-      ok
-      error
-      id
-    }
-  }
 `;
 
 export default function SelectAway({ navigation, route, id, matchId }) {

@@ -43,6 +43,7 @@ const SEE_CLUB = gql`
   ${CLUB_FRAGMENT}
   ${GAME_FRAGMENT}
 `;
+
 const theme = {
   center: "center"
 };
