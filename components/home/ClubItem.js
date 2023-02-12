@@ -25,7 +25,7 @@ const InfoContainer = styled.View`
 const ClubEmblem = styled.Image`
   width: 90px;
   height: 90px;
-  border-radius: 50px;
+  border-radius: 45px;
 `;
 const ClubnameText = styled.Text`
   font-weight: bold;
@@ -69,8 +69,6 @@ function ClubItem({
           <MemberText>Members <Text>{totalMember}</Text></MemberText>
         </InfoContainer>
       </Header>
-
-
     </Container>
   );
 }
@@ -79,10 +77,10 @@ ClubItem.propTypes = {
   id: PropTypes.number,
   clubname: PropTypes.string,
   clubArea: PropTypes.string,
-  sports: PropTypes.string,
   clubLeader: PropTypes.shape({
     username: PropTypes.string.isRequired,
   }),
+  sports: PropTypes.string,
   totalMember: PropTypes.number,
 };
 

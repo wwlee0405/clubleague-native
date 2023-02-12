@@ -14,7 +14,7 @@ const Container = styled.View`
   elevation: 2;
 `;
 const ExtraContainer = styled.View`
-  padding: 0px 10px 8px;
+  padding-bottom: 8px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   background-color: ${colors.grey01};
@@ -23,7 +23,7 @@ const Row = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 15px;
+  padding: 10px 25px;
 `;
 const DateContent = styled.View`
   flex-direction: row;
@@ -49,28 +49,14 @@ const Sports = styled.Text`
   padding: 0px 15px 20px;
 `;
 const GameContent = styled.View`
+  margin: 0px 15px 15px;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`;
-const ClubData = styled.View`
-  margin: 15px 0px;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-evenly;
 `;
 const ClubEmblem = styled.Image`
-  padding: 0px 15px;
-  width: 80px;
-  height: 80px;
-  border-radius: 40px;
-`;
-const ClubName = styled.Text`
-  color: ${colors.black};
-  font-size: 15px;
-  font-weight: 600;
-  text-align: center;
-  width: 100%;
-  overflow: hidden;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
 `;
 const KickOffData = styled.View`
   align-items: center;
@@ -84,8 +70,21 @@ const KickOffTime = styled.Text`
 `;
 const Location = styled.Text`
   color: ${colors.darkGrey};
+  font-size: 10px;
   text-align: center;
   width: 100%;
+  overflow: hidden;
+`;
+const VersusText = styled.Text`
+  color: ${colors.darkGrey};
+  font-size: 15px;
+  text-align: center;
+`;
+const ClubName = styled.Text`
+  color: ${colors.black};
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
   overflow: hidden;
 `;
 
@@ -121,19 +120,22 @@ function MatchItem({ id, user, games, club, clubsInGame }) {
         </Row>
 
         <GameContent>
-          <ClubData>
-            <ClubEmblem source={require('../../data/2bar.jpg')} />
-            <ClubName>{games[0].club?.clubname}</ClubName>
-          </ClubData>
+          <ClubEmblem source={require('../../data/2bar.jpg')} />
           <KickOffData>
             <KickOffTime>10:00</KickOffTime>
             <Location numberOfLines={1}>Santiago Bernabéu</Location>
           </KickOffData>
-          <ClubData>
-            <ClubEmblem source={require('../../data/1ars.jpg')} />
-            {clubsInGame === 2 ? <ClubName>{games[1].club?.clubname}</ClubName> : <ClubName>없음</ClubName> }
-          </ClubData>
+          <ClubEmblem source={require('../../data/1ars.jpg')} />
         </GameContent>
+        <VersusText>
+          <ClubName>{games[0].club?.clubname}</ClubName>
+          V
+          {clubsInGame === 2 ?
+            <ClubName>{games[1].club?.clubname}</ClubName>
+            :
+            <ClubName>없음</ClubName>
+          }
+        </VersusText>
       </ExtraContainer>
     </Container>
   );

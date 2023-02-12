@@ -162,7 +162,6 @@ UserProfile.propTypes = {
       }),
     }),
   ),
-
 };
 
 export default UserProfile;

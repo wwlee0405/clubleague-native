@@ -1,15 +1,5 @@
 import { gql } from "@apollo/client";
 
-export const PHOTO_FRAGMENT = gql`
-  fragment PhotoFragment on Photo {
-    id
-    file
-    likes
-    commentNumber
-    isLiked
-  }
-`;
-
 export const CLUB_FRAGMENT = gql`
   fragment ClubFragment on Club {
     id
@@ -27,10 +17,39 @@ export const CLUB_FRAGMENT = gql`
         avatar
       }
     }
-    createdAt
     totalMember
     isJoined
+    createdAt
   }
+`;
+
+export const GAME_FRAGMENT = gql`
+  fragment GameFragment on Game {
+    id
+    club {
+      clubname
+      emblem
+    }
+  }
+`;
+
+export const FEED_MATCH = gql`
+  fragment FeedMatch on Match {
+    id
+    user {
+      id
+      username
+      avatar
+    }
+    games {
+      ...GameFragment
+      match {
+        id
+      }
+    }
+    createdAt
+  }
+  ${GAME_FRAGMENT}
 `;
 
 export const COMMENT_FRAGMENT = gql`
@@ -53,6 +72,16 @@ export const USER_FRAGMENT = gql`
     avatar
     isMe
     isFollowing
+  }
+`;
+
+export const PHOTO_FRAGMENT = gql`
+  fragment PhotoFragment on Photo {
+    id
+    file
+    likes
+    commentNumber
+    isLiked
   }
 `;
 
@@ -80,34 +109,4 @@ export const ROOM_FRAGMENT = gql`
       username
     }
   }
-`;
-
-export const GAME_FRAGMENT = gql`
-  fragment GameFragment on Game {
-    id
-    club {
-      id
-      clubname
-      emblem
-    }
-  }
-`;
-
-export const FEED_MATCH = gql`
-  fragment FeedMatch on Match {
-    id
-    user {
-      id
-      username
-      avatar
-    }
-    games {
-      ...GameFragment
-      match {
-        id
-      }
-    }
-    createdAt
-  }
-  ${GAME_FRAGMENT}
 `;

@@ -13,14 +13,17 @@ import GameItem from "./GameItem";
 import Comments from "./Comments";
 import HomeAway from "./HomeAway";
 
-const Container = styled.View``;
+const Container = styled.View`
+  flex: 1;
+  background-color: ${colors.white};
+`;
 const ExtraContainer = styled.View`
   padding-bottom: 10px;
 `;
 
 const Dates = styled.View`
   padding-top: 10px;
-  align-items: flex-start;
+  align-items: center;
   padding-left: 15px;
 `;
 const MatchDate = styled.Text`
@@ -43,12 +46,36 @@ const TimeLocation = styled.Text`
   color: ${colors.darkGrey};
   padding-left: 3px;
 `;
-
+const AwayBtn = styled.View`
+  border-radius: 15px;
+  background-color: ${colors.grey01};
+  margin: 5px;
+  padding: 15px 20px;
+  elevation: 2;
+`;
+const AwayText = styled.Text`
+  color: ${colors.yellow};
+  font-weight: 600;
+  font-size: 25px;
+`;
 const BodyTextWrap = styled.View`
   padding-top: 10px;
   padding-horizontal: 15px;
 `;
-
+const CommentCount = styled.Text`
+  opacity: 0.7;
+  margin: 10px 0px;
+  font-weight: 600;
+  font-size: 10px;
+`;
+const JoinGameContainer = styled.View`
+  background-color: ${colors.white};
+  height: 60px;
+  width: 100%;
+  border-top: 1px solid ${colors.emerald};
+  padding-top: 15px;
+  padding-bottom: 10px;
+`;
 const JoinGame = styled.TouchableOpacity`
   width: 200px;
   height: 50px;
@@ -62,14 +89,70 @@ const BtnText = styled.Text`
   font-weight: 600;
   font-size: 15px;
 `;
-const CommentCount = styled.Text`
-  opacity: 0.7;
-  margin: 10px 0px;
-  font-weight: 600;
+const homeAwayColor = {
+  main: colors.yellow
+};
+
+const GameContent = styled.View`
+  margin: 0px 15px 0px;
+  flex-direction: row;
+`;
+const ClubData = styled.View`
+  margin-bottom: 15px;
+  align-items: center;
+  width: 35%;
+`;
+const ClubEmblem = styled.Image`
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+`;
+const ClubName = styled.Text`
+  color: ${colors.black};
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+`;
+const KickOffData = styled.View`
+  align-items: center;
+  width: 30%;
+`;
+const KickOffTime = styled.Text`
+  color: ${colors.yellow};
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+`;
+const Location = styled.Text`
+  color: ${colors.darkGrey};
   font-size: 10px;
+  text-align: center;
+  overflow: hidden;
 `;
 
-function Game({ id, user, clubsInGame, games, entryNumber, clubId, caption, commentNumber }) {
+const Entry = styled.Pressable`
+  flex-direction: row;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-horizontal: 15px;
+`;
+const EntryText = styled.Text`
+  justify-content: center;
+  align-items: center;
+  padding-right: 10px;
+`;
+const UserAvatar = styled.Image`
+  width: 25px;
+  height: 25px;
+  border-radius: 12.5px;
+`;
+
+function Game({ id, user, games, clubsInGame, clubId, caption, commentNumber,
+  homeClubName,
+  awayClubName,
+
+
+}) {
   const navigation = useNavigation();
   const goToProfile = () => {
     navigation.navigate("Profile", {
@@ -91,6 +174,28 @@ function Game({ id, user, clubsInGame, games, entryNumber, clubId, caption, comm
         <Dates>
           <MatchDate>APR 23</MatchDate>
           <MatchWeek>Saturday</MatchWeek>
+        </Dates>
+
+        <GameContent>
+          <ClubData>
+            <ClubEmblem source={require('../../data/2bar.jpg')} />
+            <ClubName>{homeClubName}</ClubName>
+          </ClubData>
+          <KickOffData>
+            <KickOffTime>10:00</KickOffTime>
+            <Location numberOfLines={1}>Santiago Bernabéu dkndkfnbkdfnbkfjdnb</Location>
+          </KickOffData>
+          <ClubData>
+            <ClubEmblem source={require('../../data/1ars.jpg')} />
+            {clubsInGame === 2 ?
+              <ClubName>{awayClubName}hvbhjvhvhgvhgvgvvgvgvgvgv</ClubName>
+              :
+              <ClubName>없음</ClubName>
+            }
+          </ClubData>
+        </GameContent>
+
+        <View style={{ alignItems: "center" }}>
           <TimeLocationWrap>
             <Feather name="clock" size={15} color={colors.darkGrey} />
             <TimeLocation>14:00 - 16:00</TimeLocation>
@@ -99,30 +204,30 @@ function Game({ id, user, clubsInGame, games, entryNumber, clubId, caption, comm
             <Feather name="map-pin" size={15} color={colors.darkGrey} />
             <TimeLocation>Camp Nou</TimeLocation>
           </TimeLocationWrap>
-        </Dates>
-
-        <TimeLocation>{clubsInGame}</TimeLocation>
-
-
-       <GameItem
-          games={games}
-          entryNumber={entryNumber}
-        />
-
-
-        <View style={{ alignItems: 'center', paddingTop: 10 }}>
-          <JoinGame onPress={() => navigation.navigate("SelectAway", {
-            matchId: id,
-            clubId,
-          })}>
-            <BtnText>Join Game</BtnText>
-          </JoinGame>
         </View>
 
-        <Text>file</Text>
+        <Text>{clubsInGame}</Text>
+
+        <Image source={require('../../data/bbbb.jpg')} style={{ height: 500, width: 300 }} />
+
         <BodyTextWrap>
           <Text>캄푸누에서 뛸 매치 상대를 구합니다.</Text>
         </BodyTextWrap>
+
+        <Entry onPress={() => navigation.navigate("Entry", {
+          gameId: games[0].id,
+        })}>
+          <EntryText>{null === 1 ? "1 entry" : `${null} entries`}</EntryText>
+          <View style={{ paddingRight: 3 }}>
+            <UserAvatar source={require('../../data/ffff.jpg')} />
+          </View>
+          <View style={{ paddingRight: 3 }}>
+            <UserAvatar source={require('../../data/gggg.jpg')} />
+          </View>
+        </Entry>
+
+
+
 
         <View style={{ paddingTop: 10 }}>
           <TouchableOpacity onPress={() => navigation.navigate("Comments", {

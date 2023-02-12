@@ -1,15 +1,15 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { RefreshControl, View, Text } from "react-native";
+import { FlatList, RefreshControl, View, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
-import ScreenLayout from "../../components/ScreenLayout";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
+import ScreenLayout from "../../components/ScreenLayout";
+import AuthButton from "../../components/auth/AuthButton";
 import ClubItem from "../../components/home/ClubItem";
 import ClubSchedItem from "../../components/home/ClubSchedItem";
-
-import AuthButton from "../../components/auth/AuthButton";
+import { CLUB_FRAGMENT, GAME_FRAGMENT } from "../../fragments";
 
 const JOIN_CLUB_MUTATION = gql`
   mutation joinClub($clubId: Int!) {
@@ -20,31 +20,29 @@ const JOIN_CLUB_MUTATION = gql`
     }
   }
 `;
-
 const SEE_CLUB = gql`
   query seeClub($id: Int!) {
     seeClub(id: $id) {
-      id
-      clubname
-      clubArea
-      totalMember
-      isJoined
-      clubLeader{
-        username
-      }
-      clubMember{
+      ...ClubFragment
+      games {
         id
-        user{
-          username
+        match {
+          clubsInGame
+          games {
+            ...GameFragment
+          }
         }
-        club{
-          clubname
+        club {
+          isJoined
         }
+        entryNumber
+        isEntry
       }
     }
   }
+  ${CLUB_FRAGMENT}
+  ${GAME_FRAGMENT}
 `;
-
 const theme = {
   center: "center"
 };
@@ -68,7 +66,6 @@ export default function Clubhouse({ route, clubId }) {
     await refetch();
     setRefreshing(false);
   };
-
   const joinClubUpdate = (cache, result) => {
     const {
       data: {
@@ -115,7 +112,6 @@ export default function Clubhouse({ route, clubId }) {
       });
     };
   }
-
   const [joinClub] = useMutation(JOIN_CLUB_MUTATION, {
     variables: {
       clubId: route?.params?.clubId
@@ -128,28 +124,31 @@ export default function Clubhouse({ route, clubId }) {
       return <JoinBtn onPress={joinClub} text="Join this Club" />;
     }
   };
+  const renderSched = ({ item: sched }) => {
+    return <ClubSchedItem {...sched} />;
+  };
   console.log(route);
+
   return (
-    <ScreenLayout theme={theme} loading={loading}>
+    <ScreenLayout loading={loading}>
       <ScrollView
         refreshControl={
           <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
         }
-        style={{ backgroundColor: "white", width: "100%" }}
+        style={{ backgroundColor: "white" }}
         contentContainerStyle={{
           backgroundColor: colors.grey00,
-
           justifyContent: "center",
         }}
       >
         <ClubItem {...data?.seeClub} />
         {data?.seeClub ? getButton(data.seeClub) : null}
-
-        <ClubSchedItem />
-        <ClubSchedItem />
-        <ClubSchedItem />
-        <ClubSchedItem />
       </ScrollView>
+      <FlatList
+        data={data?.seeClub?.games}
+        keyExtractor={(sched) => "" + sched.id}
+        renderItem={renderSched}
+      />
     </ScreenLayout>
   );
 }

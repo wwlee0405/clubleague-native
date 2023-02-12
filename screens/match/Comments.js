@@ -4,21 +4,15 @@ import { View, Text } from "react-native";
 import { colors } from "../../colors";
 import ScreenLayout from "../../components/ScreenLayout";
 import Comments from "../../components/match/Comments";
+import { COMMENT_FRAGMENT } from "../../fragments";
 
 const SEE_MATCH_COMMENTS = gql`
   query seeMatchComments($id: Int!) {
     seeMatchComments(id: $id) {
-      id
-      user {
-        id
-        username
-        avatar
-      }
-      payload
-      isMine
-      createdAt
+      ...CommentFragment
     }
   }
+  ${COMMENT_FRAGMENT}
 `;
 
 export default function CommentsScreen({ route }) {

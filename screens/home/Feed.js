@@ -6,7 +6,7 @@ import styled from "styled-components/native";
 import ScreenLayout from "../../components/ScreenLayout";
 import MyClubList from "../../components/home/MyClubList";
 import MySchedItem from "../../components/home/MySchedItem";
-import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from "../../fragments";
+import { GAME_FRAGMENT, COMMENT_FRAGMENT, PHOTO_FRAGMENT } from "../../fragments";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
 
 const FEED_QUERY = gql`
@@ -31,10 +31,7 @@ const FEED_QUERY = gql`
 const SEE_MY_SCHED = gql`
   query seeMySched($offset: Int!) {
     seeMySched(offset: $offset) {
-      id
-      club {
-        clubname
-      }
+      ...GameFragment
       match {
         id
       }
@@ -50,6 +47,7 @@ const SEE_MY_SCHED = gql`
       isEntry
     }
   }
+  ${GAME_FRAGMENT}
 `
 
 const theme = {

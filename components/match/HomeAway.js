@@ -1,3 +1,4 @@
+import { gql, useMutation } from "@apollo/client";
 import React from "react";
 import PropTypes from "prop-types";
 import { Text, View, Image, Pressable } from "react-native";
@@ -5,6 +6,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../colors";
 import styled from "styled-components/native";
+import Button from "../Button.js";
 
 const Container = styled.View`
   border-radius: 15px;
@@ -72,8 +74,25 @@ LabelText.defaultProps = {
     main: colors.darkGrey
   }
 }
+const buttonColor = {
+  main: colors.blue
+};
+const textColor = {
+  main: colors.white
+};
+
+const TOGGLE_ENTRY_MUTATION = gql`
+  mutation toggleEntry($gameId: Int!) {
+    toggleEntry(gameId: $gameId) {
+      ok
+      error
+      id
+    }
+  }
+`;
 
 function HomeAway({
+  games,
   onPress,
   homeAwayColor,
   labelText,
@@ -83,15 +102,20 @@ function HomeAway({
   entryNumber
 }) {
   const navigation = useNavigation();
+  const toggleEntryUpdate = (cache, result) => {
+    const {
+      data: {
+        toggleEntry: { ok },
+      },
+    } = result;
 
-  const getButton = (seeGame) => {
-    const { isEntry } = seeGame;
-    if (isEntry) {
-      return <TouchableOpacity onPress={null}><Text>Unentry</Text></TouchableOpacity>;
-    } else {
-      return <TouchableOpacity onPress={null}><Text>Entry</Text></TouchableOpacity>;
-    }
   };
+  const [toggleEntry] = useMutation(TOGGLE_ENTRY_MUTATION, {
+    variables: {
+      gameId: games?.id,
+    },
+    update: toggleEntryUpdate,
+  });
   return (
     <Container>
       <RequestingMatch>
@@ -105,22 +129,14 @@ function HomeAway({
           </ClubData>
         </TouchableOpacity>
 
-        { isEntry ?
-          <TouchableOpacity onPress={null}>
-            <AttendBtn>
-              <BtnText>Unentry</BtnText>
-            </AttendBtn>
-          </TouchableOpacity>
-          :
-          <TouchableOpacity onPress={null}>
-            <AttendBtn>
-              <BtnText>Entry</BtnText>
-            </AttendBtn>
-          </TouchableOpacity>
-        }
+        <Button
+          onPress={toggleEntry}
+          buttonColor={isEntry ? { main : colors.grey03 } : buttonColor}
+          textColor={isEntry ? { main : colors.black } : textColor}
+          text={isEntry ? "Unentry" : "Entry"}
+        />
       </RequestingMatch>
 
-      { isEntry ? getButton(data.games) : null }
 
       <Entry onPress={goToEntry}>
         <EntryText>{entryNumber === 1 ? "1 entry" : `${entryNumber} entries`}</EntryText>

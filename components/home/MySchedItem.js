@@ -103,6 +103,7 @@ const buttonColor = {
 const textColor = {
   main: colors.white
 };
+
 function MySchedItem({ id, club, entryNumber, isEntry }) {
   const navigation = useNavigation();
   const toggleEntryUpdate = (cache, result) => {
@@ -135,7 +136,6 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
     },
     update: toggleEntryUpdate,
   });
-
   return (
     <Container>
       <HeaderAvatar

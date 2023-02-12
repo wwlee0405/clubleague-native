@@ -23,7 +23,6 @@ const MATCH_QUERY = gql`
         ...GameFragment
       }
       file
-
       clubsInGame
     }
   }

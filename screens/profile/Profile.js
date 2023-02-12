@@ -9,8 +9,8 @@ const SEE_PROFILE_QUERY = gql`
       firstName
       lastName
       username
-      bio
       avatar
+      bio
       userLeader {
         clubname
         emblem

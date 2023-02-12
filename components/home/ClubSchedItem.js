@@ -72,13 +72,26 @@ const HomeAway = styled.View`
   align-items: center;
   justify-content: center;
 `;
+const VersusText = styled.Text`
+  color: ${colors.darkGrey};
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 5px;
+`;
 const MatchEmblem = styled.Image`
   margin-right: 10px;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border-color: ${colors.grey03};
   border-width: 1px;
-  border-radius: 20px;
+  border-radius: 17px;
+`;
+const ClubName = styled.Text`
+  color: ${colors.black};
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  margin-left: -5px;
 `;
 const EnteryText = styled.Text`
   margin-left: 15px;
@@ -102,9 +115,46 @@ const buttonColor = {
 const textColor = {
   main: colors.white
 };
-function ClubSchedItem({ }) {
-  const navigation = useNavigation();
 
+function ClubSchedItem({
+  clubsInGame,
+  id,
+  match,
+  club,
+  isEntry,
+  entryNumber
+}) {
+  const navigation = useNavigation();
+  const toggleEntryUpdate = (cache, result) => {
+    const {
+      data: {
+        toggleEntry: { ok },
+      },
+    } = result;
+    if (ok) {
+      const gameId = `Game:${id}`;
+      cache.modify({
+        id: gameId,
+        fields: {
+          isEntry(prev) {
+            return !prev;
+          },
+          entryNumber(prev) {
+            if (isEntry) {
+              return prev - 1;
+            }
+            return prev + 1;
+          },
+        },
+      });
+    }
+  };
+  const [toggleEntry] = useMutation(TOGGLE_ENTRY_MUTATION, {
+    variables: {
+      gameId: id,
+    },
+    update: toggleEntryUpdate,
+  });
   return (
     <Container>
       <ExtraContainer>
@@ -122,22 +172,39 @@ function ClubSchedItem({ }) {
         </Row>
         <MatchContent>
           <MatchData>
-            <HomeAway>
-              <Text style={{fontSize: 20, fontWeight: 'bold', color: "grey"}}>VS</Text>
-              <MatchEmblem source={require('../../data/2bar.jpg')} />
-              <Text style={{fontSize: 15, fontWeight: 'bold', marginLeft: -10}}>barcelona</Text>
-            </HomeAway>
+            {match.clubsInGame === 2 ? (
+              id === match.games[0].id ? (
+                <HomeAway>
+                  <VersusText>VS</VersusText>
+                  <MatchEmblem source={require('../../data/2bar.jpg')} />
+                  <ClubName>{match.games[1].club.clubname}</ClubName>
+                </HomeAway>
+              ) : (
+                <HomeAway>
+                  <VersusText>VS</VersusText>
+                  <MatchEmblem source={require('../../data/2bar.jpg')} />
+                  <ClubName>{match.games[0].club.clubname}</ClubName>
+                </HomeAway>
+              )
+            ) : (
+              <HomeAway>
+                <VersusText>VS</VersusText>
+                <ClubName>waiting for the challenger</ClubName>
+              </HomeAway>
+            )}
           </MatchData>
 
-          <Button
-            onPress={null}
-            buttonColor={buttonColor}
-            textColor={textColor}
-            text="Unentry"
-          />
+          {club.isJoined ? (
+            <Button
+              onPress={toggleEntry}
+              buttonColor={isEntry ? { main : colors.grey03 } : buttonColor}
+              textColor={isEntry ? { main : colors.black } : textColor}
+              text={isEntry ? "Unentry" : "Entry"}
+            />
+          ) : null}
 
         </MatchContent>
-        <EnteryText>1 entry</EnteryText>
+        <EnteryText>{entryNumber === 1 ? "1 entry" : `${entryNumber} entries`}</EnteryText>
         <TimeLocationContent>
           <TimeText>10:00-14:00</TimeText>
           <Location>Santiago Bernabéu</Location>
@@ -149,11 +216,18 @@ function ClubSchedItem({ }) {
 
 ClubSchedItem.propTypes = {
   id: PropTypes.number,
-  club: PropTypes.shape({
-    clubname: PropTypes.string,
-  }),
   match: PropTypes.shape({
-    id: PropTypes.number,
+    clubsInGame: PropTypes.number,
+    games: PropTypes.arrayOf(
+      PropTypes.shape({
+        club: PropTypes.shape({
+          clubname: PropTypes.string,
+        }),
+      }),
+    ),
+  }),
+  club: PropTypes.shape({
+    isJoined: PropTypes.bool,
   }),
   entryNumber: PropTypes.number,
   isEntry: PropTypes.bool,
