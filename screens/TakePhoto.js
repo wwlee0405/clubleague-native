@@ -5,7 +5,7 @@ import { Alert, Image, StatusBar, Text, TouchableOpacity } from "react-native";
 import Slider from "@react-native-community/slider";
 import styled from "styled-components/native";
 import * as MediaLibrary from "expo-media-library";
-import { useIsFocused } from "@react-navigation/core";
+import { useIsFocused } from "@react-navigation/native";
 
 const Container = styled.View`
   flex: 1;

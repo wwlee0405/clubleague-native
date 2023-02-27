@@ -20,6 +20,7 @@ import ClubMember from "../screens/home/ClubMember";
 import Profile from "../screens/profile/Profile";
 import SelectAvatarPhoto from "../screens/profile/SelectAvatarPhoto";
 import TakeAvatarPhoto from "../screens/profile/TakeAvatarPhoto";
+import UploadAvatarForm from "../screens/profile/UploadAvatarForm";
 
 const Stack = createStackNavigator();
 const MaterialTab = createMaterialTopTabNavigator();
@@ -113,6 +114,21 @@ export default function LoggedInNav() {
         )}
       </Stack.Screen>
 
+      <Stack.Screen
+        name="UploadAvatarForm"
+        component={UploadAvatarForm}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackImage: ({ tintColor }) => (
+            <Ionicons color={tintColor} name="close" size={28} />
+          ),
+          title: "UploadAvatar",
+          headerTintColor: "white",
+          headerStyle: {
+            backgroundColor: "black",
+          },
+        }}
+      />
       <Stack.Screen
         name="Upload"
         component={UploadNav}

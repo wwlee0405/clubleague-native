@@ -6,6 +6,7 @@ import UserProfile from "../../components/profile/UserProfile";
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
     seeProfile(username: $username) {
+      id
       firstName
       lastName
       username
@@ -42,6 +43,8 @@ export default function Profile({ navigation, route }) {
   }, []);
 
   console.log(data?.seeProfile?.userMember);
+  console.log(data?.seeProfile);
+  console.log(route);
 
   return (
     <View style={{ backgroundColor: "white", }}>

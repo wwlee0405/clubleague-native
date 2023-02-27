@@ -10,14 +10,14 @@ import DismissKeyboard from "../../components/DismissKeyboard";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
 
 const EDIT_PROFILE_MUTATION = gql`
-  mutation($bio:String, $avatar:Upload){
+  mutation editProfile($bio:String, $avatar:Upload){
     editProfile(bio:$bio, avatar:$avatar){
       ok
       error
       id
     }
   }
-`
+`;
 
 const HeaderRightText = styled.Text`
 color: ${colors.blue};

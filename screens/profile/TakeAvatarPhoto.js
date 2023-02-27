@@ -5,12 +5,13 @@ import { Alert, Image, StatusBar, Text, TouchableOpacity } from "react-native";
 import Slider from "@react-native-community/slider";
 import styled from "styled-components/native";
 import * as MediaLibrary from "expo-media-library";
-import { useIsFocused } from "@react-navigation/core";
+import { useIsFocused } from "@react-navigation/native";
 
 const Container = styled.View`
   flex: 1;
   background-color: black;
-`;const Actions = styled.View`
+`;
+const Actions = styled.View`
   flex: 0.35;
   padding: 0px 50px;
   align-items: center;
@@ -88,7 +89,9 @@ export default function TakeAvatarPhoto({ navigation }) {
     if (save) {
       await MediaLibrary.saveToLibraryAsync(takenPhoto);
     }
-    console.log("Will upload", takenPhoto);
+    navigation.navigate("UploadAvatarForm", {
+      avatar: takenPhoto,
+    });
   };
   const onUpload = () => {
     Alert.alert("Save photo?", "Save photo & upload or just upload", [
@@ -113,9 +116,10 @@ export default function TakeAvatarPhoto({ navigation }) {
     }
   };
   const onDismiss = () => setTakenPhoto("");
+  const isFocused = useIsFocused();
   return (
     <Container>
-      <StatusBar hidden={true} />
+      {isFocused ? <StatusBar hidden={true} /> : null}
       {takenPhoto === "" ? (
         <Camera
           type={cameraType}

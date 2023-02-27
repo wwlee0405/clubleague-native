@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 import {
   FlatList,
   Image,
+  StatusBar,
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
@@ -61,8 +62,8 @@ export default function SelectAvatarPhoto({ navigation }) {
   const HeaderRight = () => (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("UploadForm", {
-          file: chosenPhoto,
+        navigation.navigate("UploadAvatarForm", {
+          avatar: chosenPhoto,
         })
       }
     >
@@ -99,6 +100,7 @@ export default function SelectAvatarPhoto({ navigation }) {
   );
   return (
     <Container>
+      <StatusBar hidden={false} />
       <Top>
         {chosenPhoto !== "" ? (
           <Image

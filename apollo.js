@@ -14,7 +14,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
-
+import { createUploadLink } from "apollo-upload-client";
 
 export const isLoggedInVar = makeVar(false);
 export const tokenVar = makeVar("");
@@ -47,12 +47,12 @@ export const disableDarkMode = async () => {
   darkModeVar(false);
 };
 
-const uploadHttpLink = new HttpLink({
-  uri: "http://13d1-175-124-231-170.ngrok.io/graphql",
+const uploadHttpLink = createUploadLink({
+  uri: "http://6260-175-124-231-170.ngrok.io/graphql",
 });
 
 const wsLink = new GraphQLWsLink(createClient({
-  url: "ws://13d1-175-124-231-170.ngrok.io/graphql",
+  url: "ws://6260-175-124-231-170.ngrok.io/graphql",
   connectionParams: {
     token: tokenVar(),
   },
