@@ -147,7 +147,7 @@ const UserAvatar = styled.Image`
   border-radius: 12.5px;
 `;
 
-function Game({ id, user, games, clubsInGame, clubId, caption, commentNumber,
+function Game({ id, user, games, clubNumInMatch, clubId, caption, commentNumber,
   homeClubName,
   awayClubName,
 
@@ -206,7 +206,7 @@ function Game({ id, user, games, clubsInGame, clubId, caption, commentNumber,
           </TimeLocationWrap>
         </View>
 
-        <Text>{clubsInGame}</Text>
+        <Text>{clubNumInMatch}</Text>
 
         <Image source={require('../../data/bbbb.jpg')} style={{ height: 500, width: 300 }} />
 
@@ -250,7 +250,7 @@ Game.propTypes = {
     username: PropTypes.string.isRequired,
   }),
   commentNumber: PropTypes.number,
-  clubsInGame: PropTypes.number,
+  clubNumInMatch: PropTypes.number,
 };
 
 export default Game;

@@ -1,8 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
 import { ScrollView, FlatList, TouchableOpacity, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import styled from "styled-components/native";
+import { colors } from "../../colors";
 import ScreenLayout from "../../components/ScreenLayout";
 import MyClubList from "../../components/home/MyClubList";
 import MySchedItem from "../../components/home/MySchedItem";
@@ -48,18 +49,48 @@ const SEE_MY_SCHED = gql`
     }
   }
   ${GAME_FRAGMENT}
-`
+`;
+
+const SEE_MY_CLUB = gql`
+  query seeMyClub($offset: Int!) {
+    seeMyClub(offset: $offset) {
+      id
+      clubname
+      emblem
+      clubLeader {
+        username
+      }
+      clubMember {
+        user {
+          totalClubs
+        }
+      }
+    }
+  }
+`;
 
 const theme = {
   center: "center"
 };
+
+const ClubTitle = styled.View`
+  padding: 10px 15px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+const ScheuleTitle = styled.View`
+  padding: 10px 15px;
+  border-bottom-width: 1px;
+  border-color: ${colors.grey02};
+`;
 const Text = styled.Text`
   font-weight: bold;
-	font-size: 18px;
+	font-size: 20px;
 `;
 
 export default function Feed({ navigation, route }) {
-  const { data: meData, loading } = useMe();
+
   const renderMyClubs = ({ item: myClubs }) => {
     return <MyClubList {...myClubs} />;
   };
@@ -69,7 +100,14 @@ export default function Feed({ navigation, route }) {
     setRefreshing(false);
   };
   const [refreshing, setRefreshing] = useState(false);
-  const { data, refetch, fetchMore } = useQuery(SEE_MY_SCHED, {
+
+  const { data: clubData } = useQuery(SEE_MY_CLUB, {
+    variables: {
+      offset: 0,
+    },
+  });
+
+  const { data, loading, refetch, fetchMore } = useQuery(SEE_MY_SCHED, {
     variables: {
       offset: 0,
     },
@@ -83,13 +121,13 @@ export default function Feed({ navigation, route }) {
         style={{ marginRight: 25 }}
         onPress={() => navigation.navigate("Messages")}
       >
-        <Ionicons name="paper-plane" color="#2e8b57" size={25} />
+        <Ionicons name="paper-plane" color={colors.seaGreen} size={25} />
       </TouchableOpacity>
       <TouchableOpacity
         style={{ marginRight: 25 }}
         onPress={() => navigation.navigate("SearchClub")}
       >
-        <Ionicons name="search" color="#2e8b57" size={25} />
+        <Ionicons name="search" color={colors.seaGreen} size={25} />
       </TouchableOpacity>
     </View>
   );
@@ -101,28 +139,34 @@ export default function Feed({ navigation, route }) {
   console.log(data?.seeMySched)
   return (
     <ScreenLayout loading={loading}>
-      <View style={{ paddingVertical: 10 }}>
+      <ClubTitle>
+        <Text>My Club</Text>
         <TouchableOpacity
+          style={{ marginRight: 10 }}
           onPress={() => navigation.navigate("NewClub")}
         >
-          <Text>New Club</Text>
+          <FontAwesome5 name="plus" color={colors.seaGreen} size={25} />
         </TouchableOpacity>
-      </View>
+      </ClubTitle>
 
-      <View style={{ paddingVertical: 10 }}>
+      <View style={{ paddingVertical: 10, height: 130 }}>
+
         <FlatList
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          refreshing={refreshing}
-          onRefresh={refresh}
-          data={meData?.me?.userMember}
+          data={clubData?.seeMyClub}
           keyExtractor={(myClubs) => "" + myClubs.id}
           renderItem={renderMyClubs}
         />
       </View>
 
-      <Text>My Scheule</Text>
+      <ScheuleTitle>
+        <Text>My Scheule</Text>
+      </ScheuleTitle>
       <FlatList
+        showsVerticalScrollIndicator={false}
+        refreshing={refreshing}
+        onRefresh={refresh}
         data={data?.seeMySched}
         keyExtractor={(sched) => "" + sched.id}
         renderItem={renderSched}

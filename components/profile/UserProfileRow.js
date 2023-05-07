@@ -7,7 +7,7 @@ const Wrapper = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 10px;
+  padding: 5px 15px;
 `;
 const Column = styled.Pressable`
   flex-direction: row;

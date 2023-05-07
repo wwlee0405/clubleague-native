@@ -47,7 +47,7 @@ export default function Profile({ navigation, route }) {
   console.log(route);
 
   return (
-    <View style={{ backgroundColor: "white", }}>
+    <View style={{ backgroundColor: "white", flex: 1}}>
       <UserProfile {...data?.seeProfile} />
     </View>
   );

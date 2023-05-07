@@ -91,7 +91,7 @@ export default function TabsNav() {
                   height: 30,
                   width: 30,
                   borderRadius: 20,
-                  ...(focused && { borderColor: "white", borderWidth: 1 }),
+                  ...(focused && { borderColor: colors.seaGreen, borderWidth: 2 }),
                 }}
               />
             ) : (

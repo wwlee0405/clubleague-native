@@ -9,8 +9,8 @@ import ScreenLayout from "../../components/ScreenLayout";
 import SelectClubItem from "../../components/match/SelectClubItem";
 
 const JOIN_GAME_MUTATION = gql`
-  mutation joinGame($matchId: Int!, $clubId: Int!) {
-    joinGame(matchId: $matchId, clubId: $clubId) {
+  mutation joinGame($matchId: Int!, $clubId: Int!, $userId: Int) {
+    joinGame(matchId: $matchId, clubId: $clubId, userId: $userId) {
       ok
       error
       id
@@ -105,7 +105,8 @@ export default function SelectAway({ navigation, route, id, matchId }) {
   const [joinGame] = useMutation(JOIN_GAME_MUTATION, {
     variables: {
       clubId: chosenClub,
-      matchId: route?.params?.matchId
+      matchId: route?.params?.matchId,
+      userId: route?.params?.userId,
     },
     update: joinGameUpdate,
   });
@@ -124,7 +125,6 @@ export default function SelectAway({ navigation, route, id, matchId }) {
   const chooseClub = (clubId) => {
     setChosenClub(clubId);
   };
-
   const renderMyClubs = ({ item: myClubs }) => {
     return(
       <TouchableOpacity>

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
 import { colors } from "../colors";
 import { SafeAreaView, View, Text, TouchableOpacity, Modal, Pressable, ScrollView, Animated, FlatList } from "react-native";
-import ScrollMatchHeader from "../components/ScrollMatchHeader";
+import ScrollMatchHeader from "../components/match/ScrollMatchHeader";
 import ScreenLayout from "../components/ScreenLayout";
 import { FontAwesome } from "@expo/vector-icons";
 import MatchItem from "../components/match/MatchItem";
@@ -23,7 +23,7 @@ const MATCH_QUERY = gql`
         ...GameFragment
       }
       file
-      clubsInGame
+      clubNumInMatch
     }
   }
   ${GAME_FRAGMENT}
@@ -34,11 +34,14 @@ const theme = {
   center: "center"
 };
 const ModalContent = styled.View`
-  background-color: ${colors.white};
-  margin: 60px;
+  background-color: ${colors.grey01};
+  margin-top: 110px;
   padding: 10px;
-  border-radius: 8px;
-  left: 150px;
+  width: 100px;
+  border-radius: 10px;
+`;
+const ModalWrapper = styled.View`
+  flex-direction: row;
 `;
 
 export default function Match({ navigation }) {
@@ -48,13 +51,13 @@ export default function Match({ navigation }) {
     inputRange: [0, HEADER_HEIGHT],
     outputRange: [0, -HEADER_HEIGHT]
   });
-  const [modalVisible, setModalVisible] = useState(false);
   const renderMatch = ({ item: match }) => {
     return (
       <Pressable
         onPress={() =>
           navigation.navigate("GameMatch", {
             matchId: match.id,
+            username: match.user?.username,
           })
         }
       >
@@ -85,22 +88,8 @@ export default function Match({ navigation }) {
           zIndex: 10,
         }}
       >
-        <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(!modalVisible)}
-        >
-          <Pressable style={{ flex:1 }} onPress={() => setModalVisible(!modalVisible)}>
-            <ModalContent>
-              <Pressable onPress={() => navigation.navigate("NewMatch")}>
-                <Text>Game</Text>
-              </Pressable>
-              <Text>Foreign</Text>
-            </ModalContent>
-          </Pressable>
-        </Modal>
-        <ScrollMatchHeader onPress={() => setModalVisible(true)} username={"messi"} iconName={"plus"} />
+
+        <ScrollMatchHeader  />
       </Animated.View>
       <FlatList
         scrollEventThrottle={16}

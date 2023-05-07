@@ -1,15 +1,14 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { FlatList, RefreshControl, View, Text } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { FlatList } from "react-native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
-import useMe, { ME_QUERY } from "../../hooks/useMe";
+import useMe from "../../hooks/useMe";
 import ScreenLayout from "../../components/ScreenLayout";
 import AuthButton from "../../components/auth/AuthButton";
-import ClubItem from "../../components/home/ClubItem";
-import ClubSchedItem from "../../components/home/ClubSchedItem";
-import { CLUB_FRAGMENT, GAME_FRAGMENT } from "../../fragments";
+import ClubItem from "../../components/club/ClubItem";
+import ClubSchedItem from "../../components/club/ClubSchedItem";
+import { CLUB_FRAGMENT, MEMBER_FRAGMENT, GAME_FRAGMENT } from "../../fragments";
 
 const JOIN_CLUB_MUTATION = gql`
   mutation joinClub($clubId: Int!) {
@@ -24,10 +23,13 @@ const SEE_CLUB = gql`
   query seeClub($id: Int!) {
     seeClub(id: $id) {
       ...ClubFragment
+      clubMember {
+        ...MemberFragment
+      }
       games {
         id
         match {
-          clubsInGame
+          clubNumInMatch
           games {
             ...GameFragment
           }
@@ -38,9 +40,11 @@ const SEE_CLUB = gql`
         entryNumber
         isEntry
       }
+
     }
   }
   ${CLUB_FRAGMENT}
+  ${MEMBER_FRAGMENT}
   ${GAME_FRAGMENT}
 `;
 
@@ -56,17 +60,11 @@ const JoinBtn = styled(AuthButton)`
 
 export default function Clubhouse({ route, clubId }) {
   const { data: userData } = useMe();
-  const { data, loading } = useQuery(SEE_CLUB, {
+  const { data } = useQuery(SEE_CLUB, {
     variables: {
       id: route?.params?.clubId,
     },
   });
-  const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await refetch();
-    setRefreshing(false);
-  };
   const joinClubUpdate = (cache, result) => {
     const {
       data: {
@@ -92,6 +90,7 @@ export default function Clubhouse({ route, clubId }) {
             id
             user {
               username
+              avatar
             }
             club {
               isJoined
@@ -128,23 +127,10 @@ export default function Clubhouse({ route, clubId }) {
   const renderSched = ({ item: sched }) => {
     return <ClubSchedItem {...sched} />;
   };
-  console.log(route);
-
   return (
-    <ScreenLayout loading={loading}>
-      <ScrollView
-        refreshControl={
-          <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
-        }
-        style={{ backgroundColor: "white" }}
-        contentContainerStyle={{
-          backgroundColor: colors.grey00,
-          justifyContent: "center",
-        }}
-      >
-        <ClubItem {...data?.seeClub} />
-        {data?.seeClub ? getButton(data.seeClub) : null}
-      </ScrollView>
+    <ScreenLayout>
+      <ClubItem {...data?.seeClub} />
+      {data?.seeClub ? getButton(data.seeClub) : null}
       <FlatList
         data={data?.seeClub?.games}
         keyExtractor={(sched) => "" + sched.id}

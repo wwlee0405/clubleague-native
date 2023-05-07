@@ -6,17 +6,21 @@ import ScreenLayout from "../../components/ScreenLayout";
 import Comments from "../../components/match/Comments";
 import { COMMENT_FRAGMENT } from "../../fragments";
 
-const SEE_MATCH_COMMENTS = gql`
-  query seeMatchComments($id: Int!) {
-    seeMatchComments(id: $id) {
-      ...CommentFragment
+const SEE_GAME = gql`
+  query seeGame($id: Int!) {
+    seeGame(id: $id) {
+      id
+      comments {
+        ...CommentFragment
+      }
+      commentNumber
     }
   }
   ${COMMENT_FRAGMENT}
 `;
 
 export default function CommentsScreen({ route }) {
-  const { data, loading, refetch } = useQuery(SEE_MATCH_COMMENTS, {
+  const { data, loading, refetch } = useQuery(SEE_GAME, {
     variables: {
       id: route?.params?.matchId,
     },
@@ -34,7 +38,7 @@ export default function CommentsScreen({ route }) {
         matchId={route.params.matchId}
         refreshing={refreshing}
         refresh={refresh}
-        comments={data?.seeMatchComments}
+        comments={data?.seeGame?.comments}
       />
     </ScreenLayout>
   )

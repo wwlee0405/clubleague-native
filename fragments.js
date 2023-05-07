@@ -3,22 +3,28 @@ import { gql } from "@apollo/client";
 export const CLUB_FRAGMENT = gql`
   fragment ClubFragment on Club {
     id
+    clubLeader {
+      username
+    }
     clubname
     clubArea
     emblem
-    clubLeader {
+    totalMember
+    isJoined
+    createdAt
+  }
+`;
+
+export const MEMBER_FRAGMENT = gql`
+  fragment MemberFragment on Member {
+    id
+    user {
       username
       avatar
     }
-    clubMember {
-      id
-      user {
-        username
-        avatar
-      }
+    club {
+      isJoined
     }
-    totalMember
-    isJoined
     createdAt
   }
 `;

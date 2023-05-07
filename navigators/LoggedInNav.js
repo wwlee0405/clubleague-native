@@ -14,10 +14,15 @@ import Comments from "../screens/match/Comments";
 import NewMatch from "../screens/match/NewMatch";
 import SelectAway from "../screens/match/SelectAway";
 
-import Clubhouse from "../screens/home/Clubhouse";
-import ClubCalendar from "../screens/home/ClubCalendar";
-import ClubMember from "../screens/home/ClubMember";
+import Clubhouse from "../screens/club/Clubhouse";
+import ClubCalendar from "../screens/club/ClubCalendar";
+import ClubMember from "../screens/club/ClubMember";
+import ClubSetting from "../screens/club/ClubSetting";
+import AppointBoard from "../screens/club/AppointBoard";
+import UnappointBoard from "../screens/club/UnappointBoard";
+
 import Profile from "../screens/profile/Profile";
+import EditProfile from "../screens/profile/EditProfile";
 import SelectAvatarPhoto from "../screens/profile/SelectAvatarPhoto";
 import TakeAvatarPhoto from "../screens/profile/TakeAvatarPhoto";
 import UploadAvatarForm from "../screens/profile/UploadAvatarForm";
@@ -33,11 +38,28 @@ export default function LoggedInNav() {
         component={TabsNav}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="Clubhouse">
+      <Stack.Screen name="Clubhouse"
+        options={{
+          headerTitle: "clubname"
+        }}
+      >
         { (props) => (
-          <MaterialTab.Navigator>
+          <MaterialTab.Navigator
+            tabBarOptions={{
+              scrollEnabled : true,
+              style: { backgroundColor: "white" },
+              tabStyle: { width: 100 },
+              labelStyle: { fontSize: 10 },
+              inactiveTintColor: "black",
+              activeTintColor: "#2e8b57",
+              indicatorStyle: {
+                backgroundColor: "#2e8b57",
+                bottom: 0,
+              },
+            }}
+          >
             <MaterialTab.Screen
-              name="ClubHome"
+              name="Home"
               component={Clubhouse}
               initialParams={ props.route.params }
             />
@@ -51,9 +73,17 @@ export default function LoggedInNav() {
               component={ClubMember}
               initialParams={ props.route.params }
             />
+            <MaterialTab.Screen
+              name="Setting"
+              component={ClubSetting}
+              initialParams={ props.route.params }
+            />
           </MaterialTab.Navigator>
         )}
       </Stack.Screen>
+
+      <Stack.Screen name="AppointBoard" component={AppointBoard} />
+      <Stack.Screen name="UnappointBoard" component={UnappointBoard} />
 
       <Stack.Screen name="GameMatch" component={GameMatch} />
       <Stack.Screen name="Entry" component={Entry} />
@@ -61,6 +91,7 @@ export default function LoggedInNav() {
       <Stack.Screen name="NewMatch" component={NewMatch} />
       <Stack.Screen name="SelectAway" component={SelectAway} />
       <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
 
       <Stack.Screen
         name="UploadAvatar"
@@ -80,7 +111,7 @@ export default function LoggedInNav() {
               },
             }}
           >
-            <MaterialTab.Screen name="SelectAvatarPhoto">
+            <MaterialTab.Screen name="Gallery">
               {() => (
                 <Stack.Navigator
                   screenOptions={{
@@ -96,7 +127,7 @@ export default function LoggedInNav() {
                   }}
                 >
                   <Stack.Screen
-                    name="SelectAvatarPhoto"
+                    name="Gallery"
                     options={{ title: "Choose a photo" }}
                     component={SelectAvatarPhoto}
                     initialParams={ props.route.params }
@@ -106,7 +137,7 @@ export default function LoggedInNav() {
             </MaterialTab.Screen>
 
             <MaterialTab.Screen
-              name="TakeAvatarPhoto"
+              name="Photo"
               component={TakeAvatarPhoto}
               initialParams={ props.route.params }
             />

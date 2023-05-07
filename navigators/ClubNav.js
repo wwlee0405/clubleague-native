@@ -4,8 +4,8 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Clubhouse from "../screens/home/Clubhouse";
-import ClubCalendar from "../screens/home/ClubCalendar";
+import Clubhouse from "../screens/club/Clubhouse";
+import ClubCalendar from "../screens/club/ClubCalendar";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
 

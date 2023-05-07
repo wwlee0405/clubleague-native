@@ -49,7 +49,7 @@ const textColor = {
   main: colors.white
 };
 
-function NotificationItem() {
+function NotificationItem({ id, payload }) {
   const navigation = useNavigation();
 
   return (
@@ -61,7 +61,7 @@ function NotificationItem() {
         </ButtonTochable>
 
         <NotificationData>
-          <Caption><Clubname>arsenal</Clubname> 클럽이 당신의 <Clubname>aespa</Clubname> 클럽에 게임을 신청합니다. 수락하겠습니까?</Caption>
+          <Caption>{payload} <Clubname>arsenal</Clubname> 클럽이 당신의 <Clubname>aespa</Clubname> 클럽에 게임을 신청합니다. 수락하겠습니까?</Caption>
 
           <ButtonRow>
             <ButtonPadding>
@@ -87,6 +87,11 @@ function NotificationItem() {
   );
 }
 
-NotificationItem.propTypes = {};
+
+NotificationItem.propTypes = {
+  id: PropTypes.number,
+  payload: PropTypes.string,
+
+};
 
 export default NotificationItem;

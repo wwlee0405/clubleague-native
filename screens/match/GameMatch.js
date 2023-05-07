@@ -1,8 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
-import { RefreshControl, View, Text, TouchableOpacity, Image } from "react-native";
+import { RefreshControl, View, Text, TouchableOpacity, Image, Alert } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { colors } from "../../colors";
 import styled from "styled-components/native";
@@ -11,6 +11,30 @@ import ScreenLayout from "../../components/ScreenLayout";
 import HeaderAvatar from "../../components/HeaderAvatar.js";
 import Game from "../../components/match/Game";
 import { GAME_FRAGMENT } from "../../fragments";
+import Button from "../../components/Button.js";
+
+const SEE_GAME = gql`
+  query seeGame($id: Int!) {
+    seeGame(id: $id) {
+      id
+      user {
+        id
+        avatar
+        username
+      }
+      file
+      caption
+      games {
+        ...GameFragment
+        entryNumber
+        isEntry
+      }
+      commentNumber
+      clubNumInMatch
+    }
+  }
+  ${GAME_FRAGMENT}
+`;
 
 const Container = styled.View`
   flex: 1;
@@ -120,10 +144,10 @@ const JoinGame = styled.TouchableOpacity`
   border-radius: 8px;
   align-items: center;
   justify-content: center;
-  background-color: ${colors.blue};
+  background-color: ${(props) => (props.$joinGame ? colors.blue : colors.grey03)};
 `;
 const BtnText = styled.Text`
-  color: ${colors.white};
+  color: ${(props) => (props.$joinGame ? colors.white : colors.black)};
   font-weight: 600;
   font-size: 15px;
 `;
@@ -140,31 +164,16 @@ const AwayText = styled.Text`
   font-weight: 600;
   font-size: 25px;
 `;
-const SEE_GAME = gql`
-  query seeGame($id: Int!) {
-    seeGame(id: $id) {
-      id
-      user {
-        id
-        avatar
-        username
-      }
-      file
-      caption
-      games {
-        ...GameFragment
-        entryNumber
-        isEntry
-      }
-      commentNumber
-      clubsInGame
-    }
-  }
-  ${GAME_FRAGMENT}
-`;
 
 export default function GameMatch({ route }) {
   const navigation = useNavigation();
+  useEffect(() => {
+    if (route?.params?.username) {
+      navigation.setOptions({
+        title: route.params.username,
+      });
+    }
+  }, []);
   const { data, loading, refetch } = useQuery(SEE_GAME, {
     variables: {
       id: route?.params?.matchId,
@@ -182,6 +191,16 @@ export default function GameMatch({ route }) {
       id: data?.seeGame?.user.id,
     });
   };
+  const clubNumInMatch = data?.seeGame?.clubNumInMatch;
+  const joinGameAlert = () =>
+    Alert.alert(
+      'Please join another game',
+      'This game is already joined by another club.', [
+      {text: 'OK', onPress: () => console.log('OK Pressed')},
+    ]);
+
+  console.log(route);
+
   return (
     <ScreenLayout loading={loading}>
       <Container>
@@ -208,16 +227,16 @@ export default function GameMatch({ route }) {
                 <KickOffTime>10:00</KickOffTime>
                 <Location numberOfLines={1}>Santiago Bernabéu dkndkfnbkdfnbkfjdnb</Location>
               </KickOffData>
-                {data?.seeGame?.clubsInGame === 2 ?
+                {clubNumInMatch === 2 ? (
                   <ClubData>
                     <ClubEmblem source={require('../../data/1ars.jpg')} />
                     <ClubName>{data?.seeGame?.games[1].club?.clubname}hvbhjvhvhgvhgvgvvgvgvgvgv</ClubName>
                   </ClubData>
-                  :
+                ) : (
                   <ClubData>
                     <AwayText>Away</AwayText>
                   </ClubData>
-                }
+                )}
             </GameContent>
 
             <View style={{ alignItems: "center" }}>
@@ -243,7 +262,7 @@ export default function GameMatch({ route }) {
                   <UserAvatar source={require('../../data/gggg.jpg')} />
                 </View>
               </Entry>
-              {data?.seeGame?.clubsInGame === 2 ?
+              {clubNumInMatch === 2 ? (
                 <Entry onPress={() => navigation.navigate("Entry", {
                   gameId: data?.seeGame?.games[1].id,
                 })}>
@@ -255,11 +274,11 @@ export default function GameMatch({ route }) {
                     <UserAvatar source={require('../../data/gggg.jpg')} />
                   </View>
                 </Entry>
-                :
+              ) : (
                 <Entry>
                   <EntryText>no awayclub</EntryText>
                 </Entry>
-              }
+              )}
             </View>
 
             <Image source={require('../../data/bbbb.jpg')} style={{ height: 500, width: 300 }} />
@@ -280,13 +299,25 @@ export default function GameMatch({ route }) {
           </ExtraContainer>
 
         </ScrollView>
-        <JoinGameContainer>
-          <JoinGame onPress={() => navigation.navigate("SelectAway", {
-            matchId: route?.params?.matchId,
-          })}>
-            <BtnText>Join Game</BtnText>
-          </JoinGame>
-        </JoinGameContainer>
+        {clubNumInMatch === 1 ? (
+          <JoinGameContainer>
+            <JoinGame
+              $joinGame
+              onPress={() => navigation.navigate("SelectAway", {
+              matchId: route?.params?.matchId,
+              userId: data?.seeGame?.user.id,
+            })}>
+              <BtnText $joinGame>Join Game</BtnText>
+            </JoinGame>
+          </JoinGameContainer>
+        ) : (
+          <JoinGameContainer>
+            <JoinGame onPress={joinGameAlert}>
+              <BtnText>Join Game</BtnText>
+            </JoinGame>
+          </JoinGameContainer>
+        )}
+
       </Container>
     </ScreenLayout>
   )

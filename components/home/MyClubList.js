@@ -22,11 +22,11 @@ const ClubName = styled.Text`
   overflow: hidden;
 `;
 
-function MyClubList({ id, club }) {
+function MyClubList({ id, clubname }) {
   const navigation = useNavigation();
   const goToClub = () => {
     navigation.navigate("Clubhouse", {
-      clubId: club.id,
+      clubId: id,
     });
   };
   return (
@@ -34,7 +34,7 @@ function MyClubList({ id, club }) {
       <ClubTeam>
         <ClubEmblem source={require('../../data/2bar.jpg')} />
         <View>
-          <ClubName numberOfLines={1}>{club.clubname}</ClubName>
+          <ClubName numberOfLines={1}>{clubname}</ClubName>
         </View>
       </ClubTeam>
     </Touchable>
@@ -43,13 +43,8 @@ function MyClubList({ id, club }) {
 
 MyClubList.propTypes = {
   id: PropTypes.number,
-  userMember: PropTypes.arrayOf(
-    PropTypes.shape({
-      club: PropTypes.shape({
-        clubname: PropTypes.string.isRequired,
-      }),
-    }),
-  ),
+  clubname: PropTypes.string.isRequired,
+
 };
 
 export default MyClubList;

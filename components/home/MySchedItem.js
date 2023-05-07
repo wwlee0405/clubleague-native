@@ -25,7 +25,7 @@ const Container = styled.View`
   elevation: 2;
 `;
 const ExtraContainer = styled.View`
-  padding: 0px 10px 8px;
+  padding-bottom: 8px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   background-color: ${colors.grey01};

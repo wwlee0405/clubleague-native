@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
-import { Text, View, Image } from "react-native";
+import { Text, View } from "react-native";
 import HeaderAvatar from "../HeaderAvatar.js";
 import Button from "../Button.js";
 

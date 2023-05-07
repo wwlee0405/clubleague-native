@@ -88,7 +88,7 @@ const ClubName = styled.Text`
   overflow: hidden;
 `;
 
-function MatchItem({ id, user, games, club, clubsInGame }) {
+function MatchItem({ id, user, games, club, clubNumInMatch }) {
   const navigation = useNavigation();
   const goToProfile = () => {
     navigation.navigate("Profile", {
@@ -130,7 +130,7 @@ function MatchItem({ id, user, games, club, clubsInGame }) {
         <VersusText>
           <ClubName>{games[0].club?.clubname}</ClubName>
           V
-          {clubsInGame === 2 ?
+          {clubNumInMatch === 2 ?
             <ClubName>{games[1].club?.clubname}</ClubName>
             :
             <ClubName>없음</ClubName>
