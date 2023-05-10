@@ -13,6 +13,9 @@ import GameItem from "./GameItem";
 import Comments from "./Comments";
 import HomeAway from "./HomeAway";
 
+//삭제
+
+
 const Container = styled.View`
   flex: 1;
   background-color: ${colors.white};

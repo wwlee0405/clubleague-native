@@ -31,7 +31,7 @@ const MemberCount = styled.Text`
   font-size: 15px;
 `;
 
-export default function ClubMember({ route, clubId }) {
+export default function ClubMember({ route }) {
   const navigation = useNavigation();
   const { data } = useQuery(SEE_CLUB, {
     variables: {

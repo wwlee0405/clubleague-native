@@ -1,8 +1,17 @@
+import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../colors";
+
+const SEE_CLUB = gql`
+  query seeClub($id: Int!) {
+    seeClub(id: $id) {
+      id
+    }
+  }
+`;
 
 const Text = styled.Text`
   color: ${colors.black};
@@ -12,8 +21,14 @@ const Text = styled.Text`
   font-size: 17px;
 `;
 
-export default function ClubSetting() {
+export default function ClubSetting({route}) {
   const navigation = useNavigation();
+  const { data } = useQuery(SEE_CLUB, {
+    variables: {
+      id: route?.params?.clubId,
+    },
+  });
+  console.log(route);
   return (
     <View>
       <Text>Club_Setting</Text>
@@ -37,7 +52,7 @@ export default function ClubSetting() {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => navigation.navigate("AppointBoard", {
-          clubId: id,
+          clubId: data?.seeClub?.id,
         })}
       >
         <Text>임원임명</Text>

@@ -1,9 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
-import React from "react";
-import { View, Text, FlatList } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, ScrollView, FlatList, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import UserProfileRow from "../../components/profile/UserProfileRow";
 import styled from "styled-components/native";
+import { colors } from "../../colors";
 import { useNavigation } from "@react-navigation/native";
 
 const SEE_CLUB = gql`
@@ -16,6 +17,8 @@ const SEE_CLUB = gql`
       }
       clubMember {
         id
+        boardAuth
+        memberAuth
         user {
           avatar
           username
@@ -25,47 +28,106 @@ const SEE_CLUB = gql`
   }
 `;
 
-const MemberCount = styled.Text`
-  opacity: 0.7;
-  margin: 10px 15px;
-  font-weight: 600;
-  font-size: 15px;
+const avatarDimensions = '40px'
+const IconContainer = styled.View`
+  position: absolute;
+  bottom: 5px;
+  right: 0px;
+`;
+const Top = styled.View`
+  padding-horizontal: 15px;
+`;
+const Title = styled.Text`
+  margin: 5px 15px;
+  font-size: 12px;
+  color: ${colors.darkGrey};
+`;
+const UserData = styled.View`
+  padding: 10px 0px;
+  width: ${avatarDimensions};
+`;
+const Avatar = styled.Image`
+  width: ${avatarDimensions};
+  height: ${avatarDimensions};
+  border-radius: 20px;
+`;
+const UsernameText = styled.Text`
+  padding-top: 1px;
+  font-size: 10px;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
 `;
 
-export default function AppointBoard({ route, clubId }) {
+export default function AppointBoard({ route }) {
   const navigation = useNavigation();
+  const [chosenMember, setChosenMember] = useState("");
   const { data } = useQuery(SEE_CLUB, {
     variables: {
       id: route?.params?.clubId,
     },
   });
-  const renderMember = ({ item: member }) => {
+  const chooseMember = (user) => {
+    setChosenMember(user);
+  };
+  const renderBoard = ({ item: board }) => {
     return (
-      <View>
-        <UserProfileRow
-          onPress={() => navigation.navigate("Profile",{
-            username: member?.user.username,
-            id: member?.user.id,
-          })}
-          avatar={member?.user.avatar}
-          username={member?.user.username}
-        />
-        <IconContainer>
-          <Ionicons
-            name="checkmark-circle"
-            size={25}
-            color="red"
-          />
-        </IconContainer>
+      <View
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        style={{ paddingHorizontal: 15 }}
+      >
+        {board.boardAuth === true ? (
+          <UserData>
+            <Avatar source={require('../../data/eeee.png')} />
+            <UsernameText numberOfLines={1}>{board?.user.username}</UsernameText>
+          </UserData>
+        ) : null}
       </View>
     );
   };
-  console.log(route);
+  const renderMember = ({ item: member }) => {
+    return (
+      <View>
+        {member.boardAuth !== true ? (
+          <TouchableOpacity
+            onPress={() => setChosenMember(member.user.username)}
+          >
+            <UserProfileRow
+              avatar={member?.user.avatar}
+              username={member?.user.username}
+            />
+            <IconContainer>
+              <Ionicons
+                name="checkmark-circle"
+                size={25}
+                color={member?.user.username === chosenMember ? colors.seaGreen : "white"}
+              />
+            </IconContainer>
+          </TouchableOpacity>
+        ) : null}
+      </View>
+    );
+  };
   return (
     <View>
-      <Text>AppointBoard</Text>
+      <Top>
+      {chosenMember !== "" ? (
+        <UserData>
+          <Avatar source={require('../../data/gggg.jpg')} />
+          <UsernameText numberOfLines={1}>{chosenMember}</UsernameText>
+        </UserData>
+      ) : null}
+      </Top>
 
-      <MemberCount>{data?.seeClub?.totalMember === 1 ? "1 member" : `${data?.seeClub?.totalMember} members`}</MemberCount>
+      <Title>Board</Title>
+      <FlatList
+        data={data?.seeClub?.clubMember}
+        keyExtractor={(member) => "" + member.id}
+        renderItem={renderBoard}
+      />
+
+      <Title>Member</Title>
       <FlatList
         data={data?.seeClub?.clubMember}
         keyExtractor={(member) => "" + member.id}
