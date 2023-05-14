@@ -11,7 +11,6 @@ import Me from "../screens/Me";
 import NewClub from "../screens/home/NewClub";
 import SearchClub from "../screens/home/SearchClub";
 import GameMatch from "../screens/match/GameMatch";
-import SelectClub from "../screens/match/SelectClub";
 
 import Likes from "../screens/Likes";
 import { colors } from "../colors";
@@ -69,7 +68,6 @@ export default function SharedStackNav({ screenName }) {
       <Stack.Screen name="Photo" component={Photo} />
       <Stack.Screen name="Likes" component={Likes} />
       <Stack.Screen name="NewClub" component={NewClub} />
-      <Stack.Screen name="SelectClub" component={SelectClub} />
       <Stack.Screen name="SearchClub" component={SearchClub} />
     </Stack.Navigator>
   );

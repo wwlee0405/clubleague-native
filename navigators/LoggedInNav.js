@@ -9,6 +9,7 @@ import UploadForm from "../screens/UploadForm";
 import MessagesNav from "./MessagesNav";
 
 import GameMatch from "../screens/match/GameMatch";
+import SelectClub from "../screens/match/SelectClub";
 import Entry from "../screens/match/Entry";
 import Comments from "../screens/match/Comments";
 import NewMatch from "../screens/match/NewMatch";
@@ -86,6 +87,7 @@ export default function LoggedInNav() {
       <Stack.Screen name="UnappointBoard" component={UnappointBoard} />
 
       <Stack.Screen name="GameMatch" component={GameMatch} />
+      <Stack.Screen name="SelectClub" component={SelectClub} />
       <Stack.Screen name="Entry" component={Entry} />
       <Stack.Screen name="Comments" component={Comments} />
       <Stack.Screen name="NewMatch" component={NewMatch} />

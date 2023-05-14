@@ -63,7 +63,9 @@ export default function SelectClub({ navigation, route }) {
       <TouchableOpacity>
         <SelectClubItem
           onPress={() => chooseClub(myClubs.club.id)}
-          {...myClubs}
+          
+          clubId={{ clubId: myClubs.club.id }}
+          clubname={myClubs.club.clubname}
         />
       </TouchableOpacity>
     );

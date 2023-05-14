@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, FlatList, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import UserProfileRow from "../../components/profile/UserProfileRow";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
@@ -32,7 +33,7 @@ const avatarDimensions = '40px'
 const IconContainer = styled.View`
   position: absolute;
   bottom: 5px;
-  right: 0px;
+  right: 15px;
 `;
 const Top = styled.View`
   padding-horizontal: 15px;
@@ -98,10 +99,10 @@ export default function AppointBoard({ route }) {
               username={member?.user.username}
             />
             <IconContainer>
-              <Ionicons
-                name="checkmark-circle"
-                size={25}
-                color={member?.user.username === chosenMember ? colors.seaGreen : "white"}
+              <MaterialCommunityIcons
+                name={member?.user.username === chosenMember ? "checkbox-marked-circle" : "checkbox-blank-circle-outline"}
+                size={26}
+                color={member?.user.username === chosenMember ? colors.seaGreen : colors.grey03}
               />
             </IconContainer>
           </TouchableOpacity>
