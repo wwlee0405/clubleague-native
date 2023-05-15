@@ -62,8 +62,8 @@ export default function SelectAway({ navigation, route }) {
       const joinAway = {
         __typename: "Game",
         id,
-        createdAt: Date.now() + "",
         joinedGame: true,
+        createdAt: Date.now() + "",
       };
       const newCacheAway = cache.writeFragment({
         data: joinAway,
