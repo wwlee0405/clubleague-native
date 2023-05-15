@@ -1,7 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, FlatList, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import UserProfileRow from "../../components/profile/UserProfileRow";
 import styled from "styled-components/native";

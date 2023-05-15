@@ -36,6 +36,8 @@ export const GAME_FRAGMENT = gql`
       clubname
       emblem
     }
+    joinedGame
+    createdAt
   }
 `;
 

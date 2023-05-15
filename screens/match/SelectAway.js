@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
-import { TouchableOpacity, View, Text, FlatList, Image } from "react-native";
+import { TouchableOpacity, View, Text, FlatList } from "react-native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
@@ -44,11 +44,13 @@ const ClubnameText = styled.Text`
   font-weight: bold;
 `;
 
-export default function SelectAway({ navigation, route, id, matchId }) {
+export default function SelectAway({ navigation, route }) {
   const { data: meData } = useMe();
   const [chosenClub, setChosenClub] = useState("");
+
   console.log(route);
   console.log(chosenClub);
+
 
   const joinGameUpdate = (cache, result) => {
     const {
@@ -56,32 +58,19 @@ export default function SelectAway({ navigation, route, id, matchId }) {
         joinGame: { ok, id },
       },
     } = result;
-
-    if (ok && meData?.me) {
+    if (ok) {
       const joinAway = {
         __typename: "Game",
-        createdAt: Date.now() + "",
         id,
-        club: {
-          clubname,
-          emblem,
-        },
-        match: {
-        },
+        createdAt: Date.now() + "",
         joinedGame: true,
       };
       const newCacheAway = cache.writeFragment({
         data: joinAway,
         fragment: gql`
-          fragment BSName on Game {
+          fragment JoinAway on Game {
             id
             joinedGame
-            club {
-              clubname
-              emblem
-            }
-            match{
-            }
             createdAt
           }
         `,
@@ -92,16 +81,16 @@ export default function SelectAway({ navigation, route, id, matchId }) {
           games(prev) {
             return [...prev, newCacheAway];
           },
-          clubsInGame(prev) {
+          clubNumInMatch(prev) {
             return prev + 1;
           },
         },
       });
-      navigation.navigate("GameMatch", { matchId });
+      navigation.navigate("GameMatch", {
+        matchId: route?.params?.matchId
+      });
     };
-
   }
-
   const [joinGame] = useMutation(JOIN_GAME_MUTATION, {
     variables: {
       clubId: chosenClub,
@@ -110,7 +99,6 @@ export default function SelectAway({ navigation, route, id, matchId }) {
     },
     update: joinGameUpdate,
   });
-
   const HeaderRight = () => (
     <TouchableOpacity onPress={joinGame}>
       <HeaderRightText>Next</HeaderRightText>
