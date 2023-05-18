@@ -115,9 +115,7 @@ const buttonColor = {
 const textColor = {
   main: colors.white
 };
-
 function ClubSchedItem({
-  clubsInGame,
   id,
   match,
   club,
@@ -172,7 +170,7 @@ function ClubSchedItem({
         </Row>
         <MatchContent>
           <MatchData>
-            {match.clubsInGame === 2 ? (
+            {match.clubNumInMatch === 2 ? (
               id === match.games[0].id ? (
                 <HomeAway>
                   <VersusText>VS</VersusText>
@@ -217,7 +215,7 @@ function ClubSchedItem({
 ClubSchedItem.propTypes = {
   id: PropTypes.number,
   match: PropTypes.shape({
-    clubsInGame: PropTypes.number,
+    clubNumInMatch: PropTypes.number,
     games: PropTypes.arrayOf(
       PropTypes.shape({
         club: PropTypes.shape({

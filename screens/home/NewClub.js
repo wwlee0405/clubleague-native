@@ -1,18 +1,32 @@
 import React, { useRef, useEffect } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
-import {
-   TouchableWithoutFeedback,
-   Keyboard,
-   Alert,
-   TouchableOpacity,
-   Text,
-   ActivityIndicator,
-} from "react-native";
+import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import DismissKeyboard from "../../components/DismissKeyboard";
+import HeaderRightLoading from "../../components/shared/HeaderRightLoading";
+import HeaderRight from "../../components/shared/HeaderRight";
 import { Feather } from "@expo/vector-icons";
 import { colors } from "../../colors";
+
+const CREATE_CLUB = gql`
+  mutation createClub(
+    $clubname: String!
+    $clubArea: String
+    $clubBio: String
+    $emblem: String
+  ) {
+    createClub(
+      clubname: $clubname
+      clubArea: $clubArea
+      clubBio: $clubBio
+      emblem: $emblem
+    ) {
+      ok
+      error
+    }
+  }
+`;
 
 const View = styled.View``;
 const Container = styled.View`
@@ -40,28 +54,12 @@ const ExplanationText = styled.Text`
    font-size: 15px;
    text-align: center;
 `;
-
-const CREATE_CLUB = gql`
-  mutation createClub(
-    $clubname: String!
-    $clubArea: String
-    $clubBio: String
-    $emblem: String
-  ) {
-    createClub(
-      clubname: $clubname
-      clubArea: $clubArea
-      clubBio: $clubBio
-      emblem: $emblem
-    ) {
-      ok
-      error
-    }
-  }
-`;
-
-export default function NewClub({ navigation }) {
-  const { register, handleSubmit, setValue, getValues } = useForm();
+export default function NewClub({ route, navigation }) {
+  const { register, handleSubmit, setValue, getValues, watch } = useForm({
+    defaultValues: {
+      clubname: route?.params?.clubname,
+    },
+  });
 
   const onCompleted = (data) => {
     const {
@@ -94,14 +92,6 @@ export default function NewClub({ navigation }) {
       });
     }
   };
-  const HeaderRight = () => (
-    <TouchableOpacity onPress={handleSubmit(onValid)}>
-      <Feather name="check" size={25} style={{ paddingRight: 10 }} />
-    </TouchableOpacity>
-  );
-  const HeaderRightLoading = () => (
-    <ActivityIndicator size="small" color="white" style={{ marginRight: 10 }} />
-  );
   useEffect(() => {
     register("clubname", {
       required: true,
@@ -112,7 +102,7 @@ export default function NewClub({ navigation }) {
   }, [register]);
   useEffect(() => {
     navigation.setOptions({
-      headerRight: loading ? HeaderRightLoading : HeaderRight,
+      headerRight: () => (loading ? <HeaderRightLoading /> : <HeaderRight onPress={handleSubmit(onValid)}/>),
       ...(loading && { headerLeft: () => null }),
     });
   }, [loading]);

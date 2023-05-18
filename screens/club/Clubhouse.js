@@ -37,6 +37,10 @@ const SEE_CLUB = gql`
         club {
           isJoined
         }
+        match {
+          id
+        }
+        createdAt
         entryNumber
         isEntry
       }

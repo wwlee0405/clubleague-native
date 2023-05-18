@@ -7,6 +7,7 @@ import { colors } from "../../colors";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
 import ScreenLayout from "../../components/ScreenLayout";
 import SelectClubItem from "../../components/match/SelectClubItem";
+import HeaderRight from "../../components/shared/HeaderRight";
 
 const JOIN_GAME_MUTATION = gql`
   mutation joinGame($matchId: Int!, $clubId: Int!, $userId: Int) {
@@ -18,12 +19,6 @@ const JOIN_GAME_MUTATION = gql`
   }
 `;
 
-const HeaderRightText = styled.Text`
-  color: ${colors.blue};
-  font-size: 16px;
-  font-weight: 600;
-  margin-right: 7px;
-`;
 const Top = styled.View`
   padding-horizontal: 15px;
 `;
@@ -43,14 +38,12 @@ const ClubnameText = styled.Text`
   font-size: 15px;
   font-weight: bold;
 `;
-
 export default function SelectAway({ navigation, route }) {
   const { data: meData } = useMe();
   const [chosenClub, setChosenClub] = useState("");
 
   console.log(route);
   console.log(chosenClub);
-
 
   const joinGameUpdate = (cache, result) => {
     const {
@@ -99,14 +92,11 @@ export default function SelectAway({ navigation, route }) {
     },
     update: joinGameUpdate,
   });
-  const HeaderRight = () => (
-    <TouchableOpacity onPress={joinGame}>
-      <HeaderRightText>Next</HeaderRightText>
-    </TouchableOpacity>
-  );
   useEffect(() => {
     navigation.setOptions({
-      headerRight: HeaderRight,
+      headerRight: () => (
+        <HeaderRight onPress={joinGame} />
+      ),
     });
   }, [chosenClub]);
 
