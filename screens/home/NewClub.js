@@ -60,7 +60,6 @@ export default function NewClub({ route, navigation }) {
       clubname: route?.params?.clubname,
     },
   });
-
   const onCompleted = (data) => {
     const {
       createClub: { ok },
@@ -100,12 +99,18 @@ export default function NewClub({ route, navigation }) {
       required: true,
     });
   }, [register]);
+  const clubnameWatch = !watch("clubname")
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => (loading ? <HeaderRightLoading /> : <HeaderRight onPress={handleSubmit(onValid)}/>),
+      headerRight: () => (
+        loading ?
+        <HeaderRightLoading />
+        :
+        <HeaderRight disabled={clubnameWatch} onPress={handleSubmit(onValid)} />
+      ),
       ...(loading && { headerLeft: () => null }),
     });
-  }, [loading]);
+  }, [loading, clubnameWatch]);
   return (
     <DismissKeyboard>
       <Container>
