@@ -57,7 +57,11 @@ export default function ClubSetting({route}) {
       >
         <Text>임원임명</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("UnappointBoard")}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("UnappointBoard", {
+          clubId: data?.seeClub?.id,
+        })}
+      >
         <Text>임원해제</Text>
       </TouchableOpacity>
       <TouchableOpacity>

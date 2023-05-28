@@ -1,12 +1,23 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, ScrollView } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import UserProfileRow from "../../components/profile/UserProfileRow";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 import { useNavigation } from "@react-navigation/native";
+import UserRowCheckbox from "../../components/profile/UserRowCheckbox";
+import UserColumn from "../../components/profile/UserColumn";
+import HeaderRight from "../../components/shared/HeaderRight";
 
+const APPOINT_BOARD = gql`
+  mutation appointBoard($id: Int!) {
+    appointBoard(id: $id) {
+      ok
+      error
+      id
+    }
+  }
+`;
 const SEE_CLUB = gql`
   query seeClub($id: Int!) {
     seeClub(id: $id) {
@@ -20,6 +31,7 @@ const SEE_CLUB = gql`
         boardAuth
         memberAuth
         user {
+          id
           avatar
           username
         }
@@ -29,11 +41,6 @@ const SEE_CLUB = gql`
 `;
 
 const avatarDimensions = '40px'
-const IconContainer = styled.View`
-  position: absolute;
-  bottom: 5px;
-  right: 15px;
-`;
 const Top = styled.View`
   padding-horizontal: 15px;
 `;
@@ -51,7 +58,7 @@ const Avatar = styled.Image`
   height: ${avatarDimensions};
   border-radius: 20px;
 `;
-const UsernameText = styled.Text`
+const Username = styled.Text`
   padding-top: 1px;
   font-size: 10px;
   width: 100%;
@@ -67,44 +74,63 @@ export default function AppointBoard({ route }) {
       id: route?.params?.clubId,
     },
   });
+
+  console.log(route);
+  console.log(chosenMember);
+
+  const appointBoardUpdate = (cache, result) => {
+    const {
+      data: {
+        appointBoard: { ok, id },
+      },
+    } = result;
+
+  }
+
+  const [appointBoard] = useMutation(APPOINT_BOARD, {
+    variables: {
+      id: chosenMember,
+    },
+    update: appointBoardUpdate,
+  });
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderRight onPress={appointBoard} />
+      ),
+    });
+  }, [chosenMember]);
+
   const chooseMember = (user) => {
     setChosenMember(user);
   };
   const renderBoard = ({ item: board }) => {
     return (
-      <View
+      <ScrollView
         horizontal={true}
-        showsHorizontalScrollIndicator={false}
+        showsHorizontalScrollIndicator={true}
         style={{ paddingHorizontal: 15 }}
       >
         {board.boardAuth === true ? (
-          <UserData>
-            <Avatar source={require('../../data/eeee.png')} />
-            <UsernameText numberOfLines={1}>{board?.user.username}</UsernameText>
-          </UserData>
+          <UserColumn
+            username={board?.user.username}
+          />
         ) : null}
-      </View>
+      </ScrollView>
     );
   };
   const renderMember = ({ item: member }) => {
     return (
       <View>
         {member.boardAuth !== true ? (
-          <TouchableOpacity
-            onPress={() => setChosenMember(member.user.username)}
-          >
-            <UserProfileRow
-              avatar={member?.user.avatar}
-              username={member?.user.username}
-            />
-            <IconContainer>
-              <MaterialCommunityIcons
-                name={member?.user.username === chosenMember ? "checkbox-marked-circle" : "checkbox-blank-circle-outline"}
-                size={26}
-                color={member?.user.username === chosenMember ? colors.seaGreen : colors.grey03}
-              />
-            </IconContainer>
-          </TouchableOpacity>
+          <UserRowCheckbox
+            onPress={() => chooseMember(member.id)}
+            avatar={member?.user.avatar}
+            username={member?.user.username}
+            id={member?.id}
+            choice={chosenMember}
+          />
         ) : null}
       </View>
     );
@@ -115,13 +141,15 @@ export default function AppointBoard({ route }) {
       {chosenMember !== "" ? (
         <UserData>
           <Avatar source={require('../../data/gggg.jpg')} />
-          <UsernameText numberOfLines={1}>{chosenMember}</UsernameText>
+          <Username numberOfLines={1}>{chosenMember}</Username>
         </UserData>
       ) : null}
       </Top>
 
       <Title>Board</Title>
       <FlatList
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
         data={data?.seeClub?.clubMember}
         keyExtractor={(member) => "" + member.id}
         renderItem={renderBoard}

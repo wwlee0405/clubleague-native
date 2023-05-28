@@ -1,6 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 import UserProfileRow from "../../components/profile/UserProfileRow";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
@@ -52,7 +52,11 @@ export default function ClubMember({ route }) {
   };
   return (
     <View>
-      <MemberCount>{data?.seeClub?.totalMember === 1 ? "1 member" : `${data?.seeClub?.totalMember} members`}</MemberCount>
+      <MemberCount>
+        {data?.seeClub?.totalMember === 1 ?
+          "1 member" : `${data?.seeClub?.totalMember} members`
+        }
+      </MemberCount>
       <FlatList
         data={data?.seeClub?.clubMember}
         keyExtractor={(member) => "" + member.id}
