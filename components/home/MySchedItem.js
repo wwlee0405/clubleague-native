@@ -139,8 +139,7 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
   return (
     <Container>
       <HeaderAvatar
-        avatar={null}
-        source={require('../../data/2bar.jpg')}
+        image={club?.emblem}
         topData={club?.clubname}
         bottomData="Seoul, Korea"
       />

@@ -45,6 +45,7 @@ const MemberText = styled.Text`
 
 function ClubItem({
   clubname,
+  emblem,
   clubArea,
   sports,
   clubLeader,
@@ -55,7 +56,11 @@ function ClubItem({
     <Container>
       <Header>
         <EmblemWrap>
-          <ClubEmblem source={require('../../data/2bar.jpg')} />
+          {emblem ? (
+            <ClubEmblem source={{ uri: emblem }} />
+          ) : (
+            <ClubEmblem source={require('../../data/2bar.jpg')} />
+          )}
         </EmblemWrap>
         <InfoWrap>
           <ClubnameText>{clubname}</ClubnameText>
@@ -72,6 +77,7 @@ function ClubItem({
 ClubItem.propTypes = {
   id: PropTypes.number,
   clubname: PropTypes.string,
+  emblem: PropTypes.string,
   clubArea: PropTypes.string,
   clubLeader: PropTypes.shape({
     username: PropTypes.string,

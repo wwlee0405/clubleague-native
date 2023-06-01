@@ -210,7 +210,7 @@ export default function GameMatch({ route }) {
         <ScrollView>
           <HeaderAvatar
             onPress={goToProfile}
-            avatar={data?.seeGame?.user?.avatar}
+            image={data?.seeGame?.user?.avatar}
             topData={data?.seeGame?.user?.username}
             bottomData="Seoul, Korea"
           />

@@ -60,7 +60,6 @@ const ClubTeam = styled.View`
   width: 100px;
   height: 140px;
   align-items: center;
-  justify-content: center;
   padding: 15px 20px;
 `;
 const ClubEmblem = styled.Image`
@@ -70,8 +69,7 @@ const ClubEmblem = styled.Image`
 `;
 const ClubName = styled.Text`
   font-weight: bold;
-  width: 100%;
-  overflow: hidden;
+
 `;
 
 function UserProfile({
@@ -92,7 +90,7 @@ function UserProfile({
       <ClubTeam>
         <ClubEmblem source={require('../../data/2bar.jpg')} />
         <View>
-          <ClubName numberOfLines={1}>{myClubs?.club?.clubname}</ClubName>
+          <ClubName numberOfLines={3}>{myClubs?.club?.clubname}</ClubName>
         </View>
       </ClubTeam>
     </Pressable>

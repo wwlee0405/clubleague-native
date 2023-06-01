@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
@@ -22,7 +22,7 @@ const ClubName = styled.Text`
   overflow: hidden;
 `;
 
-function MyClubList({ id, clubname }) {
+function MyClubList({ id, emblem, clubname }) {
   const navigation = useNavigation();
   const goToClub = () => {
     navigation.navigate("Clubhouse", {
@@ -32,7 +32,11 @@ function MyClubList({ id, clubname }) {
   return (
     <Touchable onPress={goToClub}>
       <ClubTeam>
-        <ClubEmblem source={require('../../data/2bar.jpg')} />
+        {emblem ?
+          (<ClubEmblem source={{ uri: emblem }} />)
+          :
+          (<ClubEmblem source={require('../../data/2bar.jpg')} />)
+        }
         <View>
           <ClubName numberOfLines={1}>{clubname}</ClubName>
         </View>
@@ -43,8 +47,8 @@ function MyClubList({ id, clubname }) {
 
 MyClubList.propTypes = {
   id: PropTypes.number,
+  emblem: PropTypes.string,
   clubname: PropTypes.string.isRequired,
-
 };
 
 export default MyClubList;

@@ -25,12 +25,12 @@ const TextBottom = styled.Text`
   font-size: 12px;
 `;
 
-export default function HeaderAvatar({ onPress, avatar, topData, bottomData }) {
+export default function HeaderAvatar({ onPress, image, topData, bottomData }) {
   return (
     <ButtonTochable onPress={onPress}>
-      {avatar ?
+      {image ?
         (<Wrapper>
-          <Avatar resizeMode="cover" source={{ uri: avatar }} />
+          <Avatar resizeMode="cover" source={{ uri: image }} />
           <TextData>
             <TextTop>{topData}</TextTop>
             <TextBottom>{bottomData}</TextBottom>

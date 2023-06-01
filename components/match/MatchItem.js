@@ -100,7 +100,7 @@ function MatchItem({ id, user, games, club, clubNumInMatch }) {
     <Container>
       <HeaderAvatar
         onPress={goToProfile}
-        avatar={user.avatar}
+        image={user.avatar}
         topData={user.username}
         bottomData={games?.club?.clubname}
       />
@@ -120,7 +120,7 @@ function MatchItem({ id, user, games, club, clubNumInMatch }) {
         </Row>
 
         <GameContent>
-          <ClubEmblem source={require('../../data/2bar.jpg')} />
+          <ClubEmblem source={{ uri: games[0].club?.emblem }} />
           <KickOffData>
             <KickOffTime>10:00</KickOffTime>
             <Location numberOfLines={1}>Santiago Bernabéu</Location>
