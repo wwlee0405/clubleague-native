@@ -42,8 +42,6 @@ export default function Profile({ navigation, route }) {
     }
   }, []);
 
-  console.log(data?.seeProfile?.userMember);
-  console.log(data?.seeProfile);
   console.log(route);
 
   return (

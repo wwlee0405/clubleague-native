@@ -69,10 +69,10 @@ const ClubEmblem = styled.Image`
 `;
 const ClubName = styled.Text`
   font-weight: bold;
-
 `;
 
 function UserProfile({
+  id,
   onPress,
   avatar,
   username,
@@ -100,7 +100,9 @@ function UserProfile({
       <ProfileWrap>
         <AvatarWrap>
           <Pressable
-            onPress={() => isMe ? navigation.navigate("UploadAvatar") : null}
+            onPress={() => isMe ? navigation.navigate("UploadAvatar",{
+              id,
+            }) : null}
           >
             {avatar ? (
               <Avatar source={{ uri: avatar }} />
@@ -147,6 +149,7 @@ function UserProfile({
 }
 
 UserProfile.propTypes = {
+  id: PropTypes.number,
   avatar: PropTypes.string,
   isMe: PropTypes.bool,
   username: PropTypes.string,

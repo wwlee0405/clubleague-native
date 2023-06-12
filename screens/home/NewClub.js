@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { gql, useMutation } from "@apollo/client";
+import { ReactNativeFile } from "apollo-upload-client";
 import { useForm } from "react-hook-form";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
@@ -14,7 +15,7 @@ const CREATE_CLUB = gql`
     $clubname: String!
     $clubArea: String
     $clubBio: String
-    $emblem: String
+    $emblem: Upload
   ) {
     createClub(
       clubname: $clubname
@@ -35,13 +36,18 @@ const Container = styled.View`
    flex: 1;
    background-color: ${colors.white};
 `;
-const Avatar = styled.View`
+const Emblem = styled.View`
    justify-content: center;
    align-items: center;
    width: 130px;
    height: 130px;
-   border-radius: 100px;
+   border-radius: 65px;
    background-color: ${colors.seaGreen};
+`;
+const EmblemImg = styled.Image`
+  width: 130px;
+  height: 130px;
+  border-radius: 65px;
 `;
 const TextInput = styled.TextInput`
 	padding: 10px;
@@ -81,12 +87,18 @@ export default function NewClub({ route, navigation }) {
   const onNext = (nextOne) => {
     nextOne?.current?.focus();
   };
-  const onValid = (data) => {
-    console.log(data);
+  const onValid = ({ clubname, clubArea }) => {
+    const emblem = new ReactNativeFile({
+      uri: route.params.emblem,
+      name: `1.jpg`,
+      type: "image/jpeg",
+    });
     if (!loading) {
       createClubMutation({
         variables: {
-          ...data,
+          clubname,
+          clubArea,
+          emblem,
         },
       });
     }
@@ -99,6 +111,12 @@ export default function NewClub({ route, navigation }) {
       required: true,
     });
   }, [register]);
+  useEffect(() => {
+    if (route.params?.emblem) {
+      // Post updated, do something with `route.params.post`
+      // For example, send the post to the server
+    }
+  }, [route.params?.emblem]);
   const clubnameWatch = !watch("clubname")
   useEffect(() => {
     navigation.setOptions({
@@ -111,14 +129,19 @@ export default function NewClub({ route, navigation }) {
       ...(loading && { headerLeft: () => null }),
     });
   }, [loading, clubnameWatch]);
+  console.log(route);
   return (
     <DismissKeyboard>
       <Container>
         <View style={{ paddingBottom: 30 }}>
-          <TouchableOpacity onPress={() => alert("edit img")}>
-            <Avatar>
-              <Feather name="camera" size={40} style={{ color: colors.greyColor }} />
-            </Avatar>
+          <TouchableOpacity onPress={() => navigation.navigate("UploadEmblem")}>
+            {route.params?.emblem ? (
+              <EmblemImg resizeMode="contain" source={{ uri: route.params.emblem }} />
+            ):(
+              <Emblem>
+                <Feather name="camera" size={40} style={{ color: colors.greyColor }} />
+              </Emblem>
+            )}
           </TouchableOpacity>
         </View>
          <TextInput

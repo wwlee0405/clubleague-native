@@ -7,6 +7,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 import DismissKeyboard from "../../components/DismissKeyboard";
+import HeaderRightLoading from "../../components/shared/HeaderRightLoading";
+import HeaderRight from "../../components/shared/HeaderRight";
 
 const EDIT_PROFILE_MUTATION = gql`
   mutation editProfile($bio:String, $avatar:Upload){
@@ -36,16 +38,7 @@ const Caption = styled.TextInput`
   border-radius: 100px;
 `;
 
-const HeaderRightText = styled.Text`
-  color: ${colors.blue};
-  font-size: 16px;
-  font-weight: 600;
-  margin-right: 7px;
-`;
-
 export default function UploadAvatarForm({ route, navigation }) {
-
-
   const updateEditProfile = (cache, result) => {
     const {
       data: {
@@ -83,21 +76,18 @@ export default function UploadAvatarForm({ route, navigation }) {
       update: updateEditProfile
     }
   );
-  const HeaderRight = () => (
-    <TouchableOpacity onPress={handleSubmit(onValid)}>
-      <HeaderRightText>Next</HeaderRightText>
-    </TouchableOpacity>
-  );
-  const HeaderRightLoading = () => (
-    <ActivityIndicator size="small" color="white" style={{ marginRight: 10 }} />
-  );
   const { register, handleSubmit, setValue } = useForm();
   useEffect(() => {
     register("bio");
   }, [register]);
   useEffect(() => {
     navigation.setOptions({
-      headerRight: loading ? HeaderRightLoading : HeaderRight,
+      headerRight: () => (
+        loading ?
+        <HeaderRightLoading />
+        :
+        <HeaderRight onPress={handleSubmit(onValid)} />
+      ),
       ...(loading && { headerLeft: () => null }),
     });
   }, [loading]);
@@ -116,7 +106,7 @@ export default function UploadAvatarForm({ route, navigation }) {
   };
 
   console.log(error);
-  
+
   return (
     <DismissKeyboard>
       <Container>

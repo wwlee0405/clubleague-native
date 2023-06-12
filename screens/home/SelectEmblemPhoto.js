@@ -10,6 +10,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { colors } from "../../colors";
+import HeaderRight from "../../components/shared/HeaderRight";
 
 const Container = styled.View`
   flex: 1;
@@ -28,14 +29,8 @@ const IconContainer = styled.View`
   bottom: 5px;
   right: 0px;
 `;
-const HeaderRightText = styled.Text`
-  color: ${colors.blue};
-  font-size: 16px;
-  font-weight: 600;
-  margin-right: 7px;
-`;
 
-export default function SelectAvatarPhoto({ navigation, route }) {
+export default function SelectEmblemPhoto({ navigation, route }) {
   const [denied, setDenied] = useState(true);
   const [photos, setPhotos] = useState([]);
   const [chosenPhoto, setChosenPhoto] = useState("");
@@ -59,23 +54,20 @@ export default function SelectAvatarPhoto({ navigation, route }) {
       getPhotos();
     }
   };
-  const HeaderRight = () => (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("UploadAvatarForm", {
-          avatar: chosenPhoto,
-        })
-      }
-    >
-      <HeaderRightText>Next</HeaderRightText>
-    </TouchableOpacity>
-  );
   useEffect(() => {
     getPermissions();
   }, []);
   useEffect(() => {
     navigation.setOptions({
-      headerRight: HeaderRight,
+      headerRight: () => (
+        <HeaderRight
+          onPress={() =>
+            navigation.navigate("NewClub", {
+              emblem: chosenPhoto,
+            })
+          }
+        />
+      ),
     });
   }, [chosenPhoto]);
   const numColumns = 4;

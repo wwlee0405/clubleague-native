@@ -64,6 +64,13 @@ export default function ClubSetting({route}) {
       >
         <Text>임원해제</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("TransferLeader", {
+          clubId: data?.seeClub?.id,
+        })}
+      >
+        <Text>리더양도</Text>
+      </TouchableOpacity>
       <TouchableOpacity>
         <Text>멤버탈퇴/차단설정</Text>
       </TouchableOpacity>

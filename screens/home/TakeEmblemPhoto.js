@@ -5,7 +5,7 @@ import * as MediaLibrary from "expo-media-library";
 import { useIsFocused } from "@react-navigation/native";
 import TakePhoto from "../../components/photo/TakePhoto";
 
-export default function TakeAvatarPhoto({ navigation }) {
+export default function TakeEmblemPhoto({ navigation }) {
   const camera = useRef();
   const [takenPhoto, setTakenPhoto] = useState("");
   const [cameraReady, setCameraReady] = useState(false);
@@ -43,8 +43,8 @@ export default function TakeAvatarPhoto({ navigation }) {
     if (save) {
       await MediaLibrary.saveToLibraryAsync(takenPhoto);
     }
-    navigation.navigate("UploadAvatarForm", {
-      avatar: takenPhoto,
+    navigation.navigate("NewClub", {
+      emblem: takenPhoto,
     });
   };
   const onUpload = () => {
