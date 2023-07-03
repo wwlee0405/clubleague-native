@@ -107,7 +107,7 @@ export default function Match({ navigation }) {
         }
         refreshing={refreshing}
         onRefresh={refresh}
-        style={{ width: "100%" }}
+        style={{ width: "100%", marginTop: 60 }}
         showsVerticalScrollIndicator={false}
         data={data?.seeMatch}
         keyExtractor={(match) => "" + match.id}

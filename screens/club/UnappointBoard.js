@@ -1,7 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList } from "react-native";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 import { useNavigation } from "@react-navigation/native";
@@ -18,24 +17,21 @@ const UNAPPOINT_BOARD = gql`
     }
   }
 `;
-const SEE_CLUB = gql`
-  query seeClub($id: Int!) {
-    seeClub(id: $id) {
+const SEE_CLUBMEMBER = gql`
+  query seeClubMembers($clubId: Int!) {
+    seeClubMembers(clubId: $clubId) {
       id
-      totalMember
-      clubLeader {
-        username
-      }
-      clubMember {
+      user {
         id
-        boardAuth
-        memberAuth
-        user {
+        username
+        avatar
+      }
+      club {
+        clubLeader {
           id
-          avatar
-          username
         }
       }
+      boardAuth
     }
   }
 `;
@@ -70,14 +66,11 @@ const Username = styled.Text`
 export default function UnappointBoard({ route }) {
   const navigation = useNavigation();
   const [chosenBoard, setChosenBoard] = useState("");
-  const { data } = useQuery(SEE_CLUB, {
+  const { data } = useQuery(SEE_CLUBMEMBER, {
     variables: {
-      id: route?.params?.clubId,
+      clubId: route?.params?.clubId,
     },
   });
-
-  console.log(route);
-  console.log(chosenBoard);
 
   const unappointBoardUpdate = (cache, result) => {
     const {
@@ -102,19 +95,23 @@ export default function UnappointBoard({ route }) {
       ),
     });
   }, [chosenBoard]);
-
   const chooseBoard = (user) => {
     setChosenBoard(user);
   };
   const renderBoard = ({ item: board }) => {
     return (
-      <UserRowCheckbox
-        onPress={() => chooseBoard(board.id)}
-        avatar={board?.user.avatar}
-        username={board?.user.username}
-        id={board?.id}
-        choice={chosenBoard}
-      />
+      <View>
+        {board.boardAuth === true
+          && board.club.clubLeader.id !== board.user?.id  ? (
+            <UserRowCheckbox
+              onPress={() => chooseBoard(board.id)}
+              avatar={board?.user.avatar}
+              username={board?.user.username}
+              id={board?.id}
+              choice={chosenBoard}
+            />
+        ) : null}
+      </View>
     );
   };
   return (
@@ -130,7 +127,7 @@ export default function UnappointBoard({ route }) {
 
       <Title>Board</Title>
       <FlatList
-        data={data?.seeClub?.clubMember}
+        data={data?.seeClubMembers}
         keyExtractor={(board) => "" + board.id}
         renderItem={renderBoard}
       />

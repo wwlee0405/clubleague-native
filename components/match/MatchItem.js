@@ -4,7 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 import HeaderAvatar from "../HeaderAvatar.js";
-
 import { Text, View } from "react-native";
 
 const Container = styled.View`
@@ -75,6 +74,11 @@ const Location = styled.Text`
   width: 100%;
   overflow: hidden;
 `;
+const AwayText = styled.Text`
+  color: ${colors.darkGrey};
+  font-weight: 600;
+  font-size: 25px;
+`;
 const VersusText = styled.Text`
   color: ${colors.darkGrey};
   font-size: 15px;
@@ -102,7 +106,7 @@ function MatchItem({ id, user, games, club, clubNumInMatch }) {
         onPress={goToProfile}
         image={user.avatar}
         topData={user.username}
-        bottomData={games?.club?.clubname}
+        bottomData={games[0].club?.clubname}
       />
       <ExtraContainer>
 
@@ -120,12 +124,21 @@ function MatchItem({ id, user, games, club, clubNumInMatch }) {
         </Row>
 
         <GameContent>
-          <ClubEmblem source={{ uri: games[0].club?.emblem }} />
+          {games[0].club?.emblem ?
+            <ClubEmblem source={{ uri: games[0].club?.emblem }} />
+            :
+            <ClubEmblem source={require('../../data/1ars.jpg')} />
+          }
           <KickOffData>
             <KickOffTime>10:00</KickOffTime>
             <Location numberOfLines={1}>Santiago Bernabéu</Location>
           </KickOffData>
-          <ClubEmblem source={require('../../data/1ars.jpg')} />
+
+          {clubNumInMatch === 2 ? (
+            <ClubEmblem source={require('../../data/2bar.jpg')} />
+          ) : (
+            <AwayText>Away</AwayText>
+          )}
         </GameContent>
         <VersusText>
           <ClubName>{games[0].club?.clubname}</ClubName>

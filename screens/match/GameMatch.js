@@ -163,7 +163,7 @@ const AwayBtn = styled.View`
   elevation: 2;
 `;
 const AwayText = styled.Text`
-  color: ${colors.yellow};
+  color: ${colors.darkGrey};
   font-weight: 600;
   font-size: 25px;
 `;
