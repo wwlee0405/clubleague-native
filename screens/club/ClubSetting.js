@@ -47,9 +47,15 @@ export default function ClubSetting({route}) {
       </TouchableOpacity>
 
       <Text>-멤버 활동관리-</Text>
-      <TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("WritingAuth", {
+          clubId: data?.seeClub?.id,
+        })}
+      >
         <Text>멤버권한 설정-글쓰기(매치)권한</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         onPress={() => navigation.navigate("AppointBoard", {
           clubId: data?.seeClub?.id,
