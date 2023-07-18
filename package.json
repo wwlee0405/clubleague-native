@@ -23,6 +23,7 @@
     "expo": "^47.0.13",
     "expo-app-loading": "~2.1.1",
     "expo-camera": "~13.1.0",
+    "expo-cli": "^6.3.10",
     "expo-font": "~11.0.1",
     "expo-media-library": "~15.0.0",
     "expo-modules-core": "~1.0.4 || ~1.1.1",
