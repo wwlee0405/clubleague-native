@@ -20,8 +20,7 @@ import ClubCalendar from "../screens/club/ClubCalendar";
 import ClubMember from "../screens/club/ClubMember";
 import ClubSetting from "../screens/club/ClubSetting";
 
-import WritingAuth from "../screens/club/WritingAuth";
-import InvitingAuth from "../screens/club/InvitingAuth";
+import MemberAuth from "../screens/club/MemberAuth";
 import AppointBoard from "../screens/club/AppointBoard";
 import UnappointBoard from "../screens/club/UnappointBoard";
 import TransferLeader from "../screens/club/TransferLeader";
@@ -91,8 +90,7 @@ export default function LoggedInNav() {
         )}
       </Stack.Screen>
 
-      <Stack.Screen name="WritingAuth" component={WritingAuth} />
-      <Stack.Screen name="InvitingAuth" component={InvitingAuth} />
+      <Stack.Screen name="MemberAuth" component={MemberAuth} />
       <Stack.Screen name="AppointBoard" component={AppointBoard} />
       <Stack.Screen name="UnappointBoard" component={UnappointBoard} />
       <Stack.Screen name="TransferLeader" component={TransferLeader} />

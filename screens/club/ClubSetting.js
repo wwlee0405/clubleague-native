@@ -49,11 +49,11 @@ export default function ClubSetting({route}) {
       <Text>-멤버 활동관리-</Text>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate("WritingAuth", {
+        onPress={() => navigation.navigate("MemberAuth", {
           clubId: data?.seeClub?.id,
         })}
       >
-        <Text>멤버권한 설정-글쓰기(매치)권한</Text>
+        <Text>멤버권한 설정</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

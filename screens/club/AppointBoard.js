@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, ScrollView } from "react-native";
+import { View, FlatList } from "react-native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 import { useNavigation } from "@react-navigation/native";
