@@ -1,9 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { View, FlatList } from "react-native";
-import UserProfileRow from "../../components/profile/UserProfileRow";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
+import { colors } from "../../colors";
+import MemberRow from "../../components/profile/MemberRow";
 
 const SEE_CLUB = gql`
   query seeClub($id: Int!) {
@@ -19,6 +20,7 @@ const SEE_CLUB = gql`
           avatar
           username
         }
+        boardAuth
       }
     }
   }
@@ -26,9 +28,9 @@ const SEE_CLUB = gql`
 
 const MemberCount = styled.Text`
   opacity: 0.7;
-  margin: 10px 15px;
-  font-weight: 600;
-  font-size: 15px;
+  margin: 5px 15px;
+  font-size: 12px;
+  color: ${colors.darkGrey};
 `;
 
 export default function ClubMember({ route }) {
@@ -39,16 +41,7 @@ export default function ClubMember({ route }) {
     },
   });
   const renderMember = ({ item: member }) => {
-    return (
-      <UserProfileRow
-        onPress={() => navigation.navigate("Profile",{
-          username: member?.user.username,
-          id: member?.user.id,
-        })}
-        avatar={member?.user.avatar}
-        username={member?.user.username}
-      />
-    );
+    return <MemberRow {...member} />;
   };
   return (
     <View>

@@ -27,17 +27,14 @@ const Username = styled.Text`
 function UserProfileRow({ onPress, avatar, username }) {
   return (
     <Wrapper>
-      {avatar ? (
-        <Column onPress={onPress}>
-          <Avatar source={{ uri: avatar }} />
-          <Username>{username}</Username>
-        </Column>
-      ) : (
-        <Column onPress={onPress}>
+      <Column onPress={onPress}>
+        {avatar ? 
+          <Avatar source={{ uri: avatar }} /> 
+          : 
           <Avatar source={require('../../data/gggg.jpg')} />
-          <Username>{username}</Username>
-        </Column>
-      )}
+        }
+        <Username>{username}</Username>
+      </Column>
     </Wrapper>
   );
 }

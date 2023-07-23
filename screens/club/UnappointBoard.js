@@ -36,6 +36,7 @@ const SEE_CLUBMEMBER = gql`
   }
 `;
 
+const avatarDimensions = '40px'
 const Top = styled.View`
   padding-horizontal: 15px;
 `;
@@ -44,8 +45,6 @@ const Title = styled.Text`
   font-size: 12px;
   color: ${colors.darkGrey};
 `;
-
-const avatarDimensions = '40px'
 const UserData = styled.View`
   padding: 0px 0px;
   width: ${avatarDimensions};

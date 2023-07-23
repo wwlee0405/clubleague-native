@@ -4,6 +4,7 @@ export const CLUB_FRAGMENT = gql`
   fragment ClubFragment on Club {
     id
     clubLeader {
+      id
       username
     }
     clubname

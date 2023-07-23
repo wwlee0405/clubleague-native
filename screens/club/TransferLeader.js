@@ -8,6 +8,15 @@ import UserRowCheckbox from "../../components/profile/UserRowCheckbox";
 import UserColumn from "../../components/profile/UserColumn";
 import HeaderRight from "../../components/shared/HeaderRight";
 
+const TRANSFER_LEADER = gql`
+  mutation transferLeader($id: Int!) {
+    transferLeader(id: $id) {
+      error
+      ok
+      id
+    }
+  }
+`;
 const SEE_CLUBMEMBER = gql`
   query seeClubMembers($clubId: Int!) {
     seeClubMembers(clubId: $clubId) {
@@ -62,13 +71,29 @@ export default function TransferLeader({ route }) {
     },
   });
 
+  const transferLeaderUpdate = (cache, result) => {
+    const {
+      data: {
+        transferLeader: { ok, id },
+      },
+    } = result;
+
+  }
+
+  const [transferLeader] = useMutation(TRANSFER_LEADER, {
+    variables: {
+      id: chosenLeader,
+    },
+    update: transferLeaderUpdate,
+  });
+
 
 
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <HeaderRight onPress={null} />
+        <HeaderRight onPress={transferLeader} />
       ),
     });
   }, [chosenLeader]);

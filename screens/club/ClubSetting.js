@@ -4,11 +4,15 @@ import { View, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../colors";
+import useMe from "../../hooks/useMe";
 
 const SEE_CLUB = gql`
   query seeClub($id: Int!) {
     seeClub(id: $id) {
       id
+      clubLeader {
+        id
+      }
     }
   }
 `;
@@ -22,13 +26,19 @@ const Text = styled.Text`
 `;
 
 export default function ClubSetting({route}) {
+  const { data: userData } = useMe();
   const navigation = useNavigation();
   const { data } = useQuery(SEE_CLUB, {
     variables: {
       id: route?.params?.clubId,
     },
   });
+
+  const clubLeader = data?.seeClub?.clubLeader.id;
+  const me = userData?.me.id;
+  
   console.log(route);
+  
   return (
     <View>
       <Text>Club_Setting</Text>
@@ -63,6 +73,7 @@ export default function ClubSetting({route}) {
       >
         <Text>임원임명</Text>
       </TouchableOpacity>
+      
       <TouchableOpacity
         onPress={() => navigation.navigate("UnappointBoard", {
           clubId: data?.seeClub?.id,
@@ -70,13 +81,17 @@ export default function ClubSetting({route}) {
       >
         <Text>임원해제</Text>
       </TouchableOpacity>
-      <TouchableOpacity
+
+      {clubLeader === me ?
+      (<TouchableOpacity
         onPress={() => navigation.navigate("TransferLeader", {
           clubId: data?.seeClub?.id,
         })}
       >
         <Text>리더양도</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>)
+      : null}
+
       <TouchableOpacity>
         <Text>멤버탈퇴/차단설정</Text>
       </TouchableOpacity>

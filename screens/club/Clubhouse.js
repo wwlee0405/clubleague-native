@@ -62,7 +62,7 @@ const JoinBtn = styled(AuthButton)`
   background-color: ${colors.darkGrey};
 `;
 
-export default function Clubhouse({ route, clubId }) {
+export default function Clubhouse({ route }) {
   const { data: userData } = useMe();
   const { data } = useQuery(SEE_CLUB, {
     variables: {
