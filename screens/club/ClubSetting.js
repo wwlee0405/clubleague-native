@@ -44,9 +44,15 @@ export default function ClubSetting({route}) {
       <Text>Club_Setting</Text>
 
       <Text>-클럽 기본 정보 관리-</Text>
-      <TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("EditNameEmblem", {
+          clubId: data?.seeClub?.id,
+        })}
+      >
         <Text>클럽이름 및 커버설정</Text>
       </TouchableOpacity>
+      
       <TouchableOpacity>
         <Text>클럽소개</Text>
       </TouchableOpacity>

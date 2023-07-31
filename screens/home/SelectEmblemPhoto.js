@@ -62,7 +62,7 @@ export default function SelectEmblemPhoto({ navigation, route }) {
       headerRight: () => (
         <HeaderRight
           onPress={() =>
-            navigation.navigate("NewClub", {
+            navigation.navigate("EditNameEmblem", {
               emblem: chosenPhoto,
             })
           }

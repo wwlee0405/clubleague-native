@@ -20,6 +20,7 @@ import ClubCalendar from "../screens/club/ClubCalendar";
 import ClubMember from "../screens/club/ClubMember";
 import ClubSetting from "../screens/club/ClubSetting";
 
+import EditNameEmblem from "../screens/club/EditNameEmblem";
 import MemberAuth from "../screens/club/MemberAuth";
 import AppointBoard from "../screens/club/AppointBoard";
 import UnappointBoard from "../screens/club/UnappointBoard";
@@ -90,6 +91,7 @@ export default function LoggedInNav() {
         )}
       </Stack.Screen>
 
+      <Stack.Screen name="EditNameEmblem" component={EditNameEmblem} />
       <Stack.Screen name="MemberAuth" component={MemberAuth} />
       <Stack.Screen name="AppointBoard" component={AppointBoard} />
       <Stack.Screen name="UnappointBoard" component={UnappointBoard} />
