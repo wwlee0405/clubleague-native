@@ -11,7 +11,7 @@ import HeaderRightLoading from "../../components/shared/HeaderRightLoading";
 import HeaderRight from "../../components/shared/HeaderRight";
 
 const EDIT_CLUB = gql`
-  mutation EditClub($id: Int!, $clubname: String, $emblem: Upload) {
+  mutation editClub($id: Int!, $clubname: String, $emblem: Upload) {
     editClub(id: $id, clubname: $clubname, emblem: $emblem) {
       error
       ok
