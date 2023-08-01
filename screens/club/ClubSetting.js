@@ -10,6 +10,8 @@ const SEE_CLUB = gql`
   query seeClub($id: Int!) {
     seeClub(id: $id) {
       id
+      clubname
+      emblem
       clubLeader {
         id
       }

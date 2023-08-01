@@ -10,11 +10,11 @@ import DismissKeyboard from "../../components/DismissKeyboard";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
 
 const EDIT_PROFILE_MUTATION = gql`
-  mutation editProfile($bio:String, $avatar:Upload){
-    editProfile(bio:$bio, avatar:$avatar){
-      ok
+  mutation editProfile($firstName: String, $lastName: String, $username: String, $bio: String, $avatar: Upload) {
+    editProfile(firstName: $firstName, lastName: $lastName, username: $username, bio: $bio, avatar: $avatar) {
       error
       id
+      ok
     }
   }
 `;
@@ -29,13 +29,13 @@ margin-right: 7px;
 export default function EditProfile({ navigation, route }) {
   const { data: userData } = useMe();
 
-  console.log(userData);
-  console.log(userData.me.bio);
+  
   const onCompleted = (cache, result) => {
     const {
       editProfile: { ok, id },
     } = result;
     if (editProfile.id) {
+      /*
       const newProfile = {
         __typename: "User",
         createdAt: Date.now() + "",
@@ -62,7 +62,7 @@ export default function EditProfile({ navigation, route }) {
             return [...prev, newCacheProfile];
           },
         },
-      });
+      });*/
       navigation.navigate("Profile");
     }
 
@@ -73,7 +73,17 @@ export default function EditProfile({ navigation, route }) {
     },
   );
   const { register, handleSubmit, setValue } = useForm();
+  
+  const usernameRef = useRef();
+  const firstNameRef = useRef();
+  const bioRef = useRef();
   useEffect(() => {
+    register("username", {
+      required: true,
+    });
+    register("firstName", {
+      required: true,
+    });
     register("bio", {
       required: true,
     });
@@ -101,6 +111,7 @@ export default function EditProfile({ navigation, route }) {
   };
   return (
     <DismissKeyboard>
+      
       <TextInput
         placeholder="bio"
         returnKeyType="next"

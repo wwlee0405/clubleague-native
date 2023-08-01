@@ -10,7 +10,7 @@ import DismissKeyboard from "../../components/DismissKeyboard";
 import HeaderRightLoading from "../../components/shared/HeaderRightLoading";
 import HeaderRight from "../../components/shared/HeaderRight";
 
-const EDIT_CLUB = gql`
+const EDIT_CLUB_MUTATION = gql`
   mutation editClub($id: Int!, $clubname: String, $emblem: Upload) {
     editClub(id: $id, clubname: $clubname, emblem: $emblem) {
       error
@@ -63,24 +63,31 @@ export default function EditNameEmblem({ route, clubId }) {
   const navigation = useNavigation();
   const { register, handleSubmit, setValue, getValues, watch } = useForm({
     defaultValues: {
-      clubname: route?.params?.clubname,
+      clubname: route.params?.clubname,
     },
   });
   const { data } = useQuery(SEE_CLUB, {
     variables: {
-      id: route?.params?.clubId,
+      id: route.params?.clubId,
     },
   });
-  const onCompleted = (cache, result) => {
+  const updateEditClub = (cache, result) => {
     const {
       editClub: { ok, id },
     } = result;
     const { clubname } = getValues();
+    if (ok) {
+      /* cache*/
+      navigation.navigate("Me");
+    }
 
   };
-  const [editClubMutation, { loading }] = useMutation(EDIT_CLUB, {
-    onCompleted,
-  });
+  const [editClubMutation, { loading, error }] = useMutation(
+    EDIT_CLUB_MUTATION, 
+    {
+      update: updateEditClub,
+    }
+  );
   const clubnameRef = useRef();
 
   const onValid = ({ clubname, clubArea }) => {
@@ -92,6 +99,7 @@ export default function EditNameEmblem({ route, clubId }) {
     if (!loading) {
       editClubMutation({
         variables: {
+          clubname,
           emblem,
         },
       });
@@ -122,6 +130,7 @@ export default function EditNameEmblem({ route, clubId }) {
   console.log(data.seeClub);
   console.log(data.seeClub?.id);
   console.log(route);
+  console.log(error);
 
   return (
     <DismissKeyboard>
