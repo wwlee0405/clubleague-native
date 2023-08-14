@@ -72,7 +72,6 @@ const ClubName = styled.Text`
 `;
 
 function UserProfile({
-  onPress,
   avatar,
   username,
   firstName,
@@ -125,7 +124,9 @@ function UserProfile({
       </ProfileWrap>
 
       {isMe ? (
-        <TouchableOpacity onPress={() => navigation.navigate("EditProfile")}>
+        <TouchableOpacity 
+          onPress={() => navigation.navigate("EditProfile")}
+        >
           <EditProfileBtn>
             <EditProfileBtnText>Edit Profile</EditProfileBtnText>
           </EditProfileBtn>

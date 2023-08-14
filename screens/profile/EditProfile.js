@@ -8,10 +8,12 @@ import { ActivityIndicator, TouchableOpacity, Text, View } from "react-native";
 import { TextInput } from "../../components/auth/AuthShared";
 import DismissKeyboard from "../../components/DismissKeyboard";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
+import HeaderRightLoading from "../../components/shared/HeaderRightLoading";
+import HeaderRight from "../../components/shared/HeaderRight";
 
 const EDIT_PROFILE_MUTATION = gql`
-  mutation editProfile($firstName: String, $lastName: String, $username: String, $bio: String, $avatar: Upload) {
-    editProfile(firstName: $firstName, lastName: $lastName, username: $username, bio: $bio, avatar: $avatar) {
+  mutation editProfile($bio: String) {
+    editProfile(bio: $bio) {
       error
       id
       ok
@@ -32,37 +34,12 @@ export default function EditProfile({ navigation, route }) {
   
   const onCompleted = (cache, result) => {
     const {
-      editProfile: { ok, id },
+      data: {
+        editProfile: { ok, id },
+      },
     } = result;
-    if (editProfile.id) {
-      /*
-      const newProfile = {
-        __typename: "User",
-        createdAt: Date.now() + "",
-        id,
-        avatar,
-        bio,
-      };
-      const newCacheProfile = cache.writeFragment({
-        data: newProfile,
-        fragment: gql`
-          fragment BSName on User {
-            id
-            createdAt
-            avatar
-            bio
-          }
-        `,
-      });
-
-      cache.modify({
-        id: `User:${userData.me.id}`,
-        fields: {
-          bio(prev) {
-            return [...prev, newCacheProfile];
-          },
-        },
-      });*/
+    if (ok) {
+      
       navigation.navigate("Profile");
     }
 
@@ -78,37 +55,37 @@ export default function EditProfile({ navigation, route }) {
   const firstNameRef = useRef();
   const bioRef = useRef();
   useEffect(() => {
-    register("username", {
-      required: true,
-    });
-    register("firstName", {
-      required: true,
-    });
+    
     register("bio", {
       required: true,
     });
   }, [register]);
-  const HeaderRight = () => (
-    <TouchableOpacity onPress={handleSubmit(onValid)}>
-      <HeaderRightText>Next</HeaderRightText>
-    </TouchableOpacity>
-  );
-  const HeaderRightLoading = () => (
-    <ActivityIndicator size="small" color="red" style={{ marginRight: 10 }} />
-  );
+  
+
   useEffect(() => {
     navigation.setOptions({
-      headerRight: loading ? HeaderRightLoading : HeaderRight,
+      headerRight: () => (
+        loading ?
+        <HeaderRightLoading />
+        :
+        <HeaderRight onPress={handleSubmit(onValid)} />
+      ),
       ...(loading && { headerLeft: () => null }),
     });
   }, [loading]);
   const onValid = ({ bio }) => {
-    editProfileMutation({
-      variables: {
-        bio,
-      },
-    });
+    if (!loading) {
+      editProfileMutation({
+        variables: {
+          bio,
+        },
+      });
+    }
   };
+
+  console.log(route);
+  console.log(userData);
+
   return (
     <DismissKeyboard>
       
