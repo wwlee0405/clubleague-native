@@ -74,8 +74,7 @@ const ClubName = styled.Text`
 function UserProfile({
   avatar,
   username,
-  firstName,
-  lastName,
+  fullName,
   isMe,
   userMember,
 }) {
@@ -114,7 +113,7 @@ function UserProfile({
           </View>
           <View>
             <NameTag>Name</NameTag>
-            <Property>{firstName} {lastName}</Property>
+            <Property>{fullName}</Property>
           </View>
           <View>
             <NameTag>Area</NameTag>
@@ -150,8 +149,7 @@ UserProfile.propTypes = {
   avatar: PropTypes.string,
   isMe: PropTypes.bool,
   username: PropTypes.string,
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
+  fullName: PropTypes.string,
   userMember: PropTypes.arrayOf(
     PropTypes.shape({
       club: PropTypes.shape({

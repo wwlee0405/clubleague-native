@@ -28,6 +28,9 @@ import TransferLeader from "../screens/club/TransferLeader";
 
 import Profile from "../screens/profile/Profile";
 import EditProfile from "../screens/profile/EditProfile";
+import EditUsername from "../screens/profile/EditUsername";
+import EditName from "../screens/profile/EditName";
+import EditBio from "../screens/profile/EditBio";
 import SelectAvatarPhoto from "../screens/profile/SelectAvatarPhoto";
 import TakeAvatarPhoto from "../screens/profile/TakeAvatarPhoto";
 import UploadAvatarForm from "../screens/profile/UploadAvatarForm";
@@ -105,7 +108,10 @@ export default function LoggedInNav() {
       <Stack.Screen name="SelectAway" component={SelectAway} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
-
+      <Stack.Screen name="EditUsername" component={EditUsername} />
+      <Stack.Screen name="EditName" component={EditName} />
+      <Stack.Screen name="EditBio" component={EditBio} />
+      
       <Stack.Screen
         name="UploadAvatar"
         options={{ headerShown: false }}

@@ -7,8 +7,7 @@ const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
     seeProfile(username: $username) {
       id
-      firstName
-      lastName
+      fullName
       username
       avatar
       bio

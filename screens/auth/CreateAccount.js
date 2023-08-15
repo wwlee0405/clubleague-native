@@ -8,15 +8,13 @@ import { TextInput } from "../../components/auth/AuthShared";
 
 const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccount(
-    $firstName: String!
-    $lastName: String
+    $fullName: String!
     $username: String!
     $email: String!
     $password: String!
   ) {
     createAccount(
-      firstName: $firstName
-      lastName: $lastName
+      fullName: $fullName
       username: $username
       email: $email
       password: $password
@@ -47,7 +45,6 @@ export default function CreateAccount({ navigation }) {
       onCompleted,
     }
   );
-  const lastNameRef = useRef();
   const usernameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -67,10 +64,7 @@ export default function CreateAccount({ navigation }) {
   };
 
   useEffect(() => {
-    register("firstName", {
-      required: true,
-    });
-    register("lastName", {
+    register("fullName", {
       required: true,
     });
     register("username", {
@@ -86,19 +80,11 @@ export default function CreateAccount({ navigation }) {
   return (
     <AuthLayout>
       <TextInput
-        placeholder="First Name"
-        returnKeyType="next"
-        onSubmitEditing={() => onNext(lastNameRef)}
-        placeholderTextColor={"#c7c7c7"}
-        onChangeText={(text) => setValue("firstName", text)}
-      />
-      <TextInput
-        ref={lastNameRef}
-        placeholder="Last Name"
+        placeholder="full Name"
         returnKeyType="next"
         onSubmitEditing={() => onNext(usernameRef)}
         placeholderTextColor={"#c7c7c7"}
-        onChangeText={(text) => setValue("lastName", text)}
+        onChangeText={(text) => setValue("fullName", text)}
       />
       <TextInput
         ref={usernameRef}
