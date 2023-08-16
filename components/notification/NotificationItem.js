@@ -1,11 +1,8 @@
 import React from "react";
-import { gql, useMutation } from "@apollo/client";
 import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
-import { Text, View, Image } from "react-native";
-import HeaderAvatar from "../HeaderAvatar.js";
 import Button from "../Button.js";
 
 const Container = styled.View`
@@ -25,8 +22,8 @@ const Avatar = styled.Image`
   border-radius: 20px;
 `;
 const NotificationData = styled.View`
-  margin-left: 15px;
-  width: 95%;
+  padding: 0px 20px;
+  width: 90%;
 `;
 const Caption = styled.Text``;
 const Clubname = styled.Text`
@@ -49,7 +46,7 @@ const textColor = {
   main: colors.white
 };
 
-function NotificationItem({ id, payload }) {
+function NotificationItem({ payload }) {
   const navigation = useNavigation();
 
   return (
@@ -89,7 +86,6 @@ function NotificationItem({ id, payload }) {
 
 
 NotificationItem.propTypes = {
-  id: PropTypes.number,
   payload: PropTypes.string,
 
 };

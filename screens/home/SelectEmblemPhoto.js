@@ -84,7 +84,7 @@ export default function SelectEmblemPhoto({ navigation, route }) {
       <IconContainer>
         <Ionicons
           name="checkmark-circle"
-          size={18} color="white"
+          size={18}
           color={photo.uri === chosenPhoto ? colors.blue : "white"}
         />
       </IconContainer>

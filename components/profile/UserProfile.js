@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Text, Pressable, TouchableOpacity, FlatList } from "react-native";
+import { View, Pressable, TouchableOpacity, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
@@ -136,7 +136,7 @@ function UserProfile({
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingStart: 20, paddingEnd: 20 }}
+        contentContainerStyle={{ paddingStart: 17, paddingEnd: 17 }}
         data={userMember}
         keyExtractor={(myClubs) => "" + myClubs.club.clubname}
         renderItem={renderItem}

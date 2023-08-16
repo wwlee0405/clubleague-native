@@ -141,12 +141,12 @@ function MatchItem({ id, user, games, club, clubNumInMatch }) {
           )}
         </GameContent>
         <VersusText>
-          <ClubName>{games[0].club?.clubname}</ClubName>
+          <ClubName>{games[0].club?.clubname} </ClubName>
           V
           {clubNumInMatch === 2 ?
-            <ClubName>{games[1].club?.clubname}</ClubName>
+            <ClubName> {games[1].club?.clubname}</ClubName>
             :
-            <ClubName>없음</ClubName>
+            <ClubName> 없음</ClubName>
           }
         </VersusText>
       </ExtraContainer>
