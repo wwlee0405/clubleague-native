@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { TouchableOpacity, View, Text, FlatList, Image } from "react-native";
+import { gql, useQuery } from "@apollo/client";
+import { View, TouchableOpacity, FlatList } from "react-native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
 import SelectClubItem from "../../components/match/SelectClubItem";
+
+const SEE_MY_CLUB = gql`
+  query seeMyClub($offset: Int!) {
+    seeMyClub(offset: $offset) {
+      id
+      club {
+        id
+        clubname
+        emblem
+      }
+    }
+  }
+`;
 
 const HeaderRightText = styled.Text`
   color: ${colors.blue};
@@ -34,14 +47,24 @@ const ClubnameText = styled.Text`
 
 export default function SelectClub({ navigation, route }) {
   const { data: meData } = useMe();
-
+  const { data } = useQuery(SEE_MY_CLUB, {
+    variables: {
+      offset: 0,
+    },
+  });
+  const [chosenId, setChosenId] = useState("");
   const [chosenClub, setChosenClub] = useState("");
+  const [chosenClubname, setChosenClubname] = useState("");
+  const [chosenEmblem, setChosenEmblem] = useState("");
 
   const HeaderRight = () => (
     <TouchableOpacity
     onPress={() =>
       navigation.navigate("NewMatch", {
+        id: chosenId,
         clubId: chosenClub,
+        clubname: chosenClubname,
+        emblem: chosenEmblem,
       })
     }
     >
@@ -54,18 +77,27 @@ export default function SelectClub({ navigation, route }) {
     });
   }, [chosenClub]);
 
-  const chooseClub = (id) => {
-    setChosenClub(id);
+  const chooseClub = (id, clubId, clubname, emblem) => {
+    setChosenId(id)
+    setChosenClub(clubId);
+    setChosenClubname(clubname);
+    setChosenEmblem(emblem);
   };
 
   const renderMyClubs = ({ item: myClubs }) => {
     return(
       <TouchableOpacity>
         <SelectClubItem
-          onPress={() => chooseClub(myClubs.club.id)}
-          
+          onPress={() => chooseClub(
+            myClubs.id,
+            myClubs.club.id, 
+            myClubs.club.clubname,
+            myClubs.club.emblem,
+          )}
+          id={ myClubs.id }
           clubId={{ clubId: myClubs.club.id }}
-          clubname={myClubs.club.clubname}
+          clubname={ myClubs.club.clubname }
+          emblem={ myClubs.club.emblem }
         />
       </TouchableOpacity>
     );
@@ -73,16 +105,20 @@ export default function SelectClub({ navigation, route }) {
   return (
     <View>
       <Top>
-        {chosenClub !== "" ? (
+        {chosenClubname !== "" ? (
           <ClubData>
-            <Emblem source={require('../../data/gggg.jpg')} />
-            <ClubnameText numberOfLines={1}>{chosenClub}</ClubnameText>
+            {chosenEmblem ? (
+              <Emblem source={{ uri: chosenEmblem }} />
+            ) : (
+              <Emblem source={require('../../data/2bar.jpg')} />
+            )}
+            <ClubnameText numberOfLines={1}>{chosenClubname}</ClubnameText>
           </ClubData>
         ) : null}
       </Top>
       <FlatList
-        data={meData?.me?.userMember}
-        keyExtractor={(myClubs) => "" + myClubs.club.id}
+        data={data?.seeMyClub}
+        keyExtractor={(myClubs) => "" + myClubs.id}
         renderItem={renderMyClubs}
       />
     </View>

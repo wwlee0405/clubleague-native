@@ -32,11 +32,15 @@ const ClubArea = styled.Text`
 	font-size: 14px;
 `;
 
-function SelectClubItem({ onPress, clubId, club, clubname }) {
+function SelectClubItem({ onPress, clubId, club, clubname, emblem }) {
   return (
     <Container onPress={onPress}>
       <Column>
-        <Emblem source={require('../../data/aaaa.jpg')} />
+        {emblem ? (
+          <Emblem source={{ uri: emblem }} />
+        ) : (
+          <Emblem source={require('../../data/2bar.jpg')} />
+        )}
         <Data>
           <ClubName>{clubname}</ClubName>
           <ClubArea>Madrid, Spain</ClubArea>
@@ -47,16 +51,13 @@ function SelectClubItem({ onPress, clubId, club, clubname }) {
 }
 
 SelectClubItem.propTypes = {
-  clubname:PropTypes.string,
-  userMember: PropTypes.arrayOf(
-    PropTypes.shape({
-      club: PropTypes.shape({
-        clubId: PropTypes.number,
-        id: PropTypes.number,
-        clubname: PropTypes.string,
-      }),
-    }),
-  ),
+  id: PropTypes.number,
+  club: PropTypes.shape({
+    clubId: PropTypes.number,
+    id: PropTypes.number,
+    clubname: PropTypes.string,
+    emblem: PropTypes.string,
+  }),
 };
 
 export default SelectClubItem;

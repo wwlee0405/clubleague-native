@@ -41,13 +41,21 @@ const LabelText = styled.Text`
   font-size: 15px;
   color: ${colors.yellow};
 `;
+const Emblem = styled.Image`
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+`;
 const SubmitText = styled.Text`
-  font-size: 20px;
+  padding-left: 10px;
+  font-size: 15px;
+  font-weight: bold;
 `;
 const Row = styled.View`
   flex-direction: row;
+  width: 260px;
+  height: 50px;
   align-items: center;
-  padding-horizontal: 20px;
 `;
 const BtnRow = styled.View`
   flex-direction: row;
@@ -85,13 +93,13 @@ export default function NewMatch({ navigation, route }) {
   );
 
   React.useEffect(() => {
-    if (route.params?.clubId) {
+    if (route.params?.clubId, route.params?.clubname) {
       // Post updated, do something with `route.params.post`
       // For example, send the post to the server
       handleSubmit(onValid);
 
     }
-  }, [route.params?.clubId]);
+  }, [route.params?.clubId, route.params?.clubname]);
 
   const [awayCount, setAwayCount] = useState(1);
 
@@ -125,8 +133,10 @@ export default function NewMatch({ navigation, route }) {
     });
   };
 
+  console.log(route.params?.id);
   console.log(route.params?.clubId);
-
+  console.log(route.params?.clubname);
+  console.log(route);
   return (
     <DismissKeyboard>
       <Container>
@@ -145,7 +155,16 @@ export default function NewMatch({ navigation, route }) {
         <Text>Location</Text>
         <Pressable onPress={() => navigation.navigate("SelectClub")}>
           <LabelText>Home</LabelText>
-          <SubmitText>{route.params?.clubId}</SubmitText>
+          {route.params?.clubname ? (
+            <Row>
+              {route.params?.emblem ? (
+                <Emblem resizeMode="contain" source={{ uri: route.params.emblem }} />
+              ) : (
+                <Emblem resizeMode="contain" source={require('../../data/2bar.jpg')} />
+              )}
+              <SubmitText>{route.params?.clubname}</SubmitText>
+            </Row>  
+          ) : null}
         </Pressable>
         <LabelText>Away</LabelText>
         <Row>

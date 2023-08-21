@@ -34,20 +34,14 @@ const SEE_MY_CLUB = gql`
   query seeMyClub($offset: Int!) {
     seeMyClub(offset: $offset) {
       id
-      clubname
-      emblem
-      clubLeader {
-        username
-      }
-      clubMember {
-        user {
-          totalClubs
-        }
+      club {
+        id
+        clubname
+        emblem
       }
     }
   }
 `;
-
 const theme = {
   center: "center"
 };
@@ -67,8 +61,7 @@ const TitleText = styled.Text`
 	font-size: 20px;
 `;
 
-export default function Feed({ navigation, route }) {
-
+export default function Feed({ navigation }) {
   const refresh = async () => {
     setRefreshing(true);
     await refetch();
@@ -113,8 +106,6 @@ export default function Feed({ navigation, route }) {
   const renderSched = ({ item: sched }) => {
     return <MySchedItem {...sched} />;
   };
-
-  console.log(data?.seeMySched)
 
   return (
     <ScreenLayout loading={loading}>

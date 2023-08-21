@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
-import { colors } from "../../colors";
 
 const View = styled.View``;
 const Touchable = styled.Pressable`
@@ -22,23 +21,23 @@ const ClubName = styled.Text`
   overflow: hidden;
 `;
 
-function MyClubList({ id, emblem, clubname }) {
+function MyClubList({ club }) {
   const navigation = useNavigation();
   const goToClub = () => {
     navigation.navigate("Clubhouse", {
-      clubId: id,
+      clubId: club.id,
     });
   };
   return (
     <Touchable onPress={goToClub}>
       <ClubTeam>
-        {emblem ?
-          (<ClubEmblem source={{ uri: emblem }} />)
+        {club.emblem ?
+          (<ClubEmblem source={{ uri: club.emblem }} />)
           :
           (<ClubEmblem source={require('../../data/2bar.jpg')} />)
         }
         <View>
-          <ClubName numberOfLines={1}>{clubname}</ClubName>
+          <ClubName numberOfLines={1}>{club.clubname}</ClubName>
         </View>
       </ClubTeam>
     </Touchable>
@@ -46,9 +45,11 @@ function MyClubList({ id, emblem, clubname }) {
 }
 
 MyClubList.propTypes = {
-  id: PropTypes.number,
-  emblem: PropTypes.string,
-  clubname: PropTypes.string.isRequired,
+  club: PropTypes.shape({
+    id: PropTypes.number,
+    emblem: PropTypes.string,
+    clubname: PropTypes.string.isRequired,
+  }),
 };
 
 export default MyClubList;

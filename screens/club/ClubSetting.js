@@ -43,7 +43,6 @@ export default function ClubSetting({route}) {
   
   return (
     <View>
-      <Text>Club_Setting</Text>
 
       <Text>-클럽 기본 정보 관리-</Text>
 
@@ -64,49 +63,63 @@ export default function ClubSetting({route}) {
         <Text>가입신청</Text>
       </TouchableOpacity>
 
-      <Text>-멤버 활동관리-</Text>
-
-      <TouchableOpacity
-        onPress={() => navigation.navigate("MemberAuth", {
-          clubId: data?.seeClub?.id,
-        })}
-      >
-        <Text>멤버권한 설정</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => navigation.navigate("AppointBoard", {
-          clubId: data?.seeClub?.id,
-        })}
-      >
-        <Text>임원임명</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity
-        onPress={() => navigation.navigate("UnappointBoard", {
-          clubId: data?.seeClub?.id,
-        })}
-      >
-        <Text>임원해제</Text>
-      </TouchableOpacity>
-
-      {clubLeader === me ?
-      (<TouchableOpacity
-        onPress={() => navigation.navigate("TransferLeader", {
-          clubId: data?.seeClub?.id,
-        })}
-      >
-        <Text>리더양도</Text>
-      </TouchableOpacity>)
-      : null}
-
       <TouchableOpacity>
-        <Text>멤버탈퇴/차단설정</Text>
+        <Text>유저차단설정</Text>
       </TouchableOpacity>
 
       <TouchableOpacity>
-        <Text>클럽 삭제하기</Text>
+        <Text>팀차단설정</Text>
       </TouchableOpacity>
+
+      {clubLeader === me ? (
+        <View>
+
+          <Text>-멤버 활동관리-</Text>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("MemberAuth", {
+              clubId: data?.seeClub?.id,
+            })}
+          >
+            <Text>멤버권한 설정</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("AppointBoard", {
+              clubId: data?.seeClub?.id,
+            })}
+          >
+            <Text>임원임명</Text>
+          </TouchableOpacity>
+            
+          <TouchableOpacity
+            onPress={() => navigation.navigate("UnappointBoard", {
+              clubId: data?.seeClub?.id,
+            })}
+          >
+            <Text>임원해제</Text>
+          </TouchableOpacity>
+
+            
+          <TouchableOpacity
+            onPress={() => navigation.navigate("TransferLeader", {
+              clubId: data?.seeClub?.id,
+            })}
+          >
+            <Text>리더양도</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Text>멤버탈퇴</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Text>클럽 삭제하기</Text>
+          </TouchableOpacity>
+
+        </View>
+      ) : null}
+   
     </View>
   )
 }
