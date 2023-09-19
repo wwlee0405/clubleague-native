@@ -6,28 +6,26 @@ import { TouchableOpacity } from "react-native";
 import { colors } from "../../colors";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
-import DismissKeyboard from "../../components/DismissKeyboard";
-import HeaderRightLoading from "../../components/shared/HeaderRightLoading";
-import HeaderRight from "../../components/shared/HeaderRight";
+import DismissKeyboard from "../DismissKeyboard";
+import HeaderRightLoading from "../shared/HeaderRightLoading";
+import HeaderRight from "../shared/HeaderRight";
 
-const EDIT_CLUB_MUTATION = gql`
-  mutation editClub($id: Int!, $clubname: String, $emblem: Upload) {
-    editClub(id: $id, clubname: $clubname, emblem: $emblem) {
+const CREATE_COMMENT_MUTATION = gql`
+  mutation createComment($matchId: Int!, $payload: String!) {
+    createComment(matchId: $matchId, payload: $payload) {
+      ok
       error
       id
-      ok
     }
   }
 `;
-const SEE_CLUB = gql`
-  query seeClub($id: Int!) {
-    seeClub(id: $id) {
+
+const EDIT_CLUB_MUTATION = gql`
+  mutation editClub($id: Int!, $emblem: Upload) {
+    editClub(id: $id, emblem: $emblem) {
+      error
       id
-      clubname
-      emblem
-      clubLeader {
-        id
-      }
+      ok
     }
   }
 `;
@@ -59,18 +57,10 @@ const TextInput = styled.TextInput`
 	font-size: 20px;
 `;
 
-export default function EditNameEmblem({ route }) {
+function ClubEditEmblem({ id, defaultValue, beforeEmblem, editEmblem, refresh }) {
   const navigation = useNavigation();
-  const { data } = useQuery(SEE_CLUB, {
-    variables: {
-      id: route?.params?.clubId,
-    },
-  });
-  const { register, handleSubmit, setValue, getValues, watch } = useForm({
-    defaultValues: {
-      clubname: data?.seeClub?.clubname,
-    },
-  });
+  const { register, handleSubmit, setValue, getValues, watch } = useForm();
+
   const updateEditClub = (cache, result) => {
     const { clubname } = getValues();
     const {
@@ -81,23 +71,26 @@ export default function EditNameEmblem({ route }) {
     
 
   };
+
+
   const [editClubMutation, { loading, error }] = useMutation(
     EDIT_CLUB_MUTATION, 
     {
       update: updateEditClub,
     }
   );
+
   useEffect(() => {
     register("clubname", {
       required: true,
     });
   }, [register]);
   useEffect(() => {
-    if (route.params.emblem) {
+    if (editEmblem) {
       // Post updated, do something with `route.params.post`
       // For example, send the post to the server
     }
-  }, [route.params.emblem]);
+  }, [editEmblem]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -111,52 +104,52 @@ export default function EditNameEmblem({ route }) {
     });
   }, [loading]);
   const onValid = ({ clubname, clubArea }) => {
+
     const emblem = new ReactNativeFile({
-      uri: route.params.emblem,
+      uri: editEmblem,
       name: `1.jpg`,
       type: "image/jpeg",
     });
-    if (loading) {
-      return;
+    if (!loading) {
+      editClubMutation({
+        variables: {
+          id,
+         
+          emblem,
+        },
+      });
     }
-    editClubMutation({
-      variables: {
-        id: route.params.clubId,
-        clubname,
-        emblem,
-      },
-    });
   };
-
-  console.log(data?.seeClub);
-  console.log(data?.seeClub?.id);
-  console.log(data?.seeClub?.clubname);
-  console.log(route?.params?.clubId);
-  console.log(route);
-  console.log(error);
 
   return (
     <DismissKeyboard>
       <Container>
         <View style={{ paddingBottom: 30 }}>
           <TouchableOpacity onPress={() => navigation.navigate("UploadEmblem")}>
-            {route.params.emblem ? (
-              <EmblemImg resizeMode="contain" source={{ uri: route.params.emblem }} />
+            {editEmblem ? (
+              <EmblemImg resizeMode="contain" source={{ uri: editEmblem }} />
             ):(
-              <EmblemImg resizeMode="contain" source={{ uri: data?.seeClub?.emblem }} />
+              <EmblemImg resizeMode="contain" source={{ uri: beforeEmblem }} />
             )}
           </TouchableOpacity>
         </View>
 
         <TextInput
            placeholder="Input Club Name"
-           defaultValue={data?.seeClub?.clubname}
+           defaultValue={defaultValue}
            returnKeyType="done"
            placeholderTextColor={"#c7c7c7"}
            onChangeText={(text) => setValue("clubname", text)}
          />
 
       </Container>
+
     </DismissKeyboard>
   );
 }
+
+ClubEditEmblem.propTypes = {
+  
+};
+
+export default ClubEditEmblem;

@@ -13,9 +13,17 @@ const SEE_MY_SCHED = gql`
   query seeMySched($offset: Int!) {
     seeMySched(offset: $offset) {
       ...GameFragment
-      match {
-        id
+      home {
+        homeGame {
+          ...GameFragment
+        }
       }
+      away {
+        awayGame {
+          ...GameFragment
+        }
+      }
+      
       entries {
         id
         user {

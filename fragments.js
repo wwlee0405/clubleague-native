@@ -34,11 +34,10 @@ export const GAME_FRAGMENT = gql`
   fragment GameFragment on Game {
     id
     club {
+      id
       clubname
       emblem
     }
-    joinedGame
-    createdAt
   }
 `;
 
@@ -50,11 +49,11 @@ export const FEED_MATCH = gql`
       username
       avatar
     }
-    games {
+    homeGame {
       ...GameFragment
-      match {
-        id
-      }
+    }
+    awayGame {
+      ...GameFragment
     }
     createdAt
   }

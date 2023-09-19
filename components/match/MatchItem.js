@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
 import HeaderAvatar from "../HeaderAvatar.js";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 const Container = styled.View`
   border-radius: 15px;
@@ -92,7 +92,7 @@ const ClubName = styled.Text`
   overflow: hidden;
 `;
 
-function MatchItem({ id, user, games, club, clubNumInMatch }) {
+function MatchItem({ user, homeGame, awayGame }) {
   const navigation = useNavigation();
   const goToProfile = () => {
     navigation.navigate("Profile", {
@@ -100,13 +100,17 @@ function MatchItem({ id, user, games, club, clubNumInMatch }) {
       id: user.id,
     });
   };
+  const homeClubname = homeGame.club.clubname;
+  const homeEmblem = homeGame.club.emblem;
+  const awayClubname = awayGame?.club.clubname;
+  const awayEmblem = awayGame?.club.emblem;
   return (
     <Container>
       <HeaderAvatar
         onPress={goToProfile}
         image={user.avatar}
         topData={user.username}
-        bottomData={games[0].club?.clubname}
+        bottomData={homeClubname}
       />
       <ExtraContainer>
 
@@ -124,8 +128,8 @@ function MatchItem({ id, user, games, club, clubNumInMatch }) {
         </Row>
 
         <GameContent>
-          {games[0].club?.emblem ?
-            <ClubEmblem source={{ uri: games[0].club?.emblem }} />
+          {homeEmblem ?
+            <ClubEmblem source={{ uri: homeEmblem }} />
             :
             <ClubEmblem source={require('../../data/1ars.jpg')} />
           }
@@ -134,17 +138,23 @@ function MatchItem({ id, user, games, club, clubNumInMatch }) {
             <Location numberOfLines={1}>Santiago Bernabéu</Location>
           </KickOffData>
 
-          {clubNumInMatch === 2 ? (
-            <ClubEmblem source={require('../../data/2bar.jpg')} />
+          {awayClubname ? (
+            <View>
+              {awayEmblem ? (
+                <ClubEmblem source={{ uri: awayEmblem }} />
+              ) : (
+                <ClubEmblem source={require('../../data/2bar.jpg')} />
+              )}
+            </View>
           ) : (
             <AwayText>Away</AwayText>
           )}
         </GameContent>
         <VersusText>
-          <ClubName>{games[0].club?.clubname} </ClubName>
+          <ClubName>{homeClubname} </ClubName>
           V
-          {clubNumInMatch === 2 ?
-            <ClubName> {games[1].club?.clubname}</ClubName>
+          {awayClubname ?
+            <ClubName> {awayClubname}</ClubName>
             :
             <ClubName> 없음</ClubName>
           }
@@ -155,17 +165,23 @@ function MatchItem({ id, user, games, club, clubNumInMatch }) {
 }
 
 MatchItem.propTypes = {
-  id: PropTypes.number,
   user: PropTypes.shape({
     username: PropTypes.string,
   }),
-  games: PropTypes.arrayOf(
-    PropTypes.shape({
-      club: PropTypes.shape({
-        clubname: PropTypes.string,
-      }),
+  homeGame: PropTypes.shape({
+    id: PropTypes.number,
+    club: PropTypes.shape({
+      clubname: PropTypes.string,
+      emblem: PropTypes.string,
     }),
-  ),
+  }),
+  awayGame: PropTypes.shape({
+    id: PropTypes.number,
+    club: PropTypes.shape({
+      clubname: PropTypes.string,
+      emblem: PropTypes.string,
+    }),
+  }),
 };
 
 export default MatchItem;

@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { colors } from "../../colors";
-import { Text, View } from "react-native";
-import HeaderAvatar from "../HeaderAvatar.js";
+import { View } from "react-native";
 import Button from "../Button.js";
 
 const TOGGLE_ENTRY_MUTATION = gql`
@@ -117,8 +116,9 @@ const textColor = {
 };
 function ClubSchedItem({
   id,
-  match,
   club,
+  home,
+  away,
   isEntry,
   entryNumber
 }) {
@@ -170,26 +170,20 @@ function ClubSchedItem({
         </Row>
         <MatchContent>
           <MatchData>
-            {match.clubNumInMatch === 2 ? (
-              id === match.games[0].id ? (
-                <HomeAway>
-                  <VersusText>VS</VersusText>
-                  <MatchEmblem source={require('../../data/2bar.jpg')} />
-                  <ClubName>{match.games[1].club.clubname}</ClubName>
-                </HomeAway>
-              ) : (
-                <HomeAway>
-                  <VersusText>VS</VersusText>
-                  <MatchEmblem source={require('../../data/2bar.jpg')} />
-                  <ClubName>{match.games[0].club.clubname}</ClubName>
-                </HomeAway>
-              )
+            {club.id !== home.homeGame.club.id ? (
+              <HomeAway>
+                <VersusText>VS</VersusText>
+                <MatchEmblem source={require('../../data/2bar.jpg')} />
+                <ClubName>{home.homeGame.club.clubname}</ClubName>
+              </HomeAway>
             ) : (
               <HomeAway>
                 <VersusText>VS</VersusText>
-                <ClubName>waiting for the challenger</ClubName>
+                <MatchEmblem source={require('../../data/2bar.jpg')} />
+                <ClubName>away.awayGame.club.clubname</ClubName>
               </HomeAway>
             )}
+            
           </MatchData>
 
           {club.isJoined ? (
@@ -213,19 +207,27 @@ function ClubSchedItem({
 }
 
 ClubSchedItem.propTypes = {
-  id: PropTypes.number,
-  match: PropTypes.shape({
-    clubNumInMatch: PropTypes.number,
-    games: PropTypes.arrayOf(
-      PropTypes.shape({
-        club: PropTypes.shape({
-          clubname: PropTypes.string,
-        }),
-      }),
-    ),
-  }),
   club: PropTypes.shape({
+    id: PropTypes.number,
     isJoined: PropTypes.bool,
+  }),
+  home: PropTypes.shape({
+    homeGame: PropTypes.shape({
+      club: PropTypes.shape({
+        id: PropTypes.number,
+        clubname: PropTypes.string,
+        emblem: PropTypes.string,
+      }),
+    }),
+  }),
+  away: PropTypes.shape({
+    awayGame: PropTypes.shape({
+      club: PropTypes.shape({
+        id: PropTypes.number,
+        clubname: PropTypes.string,
+        emblem: PropTypes.string,
+      }),
+    }),
   }),
   entryNumber: PropTypes.number,
   isEntry: PropTypes.bool,

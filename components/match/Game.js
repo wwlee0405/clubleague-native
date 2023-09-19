@@ -1,21 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { gql, useMutation } from "@apollo/client";
-import { useNavigation } from "@react-navigation/native";
 import PropTypes from "prop-types";
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { Text, View, Image, FlatList } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View, Text, TouchableOpacity, Image, Alert, useWindowDimensions } from "react-native";
 import { colors } from "../../colors";
-import useMe, { ME_QUERY } from "../../hooks/useMe";
 import HeaderAvatar from "../HeaderAvatar.js";
-import GameItem from "./GameItem";
-import Comments from "./Comments";
-import HomeAway from "./HomeAway";
 
-//삭제
-
-
+const joinBtnHeight = '60px'
 const Container = styled.View`
   flex: 1;
   background-color: ${colors.white};
@@ -23,7 +15,6 @@ const Container = styled.View`
 const ExtraContainer = styled.View`
   padding-bottom: 10px;
 `;
-
 const Dates = styled.View`
   padding-top: 10px;
   align-items: center;
@@ -41,61 +32,6 @@ const MatchWeek = styled.Text`
   margin-top: -10px;
   margin-bottom: 10px;
 `;
-const TimeLocationWrap = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-const TimeLocation = styled.Text`
-  color: ${colors.darkGrey};
-  padding-left: 3px;
-`;
-const AwayBtn = styled.View`
-  border-radius: 15px;
-  background-color: ${colors.grey01};
-  margin: 5px;
-  padding: 15px 20px;
-  elevation: 2;
-`;
-const AwayText = styled.Text`
-  color: ${colors.yellow};
-  font-weight: 600;
-  font-size: 25px;
-`;
-const BodyTextWrap = styled.View`
-  padding-top: 10px;
-  padding-horizontal: 15px;
-`;
-const CommentCount = styled.Text`
-  opacity: 0.7;
-  margin: 10px 0px;
-  font-weight: 600;
-  font-size: 10px;
-`;
-const JoinGameContainer = styled.View`
-  background-color: ${colors.white};
-  height: 60px;
-  width: 100%;
-  border-top: 1px solid ${colors.emerald};
-  padding-top: 15px;
-  padding-bottom: 10px;
-`;
-const JoinGame = styled.TouchableOpacity`
-  width: 200px;
-  height: 50px;
-  border-radius: 8px;
-  align-items: center;
-  justify-content: center;
-  background-color: ${colors.blue};
-`;
-const BtnText = styled.Text`
-  color: ${colors.white};
-  font-weight: 600;
-  font-size: 15px;
-`;
-const homeAwayColor = {
-  main: colors.yellow
-};
-
 const GameContent = styled.View`
   margin: 0px 15px 0px;
   flex-direction: row;
@@ -132,12 +68,27 @@ const Location = styled.Text`
   text-align: center;
   overflow: hidden;
 `;
-
+const AwayBtn = styled.View`
+  margin-bottom: 15px;
+  align-items: center;
+  width: 35%;
+`;
+const AwayText = styled.Text`
+  color: ${colors.darkGrey};
+  font-weight: 600;
+  font-size: 25px;
+`;
+const TimeLocationData = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+const TimeLocation = styled.Text`
+  color: ${colors.darkGrey};
+  padding-left: 3px;
+`;
 const Entry = styled.Pressable`
   flex-direction: row;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-horizontal: 15px;
+  padding: 5px 15px 5px;
 `;
 const EntryText = styled.Text`
   justify-content: center;
@@ -149,12 +100,29 @@ const UserAvatar = styled.Image`
   height: 25px;
   border-radius: 12.5px;
 `;
+const CaptionData = styled.View`
+  padding-top: 10px;
+  padding-horizontal: 15px;
+`;
+const CommentContent = styled.View`
+  padding-top: 10px;
+  padding-bottom: ${joinBtnHeight};
+`;
+const CommentCount = styled.Text`
+  color: ${colors.darkGrey}
+  margin: 8px 15px;
+  font-weight: 600;
+  font-size: 14px;
+`;
 
-function Game({ id, user, games, clubNumInMatch, clubId, caption, commentNumber,
-  homeClubName,
-  awayClubName,
-
-
+function Game({ 
+  matchId,
+  id,
+  user,
+  caption,
+  homeGame,
+  awayGame,
+  commentNumber
 }) {
   const navigation = useNavigation();
   const goToProfile = () => {
@@ -163,13 +131,19 @@ function Game({ id, user, games, clubNumInMatch, clubId, caption, commentNumber,
       id: user.id,
     });
   };
-  console.log(games);
+  const joinGameAlert = () => Alert.alert(
+    'Please join another game',
+    'This game is already joined by another club.', [
+    {text: 'OK', onPress: () => console.log('OK Pressed')},
+  ]);
+  const { width } = useWindowDimensions();
+
   return (
     <Container>
       <HeaderAvatar
         onPress={goToProfile}
-        avatar={user?.avatar}
-        topData={user?.username}
+        image={user.avatar}
+        topData={user.username}
         bottomData="Seoul, Korea"
       />
 
@@ -181,64 +155,94 @@ function Game({ id, user, games, clubNumInMatch, clubId, caption, commentNumber,
 
         <GameContent>
           <ClubData>
-            <ClubEmblem source={require('../../data/2bar.jpg')} />
-            <ClubName>{homeClubName}</ClubName>
+            {homeGame.club.emblem ? (
+              <ClubEmblem source={{ uri: homeGame.club.emblem }} />
+            ) : (
+              <ClubEmblem source={require('../../data/2bar.jpg')} />
+            )}
+            <ClubName>{homeGame.club.clubname}</ClubName>
           </ClubData>
           <KickOffData>
             <KickOffTime>10:00</KickOffTime>
             <Location numberOfLines={1}>Santiago Bernabéu dkndkfnbkdfnbkfjdnb</Location>
           </KickOffData>
-          <ClubData>
-            <ClubEmblem source={require('../../data/1ars.jpg')} />
-            {clubsInGame === 2 ?
-              <ClubName>{awayClubName}hvbhjvhvhgvhgvgvvgvgvgvgv</ClubName>
-              :
-              <ClubName>없음</ClubName>
-            }
-          </ClubData>
+          {awayGame?.id ? (
+            <ClubData>
+              {awayGame?.club.emblem ? (
+                <ClubEmblem source={{ uri: awayGame?.club.emblem }} />
+              ) : (
+                <ClubEmblem source={require('../../data/2bar.jpg')} />
+              )}
+                <ClubName>{awayGame?.club.clubname}hvbhjvhvhgvhgvgvvgvgvgvgv</ClubName>
+            </ClubData>
+          ) : (
+            <AwayBtn>
+              <AwayText>Away</AwayText>
+            </AwayBtn>
+            )}
         </GameContent>
 
         <View style={{ alignItems: "center" }}>
-          <TimeLocationWrap>
+          <TimeLocationData>
             <Feather name="clock" size={15} color={colors.darkGrey} />
             <TimeLocation>14:00 - 16:00</TimeLocation>
-          </TimeLocationWrap>
-          <TimeLocationWrap>
+          </TimeLocationData>
+          <TimeLocationData>
             <Feather name="map-pin" size={15} color={colors.darkGrey} />
             <TimeLocation>Camp Nou</TimeLocation>
-          </TimeLocationWrap>
+          </TimeLocationData>
         </View>
 
-        <Text>{clubNumInMatch}</Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Entry 
+            onPress={() => navigation.navigate("Entry", {
+            gameId: homeGame.id,
+          })}>
+            <EntryText>{homeGame.entryNumber === 1 ? "1 entry" : `${homeGame.entryNumber} entries`}</EntryText>
+            <View style={{ paddingRight: 3 }}>
+              <UserAvatar source={require('../../data/ffff.jpg')} />
+            </View>
+            <View style={{ paddingRight: 3 }}>
+              <UserAvatar source={require('../../data/gggg.jpg')} />
+            </View>
+          </Entry>
+          {awayGame?.id ? (
+            <Entry 
+              onPress={() => navigation.navigate("Entry", {
+              gameId: awayGame?.id,
+            })}>
+              <EntryText>{awayGame.entryNumber === 1 ? "1 entry" : `${awayGame.entryNumber} entries`}</EntryText>
+              <View style={{ paddingRight: 3 }}>
+                <UserAvatar source={require('../../data/ffff.jpg')} />
+              </View>
+              <View style={{ paddingRight: 3 }}>
+                <UserAvatar source={require('../../data/gggg.jpg')} />
+              </View>
+            </Entry>
+          ) : (
+            <Entry>
+              <EntryText>No awayclub</EntryText>
+            </Entry>
+          )}
+        </View>
 
-        <Image source={require('../../data/bbbb.jpg')} style={{ height: 500, width: 300 }} />
+        <Image 
+          source={require('../../data/bbbb.jpg')}          
+          style={{ width, height: 300 }}
+        />
 
-        <BodyTextWrap>
-          <Text>캄푸누에서 뛸 매치 상대를 구합니다.</Text>
-        </BodyTextWrap>
+        <CaptionData>
+          <Text>{caption}</Text>
+        </CaptionData>
 
-        <Entry onPress={() => navigation.navigate("Entry", {
-          gameId: games[0].id,
-        })}>
-          <EntryText>{null === 1 ? "1 entry" : `${null} entries`}</EntryText>
-          <View style={{ paddingRight: 3 }}>
-            <UserAvatar source={require('../../data/ffff.jpg')} />
-          </View>
-          <View style={{ paddingRight: 3 }}>
-            <UserAvatar source={require('../../data/gggg.jpg')} />
-          </View>
-        </Entry>
-
-
-
-
-        <View style={{ paddingTop: 10 }}>
-          <TouchableOpacity onPress={() => navigation.navigate("Comments", {
+        <CommentContent>
+          <TouchableOpacity 
+            onPress={() => navigation.navigate("Comments", {
             matchId: id,
           })}>
             <CommentCount>{commentNumber === 1 ? "1 comment" : `${commentNumber} comments`}</CommentCount>
           </TouchableOpacity>
-        </View>
+        </CommentContent>
 
       </ExtraContainer>
     </Container>
@@ -252,8 +256,22 @@ Game.propTypes = {
     avatar: PropTypes.string,
     username: PropTypes.string.isRequired,
   }),
+  caption: PropTypes.string,
+  homeGame: PropTypes.shape({
+    id: PropTypes.number,
+    club: PropTypes.shape({
+      clubname: PropTypes.string,
+      emblem: PropTypes.string,
+    }),
+  }),
+  awayGame: PropTypes.shape({
+    id: PropTypes.number,
+    club: PropTypes.shape({
+      clubname: PropTypes.string,
+      emblem: PropTypes.string,
+    }),
+  }),
   commentNumber: PropTypes.number,
-  clubNumInMatch: PropTypes.number,
 };
 
 export default Game;

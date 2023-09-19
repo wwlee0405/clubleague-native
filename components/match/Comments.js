@@ -80,7 +80,7 @@ function Comments({ route, matchId, author, caption, refreshing, refresh, commen
       const newCacheComment = cache.writeFragment({
         data: newComment,
         fragment: gql`
-          fragment BSName on Comment {
+          fragment NewComment on Comment {
             id
             createdAt
             isMine

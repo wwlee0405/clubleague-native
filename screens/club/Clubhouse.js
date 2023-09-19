@@ -26,29 +26,40 @@ const SEE_CLUB = gql`
       clubMember {
         ...MemberFragment
       }
-      games {
-        id
-        match {
-          clubNumInMatch
-          games {
-            ...GameFragment
-          }
-        }
-        club {
-          isJoined
-        }
-        match {
-          id
-        }
-        createdAt
-        entryNumber
-        isEntry
-      }
-
     }
   }
   ${CLUB_FRAGMENT}
   ${MEMBER_FRAGMENT}
+`;
+const SEE_CLUB_SCHED = gql`
+  query seeClubSched($id: Int! ,$offset: Int!) {
+    seeClubSched(id: $id, offset: $offset) {
+      id
+      sport
+      club {
+        id
+        isJoined
+      }
+      home {
+        homeGame {
+          ...GameFragment
+        }
+      }
+      away {
+        awayGame {
+          ...GameFragment
+        }
+      }
+      entries {
+        user {
+          username
+        }
+      }
+      entryNumber
+      isEntry
+      createdAt
+    }
+  }
   ${GAME_FRAGMENT}
 `;
 
@@ -69,6 +80,18 @@ export default function Clubhouse({ route }) {
       id: route?.params?.clubId,
     },
   });
+  const { data: schedData, loading, refetch, fetchMore } = useQuery(SEE_CLUB_SCHED, {
+    variables: {
+      id: route?.params?.clubId,
+      offset: 0,
+    },
+  });
+  const refresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
+  const [refreshing, setRefreshing] = useState(false);
   const joinClubUpdate = (cache, result) => {
     const {
       data: {
@@ -136,7 +159,10 @@ export default function Clubhouse({ route }) {
       <ClubItem {...data?.seeClub} />
       {data?.seeClub ? getButton(data.seeClub) : null}
       <FlatList
-        data={data?.seeClub?.games}
+        showsVerticalScrollIndicator={false}
+        refreshing={refreshing}
+        onRefresh={refresh}
+        data={schedData?.seeClubSched}
         keyExtractor={(sched) => "" + sched.id}
         renderItem={renderSched}
       />

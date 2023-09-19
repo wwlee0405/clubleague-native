@@ -19,11 +19,13 @@ const MATCH_QUERY = gql`
         username
         avatar
       }
-      games {
+      homeGame {
+        ...GameFragment
+      }
+      awayGame {
         ...GameFragment
       }
       file
-      clubNumInMatch
     }
   }
   ${GAME_FRAGMENT}

@@ -25,10 +25,9 @@ const Container = styled.View`
   elevation: 2;
 `;
 const ExtraContainer = styled.View`
-  padding-bottom: 8px;
+  padding: 0px 10px 8px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-  background-color: ${colors.grey01};
 `;
 const Row = styled.View`
   flex-direction: row;
@@ -73,13 +72,26 @@ const HomeAway = styled.View`
   align-items: center;
   justify-content: center;
 `;
+const VersusText = styled.Text`
+  color: ${colors.darkGrey};
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 5px;
+`;
 const MatchEmblem = styled.Image`
-  margin-right: -10px;
-  width: 40px;
-  height: 40px;
-  border-color: ${colors.grey01};
-  border-width: 3px;
-  border-radius: 20px;
+  margin-right: 10px;
+  width: 34px;
+  height: 34px;
+  border-color: ${colors.grey03};
+  border-width: 1px;
+  border-radius: 17px;
+`;
+const ClubName = styled.Text`
+  color: ${colors.black};
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  margin-left: -5px;
 `;
 const EnteryText = styled.Text`
   margin-left: 15px;
@@ -103,8 +115,13 @@ const buttonColor = {
 const textColor = {
   main: colors.white
 };
-
-function MySchedItem({ id, club, entryNumber, isEntry }) {
+function ClubSchedItem({
+  id,
+  match,
+  club,
+  isEntry,
+  entryNumber
+}) {
   const navigation = useNavigation();
   const toggleEntryUpdate = (cache, result) => {
     const {
@@ -138,11 +155,6 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
   });
   return (
     <Container>
-      <HeaderAvatar
-        image={club?.emblem}
-        topData={club?.clubname}
-        bottomData="Seoul, Korea"
-      />
       <ExtraContainer>
         <Row>
           <DateContent>
@@ -158,18 +170,36 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
         </Row>
         <MatchContent>
           <MatchData>
-            <HomeAway>
-              <MatchEmblem source={require('../../data/1ars.jpg')} />
-              <MatchEmblem source={require('../../data/2bar.jpg')} />
-            </HomeAway>
+            {match.clubNumInMatch === 2 ? (
+              id === match.games[0].id ? (
+                <HomeAway>
+                  <VersusText>VS</VersusText>
+                  <MatchEmblem source={require('../../data/2bar.jpg')} />
+                  <ClubName>{match.games[1].club.clubname}</ClubName>
+                </HomeAway>
+              ) : (
+                <HomeAway>
+                  <VersusText>VS</VersusText>
+                  <MatchEmblem source={require('../../data/2bar.jpg')} />
+                  <ClubName>{match.games[0].club.clubname}</ClubName>
+                </HomeAway>
+              )
+            ) : (
+              <HomeAway>
+                <VersusText>VS</VersusText>
+                <ClubName>waiting for the challenger</ClubName>
+              </HomeAway>
+            )}
           </MatchData>
 
-          <Button
-            onPress={toggleEntry}
-            buttonColor={isEntry ? { main : colors.grey03 } : buttonColor}
-            textColor={isEntry ? { main : colors.black } : textColor}
-            text={isEntry ? "Unentry" : "Entry"}
-          />
+          {club.isJoined ? (
+            <Button
+              onPress={toggleEntry}
+              buttonColor={isEntry ? { main : colors.grey03 } : buttonColor}
+              textColor={isEntry ? { main : colors.black } : textColor}
+              text={isEntry ? "Unentry" : "Entry"}
+            />
+          ) : null}
 
         </MatchContent>
         <EnteryText>{entryNumber === 1 ? "1 entry" : `${entryNumber} entries`}</EnteryText>
@@ -182,31 +212,23 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
   );
 }
 
-MySchedItem.propTypes = {
-  id: PropTypes.number.isRequired,
+ClubSchedItem.propTypes = {
+  id: PropTypes.number,
+  match: PropTypes.shape({
+    clubNumInMatch: PropTypes.number,
+    games: PropTypes.arrayOf(
+      PropTypes.shape({
+        club: PropTypes.shape({
+          clubname: PropTypes.string,
+        }),
+      }),
+    ),
+  }),
   club: PropTypes.shape({
-    clubname: PropTypes.string.isRequired,
-  }),
-  home: PropTypes.shape({
-    homeGame: PropTypes.shape({
-      club: PropTypes.shape({
-        id: PropTypes.number,
-        clubname: PropTypes.string,
-        emblem: PropTypes.string,
-      }),
-    }),
-  }),
-  away: PropTypes.shape({
-    awayGame: PropTypes.shape({
-      club: PropTypes.shape({
-        id: PropTypes.number,
-        clubname: PropTypes.string,
-        emblem: PropTypes.string,
-      }),
-    }),
+    isJoined: PropTypes.bool,
   }),
   entryNumber: PropTypes.number,
   isEntry: PropTypes.bool,
 };
 
-export default MySchedItem;
+export default ClubSchedItem;

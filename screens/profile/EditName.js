@@ -47,7 +47,7 @@ export default function EditName({ navigation }) {
   );
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
-      firstName: userData?.me?.firstName,
+      fullName: userData?.me?.fullName,
     }
   });
   useEffect(() => {
