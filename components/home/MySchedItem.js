@@ -3,8 +3,9 @@ import { gql, useMutation } from "@apollo/client";
 import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
-import { Text, View } from "react-native";
+import { useTheme } from "@react-navigation/native";
+import { commonTheme } from "../../theme/commonTheme";
+import { View } from "react-native";
 import HeaderAvatar from "../HeaderAvatar.js";
 import Button from "../Button.js";
 
@@ -20,7 +21,6 @@ const TOGGLE_ENTRY_MUTATION = gql`
 
 const Container = styled.View`
   border-radius: 15px;
-  background-color: ${colors.white};
   margin: 5px;
   elevation: 2;
 `;
@@ -28,7 +28,6 @@ const ExtraContainer = styled.View`
   padding-bottom: 8px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-  background-color: ${colors.grey01};
 `;
 const Row = styled.View`
   flex-direction: row;
@@ -41,20 +40,16 @@ const DateContent = styled.View`
   align-items: center;
 `;
 const DateText = styled.Text`
-  color: ${colors.black};
   font-size: 30px;
   font-weight: bold;
 `;
 const WeekText = styled.Text`
-  color: ${colors.black};
   font-weight: bold;
 `;
 const MonthText = styled.Text`
-  color: ${colors.darkGrey};
   margin-top: -8px;
 `;
 const Sports = styled.Text`
-  color: ${colors.black};
   font-weight: 600;
   font-size: 15px;
 `;
@@ -77,7 +72,6 @@ const MatchEmblem = styled.Image`
   margin-right: -10px;
   width: 40px;
   height: 40px;
-  border-color: ${colors.grey01};
   border-width: 3px;
   border-radius: 20px;
 `;
@@ -89,22 +83,21 @@ const TimeLocationContent = styled.View`
   justify-content: center;
 `;
 const TimeText = styled.Text`
-  color: ${colors.seaGreen};
   font-size: 25px;
   font-weight: bold;
 `;
 const Location = styled.Text`
-  color: ${colors.darkGrey};
   font-weight: 600;
 `;
 const buttonColor = {
-  main: colors.blue
+  main: commonTheme.blue
 };
 const textColor = {
-  main: colors.white
+  main: commonTheme.white
 };
 
 function MySchedItem({ id, club, entryNumber, isEntry }) {
+  const { colors } = useTheme();
   const navigation = useNavigation();
   const toggleEntryUpdate = (cache, result) => {
     const {
@@ -137,45 +130,45 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
     update: toggleEntryUpdate,
   });
   return (
-    <Container>
+    <Container style={{ backgroundColor: colors.cardHeader }}>
       <HeaderAvatar
         image={club?.emblem}
         topData={club?.clubname}
         bottomData="Seoul, Korea"
       />
-      <ExtraContainer>
+      <ExtraContainer style={{ backgroundColor: colors.cardContent }}>
         <Row>
           <DateContent>
-            <DateText>23</DateText>
+            <DateText style={{ color: colors.text }}>23</DateText>
             <View style={{ paddingLeft: 10 }}>
-              <WeekText>SUNDAY</WeekText>
-              <MonthText>OCT</MonthText>
+              <WeekText style={{ color: colors.text }}>SUNDAY</WeekText>
+              <MonthText style={{ color: colors.subText }}>OCT</MonthText>
             </View>
           </DateContent>
           <View>
-            <Sports>Soccer Match</Sports>
+            <Sports style={{ color: colors.text }}>Soccer Match</Sports>
           </View>
         </Row>
         <MatchContent>
           <MatchData>
             <HomeAway>
-              <MatchEmblem source={require('../../data/1ars.jpg')} />
-              <MatchEmblem source={require('../../data/2bar.jpg')} />
+              <MatchEmblem style={{ bolderColor: colors.border }} source={require('../../data/1ars.jpg')} />
+              <MatchEmblem style={{ bolderColor: colors.border }} source={require('../../data/2bar.jpg')} />
             </HomeAway>
           </MatchData>
 
           <Button
             onPress={toggleEntry}
-            buttonColor={isEntry ? { main : colors.grey03 } : buttonColor}
-            textColor={isEntry ? { main : colors.black } : textColor}
+            buttonColor={isEntry ? { main : commonTheme.grey03 } : buttonColor}
+            textColor={isEntry ? { main : commonTheme.black } : textColor}
             text={isEntry ? "Unentry" : "Entry"}
           />
 
         </MatchContent>
         <EnteryText>{entryNumber === 1 ? "1 entry" : `${entryNumber} entries`}</EnteryText>
         <TimeLocationContent>
-          <TimeText>10:00-14:00</TimeText>
-          <Location>Santiago Bernabéu</Location>
+          <TimeText style={{ color: colors.symbolColor }}>10:00-14:00</TimeText>
+          <Location style={{ color: colors.subText }}>Santiago Bernabéu</Location>
         </TimeLocationContent>
       </ExtraContainer>
     </Container>

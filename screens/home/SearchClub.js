@@ -4,16 +4,14 @@ import { useForm } from "react-hook-form";
 import {
   ActivityIndicator,
   FlatList,
-  Image,
   Pressable,
   useWindowDimensions,
   View,
-  Text,
 } from "react-native";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
 import DismissKeyboard from "../../components/DismissKeyboard";
 import SearchedClub from "../../components/home/SearchedClub";
+import { useTheme } from "@react-navigation/native";
 
 const SEARCH_CLUBS = gql`
   query searchClubs($keyword: String!) {
@@ -36,18 +34,15 @@ const MessageContainer = styled.View`
 `;
 const MessageText = styled.Text`
   margin-top: 15px;
-  color: black;
   font-weight: 600;
 `;
-
 const Input = styled.TextInput`
-  background-color: rgba(255, 255, 255, 1);
-  color: black;
   padding: 5px 10px;
   border-radius: 7px;
 `;
 
-export default function SearchClub({ navigation, id }) {
+export default function SearchClub({ navigation }) {
+  const { colors } = useTheme();
   const { setValue, register, watch, handleSubmit } = useForm();
   const [startQueryFn, { loading, data, called }] = useLazyQuery(SEARCH_CLUBS);
   const onValid = ({ keyword }) => {
@@ -59,7 +54,9 @@ export default function SearchClub({ navigation, id }) {
   };
   const SearchBox = () => (
     <Input
-      placeholderTextColor="rgba(0, 0, 0, 0.8)"
+      backgroundColor={colors.buttonBackground}
+      color={colors.text}
+      placeholderTextColor={colors.placeholder}
       placeholder="Search clubs"
       autoCapitalize="none"
       returnKeyLabel="Search"
@@ -94,22 +91,22 @@ export default function SearchClub({ navigation, id }) {
   );
   return (
     <DismissKeyboard>
-      <View style={{ flex: 1, backgroundColor: colors.grey00 }}>
+      <View style={{ flex: 1, backgroundColor: colors.background }}>
         {loading ? (
           <MessageContainer>
             <ActivityIndicator size="large" />
-            <MessageText>Searching...</MessageText>
+            <MessageText style={{ flex: 1, color: colors.text }}>Searching...</MessageText>
           </MessageContainer>
         ) : null}
         {!called ? (
           <MessageContainer>
-            <MessageText>Search by keyword</MessageText>
+            <MessageText style={{ flex: 1, color: colors.text }}>Search by keyword</MessageText>
           </MessageContainer>
         ) : null}
         {data?.searchClubs !== undefined ? (
           data?.searchClubs?.length === 0 ? (
             <MessageContainer>
-              <MessageText>Could not find anything.</MessageText>
+              <MessageText style={{ flex: 1, color: colors.text }}>Could not find anything.</MessageText>
             </MessageContainer>
           ) : (
             <FlatList

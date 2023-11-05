@@ -1,7 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { View, Text } from "react-native";
-import { colors } from "../../colors";
 import ScreenLayout from "../../components/ScreenLayout";
 import Comments from "../../components/match/Comments";
 import { COMMENT_FRAGMENT } from "../../fragments";

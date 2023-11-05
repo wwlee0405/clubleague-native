@@ -1,7 +1,7 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
 import styled from "styled-components/native";
-import { colors } from "../colors";
+import { commonTheme } from "../theme/commonTheme";
 
 const ButtonTochable = styled.TouchableOpacity`
   background-color: ${(props) => (props.buttonColor.main)};
@@ -16,12 +16,12 @@ const ButtonText = styled.Text`
 `;
 ButtonTochable.defaultProps = {
   buttonColor: {
-    main: colors.blue
+    main: commonTheme.blue
   }
 }
 ButtonText.defaultProps = {
   textColor: {
-    main: colors.white
+    main: commonTheme.white
   }
 }
 

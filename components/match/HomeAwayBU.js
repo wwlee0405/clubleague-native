@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Text, View, Image, Pressable } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-import { colors } from "../../colors";
+import { themeColors } from "../../themeColors";
 import styled from "styled-components/native";
 import Button from "../Button.js";
 
@@ -12,7 +12,7 @@ import Button from "../Button.js";
 
 const Container = styled.View`
   border-radius: 15px;
-  background-color: ${colors.grey01};
+  background-color: ${themeColors.grey01};
   margin: 5px;
   elevation: 2;
 `;
@@ -49,10 +49,10 @@ const AttendBtn = styled.View`
   border-radius: 8px;
   align-items: center;
   justify-content: center;
-  background-color: ${colors.blue};
+  background-color: ${themeColors.blue};
 `;
 const BtnText = styled.Text`
-  color: ${colors.white};
+  color: ${themeColors.white};
   align-items: center;
 `;
 const Entry = styled.Pressable`
@@ -73,14 +73,14 @@ const UserAvatar = styled.Image`
 `;
 LabelText.defaultProps = {
   homeAwayColor: {
-    main: colors.darkGrey
+    main: themeColors.darkGrey
   }
 }
 const buttonColor = {
-  main: colors.blue
+  main: themeColors.blue
 };
 const textColor = {
-  main: colors.white
+  main: themeColors.white
 };
 
 const TOGGLE_ENTRY_MUTATION = gql`
@@ -133,8 +133,8 @@ function HomeAway({
 
         <Button
           onPress={toggleEntry}
-          buttonColor={isEntry ? { main : colors.grey03 } : buttonColor}
-          textColor={isEntry ? { main : colors.black } : textColor}
+          buttonColor={isEntry ? { main : themeColors.grey03 } : buttonColor}
+          textColor={isEntry ? { main : themeColors.black } : textColor}
           text={isEntry ? "Unentry" : "Entry"}
         />
       </RequestingMatch>

@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { commonTheme } from "../../theme/commonTheme";
 
 const Container = styled.View`
-  background-color: ${colors.white};
+  background-color: ${commonTheme.white};
   padding: 30px 20px;
 `;
 const AvatarWrap = styled.View`
@@ -19,18 +19,18 @@ const Avatar = styled.Image`
   border-radius: 60px;
 `;
 const ProfileWrap = styled.Pressable`
-  border-bottom-color: ${colors.darkGrey};
+  border-bottom-color: ${commonTheme.darkGrey};
   border-bottom-width: 0.5px;
   padding-bottom: 5px;
   margin-bottom: 15px;
 `;
 const NameTag = styled.Text`
   font-size: 11px;
-  color: ${colors.darkGrey};
+  color: ${commonTheme.darkGrey};
 `;
 const Property = styled.Text`
   font-size: 15px;
-  color: ${colors.black};
+  color: ${commonTheme.black};
 `;
 
 function EditProfileForm({ 

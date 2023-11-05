@@ -3,19 +3,18 @@ import PropTypes from "prop-types";
 import { Feather } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import { Text, View, Image, FlatList } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { colors } from "../../colors";
+import { commonTheme } from "../../theme/commonTheme";
 import HomeAway from "./HomeAway";
 import { useNavigation } from "@react-navigation/native";
 
 //backup
 
 const MatchContainer  = styled.View`
-  background-color: ${colors.greyColor};
+  background-color: ${commonTheme.greyColor};
 `;
 const Row  = styled.View`
   flex-direction: row;
-  background-color: ${colors.greyColor};
+  background-color: ${commonTheme.greyColor};
 `;
 
 function GameItem({ goToEntry, entryNumber, games, isEntry }) {

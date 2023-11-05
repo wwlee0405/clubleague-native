@@ -4,13 +4,13 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { View, Text, TouchableOpacity, Image, Alert, useWindowDimensions } from "react-native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
+import { commonTheme } from "../../theme/commonTheme";
 import HeaderAvatar from "../HeaderAvatar.js";
 
 const joinBtnHeight = '60px'
 const Container = styled.View`
   flex: 1;
-  background-color: ${colors.white};
 `;
 const ExtraContainer = styled.View`
   padding-bottom: 10px;
@@ -21,12 +21,10 @@ const Dates = styled.View`
   padding-left: 15px;
 `;
 const MatchDate = styled.Text`
-  color: ${colors.black};
   font-weight: bold;
   font-size: 35px;
 `;
 const MatchWeek = styled.Text`
-  color: ${colors.black};
   font-weight: 600;
   font-size: 20px;
   margin-top: -10px;
@@ -47,7 +45,6 @@ const ClubEmblem = styled.Image`
   border-radius: 30px;
 `;
 const ClubName = styled.Text`
-  color: ${colors.black};
   font-size: 15px;
   font-weight: bold;
   text-align: center;
@@ -57,13 +54,12 @@ const KickOffData = styled.View`
   width: 30%;
 `;
 const KickOffTime = styled.Text`
-  color: ${colors.yellow};
+  color: ${commonTheme.yellow};
   font-size: 30px;
   font-weight: bold;
   text-align: center;
 `;
 const Location = styled.Text`
-  color: ${colors.darkGrey};
   font-size: 10px;
   text-align: center;
   overflow: hidden;
@@ -74,7 +70,6 @@ const AwayBtn = styled.View`
   width: 35%;
 `;
 const AwayText = styled.Text`
-  color: ${colors.darkGrey};
   font-weight: 600;
   font-size: 25px;
 `;
@@ -83,7 +78,6 @@ const TimeLocationData = styled.View`
   align-items: center;
 `;
 const TimeLocation = styled.Text`
-  color: ${colors.darkGrey};
   padding-left: 3px;
 `;
 const Entry = styled.Pressable`
@@ -109,7 +103,6 @@ const CommentContent = styled.View`
   padding-bottom: ${joinBtnHeight};
 `;
 const CommentCount = styled.Text`
-  color: ${colors.darkGrey}
   margin: 8px 15px;
   font-weight: 600;
   font-size: 14px;
@@ -125,6 +118,7 @@ function Game({
   commentNumber
 }) {
   const navigation = useNavigation();
+  const { colors } = useTheme();
   const goToProfile = () => {
     navigation.navigate("Profile", {
       username: user.username,
@@ -139,7 +133,7 @@ function Game({
   const { width } = useWindowDimensions();
 
   return (
-    <Container>
+    <Container style={{backgroundColor: colors.cardHeader}}>
       <HeaderAvatar
         onPress={goToProfile}
         image={user.avatar}
@@ -147,10 +141,10 @@ function Game({
         bottomData="Seoul, Korea"
       />
 
-      <ExtraContainer>
+      <ExtraContainer style={{backgroundColor: colors.cardContent}}>
         <Dates>
-          <MatchDate>APR 23</MatchDate>
-          <MatchWeek>Saturday</MatchWeek>
+          <MatchDate style={{color: colors.text}}>APR 23</MatchDate>
+          <MatchWeek style={{color: colors.text}}>Saturday</MatchWeek>
         </Dates>
 
         <GameContent>
@@ -160,11 +154,11 @@ function Game({
             ) : (
               <ClubEmblem source={require('../../data/2bar.jpg')} />
             )}
-            <ClubName>{homeGame.club.clubname}</ClubName>
+            <ClubName style={{color: colors.text}}>{homeGame.club.clubname}</ClubName>
           </ClubData>
           <KickOffData>
             <KickOffTime>10:00</KickOffTime>
-            <Location numberOfLines={1}>Santiago Bernabéu dkndkfnbkdfnbkfjdnb</Location>
+            <Location numberOfLines={1} style={{color: colors.subText}}>Santiago Bernabéu dkndkfnbkdfnbkfjdnb</Location>
           </KickOffData>
           {awayGame?.id ? (
             <ClubData>
@@ -177,19 +171,19 @@ function Game({
             </ClubData>
           ) : (
             <AwayBtn>
-              <AwayText>Away</AwayText>
+              <AwayText style={{color: colors.subText}}>Away</AwayText>
             </AwayBtn>
             )}
         </GameContent>
 
         <View style={{ alignItems: "center" }}>
           <TimeLocationData>
-            <Feather name="clock" size={15} color={colors.darkGrey} />
-            <TimeLocation>14:00 - 16:00</TimeLocation>
+            <Feather name="clock" size={15} color={commonTheme.darkGrey} />
+            <TimeLocation style={{color: colors.subText}}>14:00 - 16:00</TimeLocation>
           </TimeLocationData>
           <TimeLocationData>
-            <Feather name="map-pin" size={15} color={colors.darkGrey} />
-            <TimeLocation>Camp Nou</TimeLocation>
+            <Feather name="map-pin" size={15} color={commonTheme.darkGrey} />
+            <TimeLocation style={{color: colors.subText}}>Camp Nou</TimeLocation>
           </TimeLocationData>
         </View>
 
@@ -198,7 +192,7 @@ function Game({
             onPress={() => navigation.navigate("Entry", {
             gameId: homeGame.id,
           })}>
-            <EntryText>{homeGame.entryNumber === 1 ? "1 entry" : `${homeGame.entryNumber} entries`}</EntryText>
+            <EntryText style={{color: colors.subText}}>{homeGame.entryNumber === 1 ? "1 entry" : `${homeGame.entryNumber} entries`}</EntryText>
             <View style={{ paddingRight: 3 }}>
               <UserAvatar source={require('../../data/ffff.jpg')} />
             </View>
@@ -211,7 +205,7 @@ function Game({
               onPress={() => navigation.navigate("Entry", {
               gameId: awayGame?.id,
             })}>
-              <EntryText>{awayGame.entryNumber === 1 ? "1 entry" : `${awayGame.entryNumber} entries`}</EntryText>
+              <EntryText style={{color: colors.subText}}>{awayGame.entryNumber === 1 ? "1 entry" : `${awayGame.entryNumber} entries`}</EntryText>
               <View style={{ paddingRight: 3 }}>
                 <UserAvatar source={require('../../data/ffff.jpg')} />
               </View>
@@ -221,7 +215,7 @@ function Game({
             </Entry>
           ) : (
             <Entry>
-              <EntryText>No awayclub</EntryText>
+              <EntryText style={{color: colors.subText}}>No awayclub</EntryText>
             </Entry>
           )}
         </View>
@@ -232,7 +226,7 @@ function Game({
         />
 
         <CaptionData>
-          <Text>{caption}</Text>
+          <Text style={{color: colors.subText}}>{caption}</Text>
         </CaptionData>
 
         <CommentContent>
@@ -240,7 +234,7 @@ function Game({
             onPress={() => navigation.navigate("Comments", {
             matchId: id,
           })}>
-            <CommentCount>{commentNumber === 1 ? "1 comment" : `${commentNumber} comments`}</CommentCount>
+            <CommentCount style={{color: colors.subText}}>{commentNumber === 1 ? "1 comment" : `${commentNumber} comments`}</CommentCount>
           </TouchableOpacity>
         </CommentContent>
 

@@ -3,9 +3,10 @@ import { gql, useMutation } from "@apollo/client";
 import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
 import { View } from "react-native";
 import Button from "../Button.js";
+import { useTheme } from "@react-navigation/native";
+import { commonTheme } from "../../theme/commonTheme";
 
 const TOGGLE_ENTRY_MUTATION = gql`
   mutation toggleEntry($gameId: Int!) {
@@ -19,7 +20,6 @@ const TOGGLE_ENTRY_MUTATION = gql`
 
 const Container = styled.View`
   border-radius: 15px;
-  background-color: ${colors.white};
   margin: 5px;
   elevation: 2;
 `;
@@ -39,20 +39,16 @@ const DateContent = styled.View`
   align-items: center;
 `;
 const DateText = styled.Text`
-  color: ${colors.black};
   font-size: 30px;
   font-weight: bold;
 `;
 const WeekText = styled.Text`
-  color: ${colors.black};
   font-weight: bold;
 `;
 const MonthText = styled.Text`
-  color: ${colors.darkGrey};
   margin-top: -8px;
 `;
 const Sports = styled.Text`
-  color: ${colors.black};
   font-weight: 600;
   font-size: 15px;
 `;
@@ -72,7 +68,6 @@ const HomeAway = styled.View`
   justify-content: center;
 `;
 const VersusText = styled.Text`
-  color: ${colors.darkGrey};
   font-size: 18px;
   font-weight: bold;
   margin-right: 5px;
@@ -81,12 +76,10 @@ const MatchEmblem = styled.Image`
   margin-right: 10px;
   width: 34px;
   height: 34px;
-  border-color: ${colors.grey03};
   border-width: 1px;
   border-radius: 17px;
 `;
 const ClubName = styled.Text`
-  color: ${colors.black};
   font-size: 15px;
   font-weight: 600;
   text-align: center;
@@ -100,19 +93,17 @@ const TimeLocationContent = styled.View`
   justify-content: center;
 `;
 const TimeText = styled.Text`
-  color: ${colors.seaGreen};
   font-size: 25px;
   font-weight: bold;
 `;
 const Location = styled.Text`
-  color: ${colors.darkGrey};
   font-weight: 600;
 `;
 const buttonColor = {
-  main: colors.blue
+  main: commonTheme.blue
 };
 const textColor = {
-  main: colors.white
+  main: commonTheme.white
 };
 function ClubSchedItem({
   id,
@@ -123,6 +114,7 @@ function ClubSchedItem({
   entryNumber
 }) {
   const navigation = useNavigation();
+  const { colors } = useTheme();
   const toggleEntryUpdate = (cache, result) => {
     const {
       data: {
@@ -154,33 +146,33 @@ function ClubSchedItem({
     update: toggleEntryUpdate,
   });
   return (
-    <Container>
+    <Container style={{backgroundColor: colors.cardContent}}>
       <ExtraContainer>
         <Row>
           <DateContent>
-            <DateText>23</DateText>
+            <DateText style={{color: colors.text}}>23</DateText>
             <View style={{ paddingLeft: 10 }}>
-              <WeekText>SUNDAY</WeekText>
-              <MonthText>OCT</MonthText>
+              <WeekText style={{color: colors.text}}>SUNDAY</WeekText>
+              <MonthText style={{color: colors.subText}}>OCT</MonthText>
             </View>
           </DateContent>
           <View>
-            <Sports>Soccer Match</Sports>
+            <Sports style={{color: colors.text}}>Soccer Match</Sports>
           </View>
         </Row>
         <MatchContent>
           <MatchData>
             {club.id !== home.homeGame.club.id ? (
               <HomeAway>
-                <VersusText>VS</VersusText>
+                <VersusText style={{color: colors.subText}}>VS</VersusText>
                 <MatchEmblem source={require('../../data/2bar.jpg')} />
-                <ClubName>{home.homeGame.club.clubname}</ClubName>
+                <ClubName style={{color: colors.text}}>{home.homeGame.club.clubname}</ClubName>
               </HomeAway>
             ) : (
               <HomeAway>
                 <VersusText>VS</VersusText>
                 <MatchEmblem source={require('../../data/2bar.jpg')} />
-                <ClubName>away.awayGame.club.clubname</ClubName>
+                <ClubName style={{color: colors.text}}>away.awayGame.club.clubname</ClubName>
               </HomeAway>
             )}
             
@@ -189,8 +181,8 @@ function ClubSchedItem({
           {club.isJoined ? (
             <Button
               onPress={toggleEntry}
-              buttonColor={isEntry ? { main : colors.grey03 } : buttonColor}
-              textColor={isEntry ? { main : colors.black } : textColor}
+              buttonColor={isEntry ? { main : commonTheme.grey03 } : buttonColor}
+              textColor={isEntry ? { main : commonTheme.black } : textColor}
               text={isEntry ? "Unentry" : "Entry"}
             />
           ) : null}
@@ -198,8 +190,8 @@ function ClubSchedItem({
         </MatchContent>
         <EnteryText>{entryNumber === 1 ? "1 entry" : `${entryNumber} entries`}</EnteryText>
         <TimeLocationContent>
-          <TimeText>10:00-14:00</TimeText>
-          <Location>Santiago Bernabéu</Location>
+          <TimeText style={{color: colors.symbolColor}}>10:00-14:00</TimeText>
+          <Location style={{color: colors.subText}}>Santiago Bernabéu</Location>
         </TimeLocationContent>
       </ExtraContainer>
     </Container>

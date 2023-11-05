@@ -2,7 +2,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { FlatList } from "react-native";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { commonTheme } from "../../theme/commonTheme";
 import useMe from "../../hooks/useMe";
 import ScreenLayout from "../../components/ScreenLayout";
 import AuthButton from "../../components/auth/AuthButton";
@@ -70,7 +70,7 @@ const JoinBtn = styled(AuthButton)`
   margin-left: 20px;
   margin-top: 30px;
   width: 100px;
-  background-color: ${colors.darkGrey};
+  background-color: ${commonTheme.darkGrey};
 `;
 
 export default function Clubhouse({ route }) {

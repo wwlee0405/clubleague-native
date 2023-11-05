@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { themeColors } from "../../themeColors";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
 import EditProfileForm from "../../components/profile/EditProfileForm";
 
 const Container = styled.View`
   flex: 1;
-  background-color: ${colors.white};
+  background-color: ${themeColors.white};
 `;
 
 export default function EditProfile({ navigation, route }) {

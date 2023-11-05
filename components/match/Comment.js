@@ -5,7 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import { Text, View, Image, FlatList } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 
 const DELETE_COMMENT_MUTATION = gql`
   mutation deleteComment($id: Int!) {
@@ -29,7 +29,6 @@ const UserAvatar = styled.Image`
   border-radius: 17.5px;
 `;
 const Username = styled.Text`
-  color: ${colors.black};
   font-weight: 600;
   font-size: 15px;
 `;
@@ -37,6 +36,7 @@ const CommentCaption = styled.Text`
 `;
 
 function Comment({ id, matchId, isMine, author, payload }) {
+  const { colors } = useTheme();
   const updateDeleteComment = (cache, result) => {
     const {
       data: {
@@ -69,8 +69,8 @@ function Comment({ id, matchId, isMine, author, payload }) {
     <CommentContainer>
       <UserAvatar source={require('../../data/gggg.jpg')} />
       <CommentData>
-        <Username>{author}</Username>
-        <CommentCaption>{payload}</CommentCaption>
+        <Username style={{color: colors.text}}>{author}</Username>
+        <CommentCaption style={{color: colors.text}}>{payload}</CommentCaption>
       </CommentData>
       { isMine ? <TouchableOpacity onPress={onDeleteClick}><Text>삭제</Text></TouchableOpacity> : null }
     </CommentContainer>

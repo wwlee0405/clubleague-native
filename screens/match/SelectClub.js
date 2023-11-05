@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { View, TouchableOpacity, FlatList } from "react-native";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { themeColors } from "../../themeColors";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
 import SelectClubItem from "../../components/match/SelectClubItem";
 
@@ -20,7 +20,7 @@ const SEE_MY_CLUB = gql`
 `;
 
 const HeaderRightText = styled.Text`
-  color: ${colors.blue};
+  color: ${themeColors.blue};
   font-size: 16px;
   font-weight: 600;
   margin-right: 7px;

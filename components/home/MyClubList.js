@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 
 const View = styled.View``;
 const Touchable = styled.Pressable`
@@ -22,6 +23,7 @@ const ClubName = styled.Text`
 `;
 
 function MyClubList({ club }) {
+  const { colors } = useTheme();
   const navigation = useNavigation();
   const goToClub = () => {
     navigation.navigate("Clubhouse", {
@@ -37,7 +39,12 @@ function MyClubList({ club }) {
           (<ClubEmblem source={require('../../data/2bar.jpg')} />)
         }
         <View>
-          <ClubName numberOfLines={1}>{club.clubname}</ClubName>
+          <ClubName 
+            numberOfLines={1}
+            style={{color: colors.text}}
+          >
+            {club.clubname}
+          </ClubName>
         </View>
       </ClubTeam>
     </Touchable>

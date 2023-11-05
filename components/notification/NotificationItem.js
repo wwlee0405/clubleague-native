@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { commonTheme } from "../../theme/commonTheme";
 import Button from "../Button.js";
 
 const Container = styled.View`
   border-radius: 15px;
-  background-color: ${colors.white};
+  background-color: ${commonTheme.white};
   margin: 5px;
   elevation: 2;
 `;
@@ -27,7 +27,7 @@ const NotificationData = styled.View`
 `;
 const Caption = styled.Text``;
 const Clubname = styled.Text`
-  color: ${colors.black};
+  color: ${commonTheme.black};
   font-weight: 600;
   font-size: 15px;
 `;
@@ -40,10 +40,10 @@ const ButtonPadding = styled.View`
   padding-right: 20px;
 `;
 const buttonColor = {
-  main: colors.blue
+  main: commonTheme.blue
 };
 const textColor = {
-  main: colors.white
+  main: commonTheme.white
 };
 
 function NotificationItem({ payload }) {
@@ -70,8 +70,8 @@ function NotificationItem({ payload }) {
             <ButtonPadding>
               <Button
                 onPress={null}
-                buttonColor={{ main : colors.grey03 }}
-                textColor={{ main : colors.black }}
+                buttonColor={{ main : commonTheme.grey03 }}
+                textColor={{ main : commonTheme.black }}
                 text="No"
               />
             </ButtonPadding>

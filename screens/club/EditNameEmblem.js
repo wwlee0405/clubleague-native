@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { ReactNativeFile } from "apollo-upload-client";
 import { useForm } from "react-hook-form";
 import { TouchableOpacity } from "react-native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import DismissKeyboard from "../../components/DismissKeyboard";
@@ -37,7 +37,6 @@ const Container = styled.View`
    justify-content: center;
    align-items: center;
    flex: 1;
-   background-color: ${colors.white};
 `;
 const Emblem = styled.View`
    justify-content: center;
@@ -45,7 +44,6 @@ const Emblem = styled.View`
    width: 130px;
    height: 130px;
    border-radius: 65px;
-   background-color: ${colors.seaGreen};
 `;
 const EmblemImg = styled.Image`
   width: 130px;
@@ -54,13 +52,13 @@ const EmblemImg = styled.Image`
 `;
 const TextInput = styled.TextInput`
 	padding: 10px;
-	background-color: ${colors.white};
 	text-align: center;
 	font-size: 20px;
 `;
 
 export default function EditNameEmblem({ route }) {
   const navigation = useNavigation();
+  const { colors } = useTheme();
   const { data } = useQuery(SEE_CLUB, {
     variables: {
       id: route?.params?.clubId,
@@ -137,7 +135,7 @@ export default function EditNameEmblem({ route }) {
 
   return (
     <DismissKeyboard>
-      <Container>
+      <Container style={{backgroundColor: colors.background}}>
         <View style={{ paddingBottom: 30 }}>
           <TouchableOpacity onPress={() => navigation.navigate("UploadEmblem")}>
             {route.params.emblem ? (
@@ -152,8 +150,9 @@ export default function EditNameEmblem({ route }) {
            placeholder="Input Club Name"
            defaultValue={data?.seeClub?.clubname}
            returnKeyType="done"
-           placeholderTextColor={"#c7c7c7"}
+           placeholderTextColor={colors.placeholder}
            onChangeText={(text) => setValue("clubname", text)}
+           style={{backgroundColor: colors.background, color: colors.text}}
          />
 
       </Container>

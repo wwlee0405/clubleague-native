@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
-import { colors } from "../../colors";
+import { themeColors } from "../../themeColors";
 import HeaderRight from "../../components/shared/HeaderRight";
 
 const Container = styled.View`
@@ -85,7 +85,7 @@ export default function SelectEmblemPhoto({ navigation, route }) {
         <Ionicons
           name="checkmark-circle"
           size={18}
-          color={photo.uri === chosenPhoto ? colors.blue : "white"}
+          color={photo.uri === chosenPhoto ? themeColors.blue : "white"}
         />
       </IconContainer>
     </TouchableOpacity>

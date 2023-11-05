@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { ActivityIndicator, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
 import DismissKeyboard from "../../components/DismissKeyboard";
 import HeaderRightLoading from "../../components/shared/HeaderRightLoading";
 import HeaderRight from "../../components/shared/HeaderRight";

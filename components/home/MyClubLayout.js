@@ -1,12 +1,12 @@
 import React from "react";
 import { ActivityIndicator, View, Text } from "react-native";
-import { colors } from "../../colors";
+import { commonTheme } from "../../theme/commonTheme";
 
 export default function ScreenLayout({ clubLoading, children }) {
   return (
     <View
       style={{
-        backgroundColor: colors.blue,
+        backgroundColor: commonTheme.blue,
         height: 90,
         alignItems: "center",
         justifyContent: "center",

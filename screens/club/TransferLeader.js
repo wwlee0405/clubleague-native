@@ -1,11 +1,10 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList } from "react-native";
-import { colors } from "../../colors";
+import { View, FlatList } from "react-native";
+import { useTheme } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import UserRowCheckbox from "../../components/profile/UserRowCheckbox";
-import UserColumn from "../../components/profile/UserColumn";
 import HeaderRight from "../../components/shared/HeaderRight";
 
 const TRANSFER_LEADER = gql`
@@ -43,7 +42,6 @@ const Top = styled.View`
 const Title = styled.Text`
   margin: 5px 15px;
   font-size: 12px;
-  color: ${colors.darkGrey};
 `;
 const UserData = styled.View`
   padding: 10px 0px;
@@ -64,6 +62,7 @@ const Username = styled.Text`
 
 export default function TransferLeader({ route }) {
   const navigation = useNavigation();
+  const { colors } = useTheme();
   const [chosenLeader, setChosenLeader] = useState("");
   const { data } = useQuery(SEE_CLUBMEMBER, {
     variables: {
@@ -125,7 +124,7 @@ export default function TransferLeader({ route }) {
         </UserData>
       ) : null}
       </Top>
-      <Title>리더후보</Title>
+      <Title style={{color: colors.subText}}>리더후보</Title>
       <FlatList
         data={data?.seeClubMembers}
         keyExtractor={(member) => "" + member.id}

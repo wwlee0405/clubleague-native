@@ -2,6 +2,7 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useTheme } from "@react-navigation/native";
 import TabsNav from "./TabsNav";
 import ClubNav from "./ClubNav";
 import UploadNav from "./UploadNav";
@@ -43,8 +44,16 @@ const Stack = createStackNavigator();
 const MaterialTab = createMaterialTopTabNavigator();
 
 export default function LoggedInNav() {
+  const { colors } = useTheme();
   return (
-    <Stack.Navigator mode="modal">
+    <Stack.Navigator 
+      mode="modal"
+      screenOptions={{
+        headerMode: "screen",
+        headerTintColor: colors.text,
+        headerStyle: { backgroundColor: colors.background },
+      }}
+    >
       <Stack.Screen
         name="Tabs"
         component={TabsNav}
@@ -59,13 +68,13 @@ export default function LoggedInNav() {
           <MaterialTab.Navigator
             tabBarOptions={{
               scrollEnabled : true,
-              style: { backgroundColor: "white" },
+              style: { backgroundColor: colors.background },
               tabStyle: { width: 100 },
               labelStyle: { fontSize: 10 },
-              inactiveTintColor: "black",
-              activeTintColor: "#2e8b57",
+              inactiveTintColor: colors.text,
+              activeTintColor: colors.symbolColor,
               indicatorStyle: {
-                backgroundColor: "#2e8b57",
+                backgroundColor: colors.symbolColor,
                 bottom: 0,
               },
             }}
@@ -121,9 +130,9 @@ export default function LoggedInNav() {
             tabBarPosition="bottom"
             tabBarOptions={{
               style: {
-                backgroundColor: "black",
+                backgroundColor: colors.background,
               },
-              activeTintColor: "white",
+              activeTintColor: colors.text,
               indicatorStyle: {
                 backgroundColor: "yellow",
                 bottom: 0,
@@ -134,13 +143,13 @@ export default function LoggedInNav() {
               {() => (
                 <Stack.Navigator
                   screenOptions={{
-                    headerTintColor: "white",
+                    headerTintColor: colors.text,
                     headerBackTitleVisible: false,
                     headerBackImage: ({ tintColor }) => (
                       <Ionicons color={tintColor} name="close" size={28} />
                     ),
                     headerStyle: {
-                      backgroundColor: "black",
+                      backgroundColor: colors.background,
                       shadowOpacity: 0.3,
                     },
                   }}
@@ -173,9 +182,9 @@ export default function LoggedInNav() {
             <Ionicons color={tintColor} name="close" size={28} />
           ),
           title: "UploadAvatar",
-          headerTintColor: "white",
+          headerTintColor: colors.text,
           headerStyle: {
-            backgroundColor: "black",
+            backgroundColor: colors.background,
           },
         }}
       />
@@ -193,9 +202,9 @@ export default function LoggedInNav() {
             <Ionicons color={tintColor} name="close" size={28} />
           ),
           title: "Upload",
-          headerTintColor: "white",
+          headerTintColor: colors.text,
           headerStyle: {
-            backgroundColor: "black",
+            backgroundColor: colors.background,
           },
         }}
       />
@@ -227,13 +236,13 @@ export default function LoggedInNav() {
               {() => (
                 <Stack.Navigator
                   screenOptions={{
-                    headerTintColor: "white",
+                    headerTintColor: colors.text,
                     headerBackTitleVisible: false,
                     headerBackImage: ({ tintColor }) => (
                       <Ionicons color={tintColor} name="close" size={28} />
                     ),
                     headerStyle: {
-                      backgroundColor: "black",
+                      backgroundColor: colors.background,
                       shadowOpacity: 0.3,
                     },
                   }}

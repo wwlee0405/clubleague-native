@@ -1,15 +1,20 @@
 import AppLoading from "expo-app-loading";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import { Asset } from "expo-asset";
 import LoggedOutNav from "./navigators/LoggedOutNav";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { ApolloProvider, useReactiveVar } from "@apollo/client";
 import client, { isLoggedInVar, tokenVar, cache } from "./apollo";
 import LoggedInNav from "./navigators/LoggedInNav";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AsyncStorageWrapper, persistCache } from "apollo3-cache-persist";
+
+import { AppContext } from "./hooks/AppContext";
+import DarkTheme from "./theme/DarkTheme";
+import DefaultTheme from "./theme/DefaultTheme";
 
 export default function App() {
   const [loading, setLoading] = useState(false);
@@ -44,10 +49,21 @@ export default function App() {
       />
     );
   }
+
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const appContext = useMemo(() => {
+    return {
+      isDarkTheme,
+      setIsDarkTheme
+    }
+  });
+
   return (
     <ApolloProvider client={client}>
-      <NavigationContainer>
+      <NavigationContainer theme={isDarkTheme ? DarkTheme : DefaultTheme}>
+        <AppContext.Provider value={appContext}>
         {isLoggedIn ? <LoggedInNav /> : <LoggedOutNav />}
+        </AppContext.Provider>
       </NavigationContainer>
     </ApolloProvider>
   );

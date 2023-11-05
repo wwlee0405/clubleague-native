@@ -2,7 +2,7 @@ import React from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { View, Switch } from "react-native";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 
 const TOGGLE_WRITE_MUTATION = gql`
   mutation toggleWriteAuth($id: Int!) {
@@ -42,15 +42,14 @@ const Wrep = styled.View`
 `;
 const TopText = styled.Text`
   font-size: 15px;
-  color: ${colors.black};
 `;
 const BottomText = styled.Text`
   margin: 5px 0px;
   font-size: 12px;
-  color: ${colors.darkGrey};
 `;
 
 export default function MemberAuth({ route }) {
+  const { colors } = useTheme();
   const toggleWriteUpdate = (cache, result) => {
     const {
       data: {
@@ -106,8 +105,8 @@ export default function MemberAuth({ route }) {
     <Container>
       <Wrep>
         <View>
-          <TopText>Writing authority</TopText>
-          <BottomText>모든 멤버에게 글쓰기(매치) 권한을 줍니다.</BottomText>
+          <TopText style={{color: colors.text}}>Writing authority</TopText>
+          <BottomText style={{color: colors.subText}}>모든 멤버에게 글쓰기(매치) 권한을 줍니다.</BottomText>
         </View>
         <Switch
           trackColor={{false: '#767577', true: '#81b0ff'}}
@@ -119,8 +118,8 @@ export default function MemberAuth({ route }) {
       </Wrep>
       <Wrep>
         <View>
-          <TopText>Invite authority</TopText>
-          <BottomText>모든 멤버에게 친구 초대하기 권한을 줍니다.</BottomText>
+          <TopText style={{color: colors.text}}>Invite authority</TopText>
+          <BottomText style={{color: colors.subText}}>모든 멤버에게 친구 초대하기 권한을 줍니다.</BottomText>
         </View>
         <Switch
           trackColor={{false: '#767577', true: '#81b0ff'}}

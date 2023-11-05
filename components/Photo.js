@@ -6,7 +6,7 @@ import styled from "styled-components/native";
 import { Image, useWindowDimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { gql, useMutation } from "@apollo/client";
-import { colors } from "../colors";
+import { commonTheme } from "../theme/commonTheme";
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -30,7 +30,7 @@ const UserAvatar = styled.Image`
   border-radius: 12.5px;
 `;
 const Username = styled.Text`
-  color: ${colors.black};
+  color: ${commonTheme.black};
   font-weight: 600;
 `;
 const File = styled.Image``;
@@ -45,11 +45,11 @@ const Caption = styled.View`
   flex-direction: row;
 `;
 const CaptionText = styled.Text`
-  color: ${colors.darkGrey};
+  color: ${commonTheme.darkGrey};
   margin-left: 5px;
 `;
 const Likes = styled.Text`
-  color: ${colors.lightGrey};
+  color: ${commonTheme.lightGrey};
   margin: 7px 0px;
   font-weight: 600;
 `;

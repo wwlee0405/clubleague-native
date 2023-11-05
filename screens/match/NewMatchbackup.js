@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import DismissKeyboard from "../../components/DismissKeyboard";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { themeColors } from "../../themeColors";
 
 const CREATE_GAME_MUTATION = gql`
   mutation createGame($clubId: Int!, $file: String, $caption: String) {
@@ -32,14 +32,14 @@ const CaptionContainer = styled.View`
   margin-top: 10px;
 `;
 const Caption = styled.TextInput`
-  background-color: ${colors.white};
+  background-color: ${themeColors.white};
   color: black;
   padding: 10px 20px;
   border-radius: 100px;
 `;
 const LabelText = styled.Text`
   font-size: 15px;
-  color: ${colors.yellow};
+  color: ${themeColors.yellow};
 `;
 const SubmitText = styled.Text`
   font-size: 20px;
@@ -55,7 +55,7 @@ const BtnRow = styled.View`
   justify-content: space-between;
   width: 70px;
   margin-left: 50px;
-  background-color: ${colors.greyColor};
+  background-color: ${themeColors.greyColor};
 `;
 const UpDownBtn = styled.View`
   width: 30px;
@@ -63,14 +63,14 @@ const UpDownBtn = styled.View`
   border-radius: 8px;
   align-items: center;
   justify-content: center;
-  background-color: ${colors.blue};
+  background-color: ${themeColors.blue};
 `;
 const BtnText = styled.Text`
-  color: ${colors.white};
+  color: ${themeColors.white};
   align-items: center;
 `;
 const HeaderRightText = styled.Text`
-color: ${colors.blue};
+color: ${themeColors.blue};
 font-size: 16px;
 font-weight: 600;
 margin-right: 7px;

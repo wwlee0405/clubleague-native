@@ -2,13 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 import HeaderAvatar from "../HeaderAvatar.js";
 import { View } from "react-native";
 
 const Container = styled.View`
   border-radius: 15px;
-  background-color: ${colors.white};
   margin: 5px;
   elevation: 2;
 `;
@@ -16,7 +15,6 @@ const ExtraContainer = styled.View`
   padding-bottom: 8px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-  background-color: ${colors.grey01};
 `;
 const Row = styled.View`
   flex-direction: row;
@@ -29,20 +27,16 @@ const DateContent = styled.View`
   align-items: center;
 `;
 const DateText = styled.Text`
-  color: ${colors.black};
   font-size: 30px;
   font-weight: bold;
 `;
 const WeekText = styled.Text`
-  color: ${colors.black};
   font-weight: bold;
 `;
 const MonthText = styled.Text`
-  color: ${colors.darkGrey};
   margin-top: -8px;
 `;
 const Sports = styled.Text`
-  color: ${colors.black};
   font-size: 15px;
   font-weight: bold;
   padding: 0px 15px 20px;
@@ -62,30 +56,25 @@ const KickOffData = styled.View`
   width: 30%;
 `;
 const KickOffTime = styled.Text`
-  color: ${colors.yellow};
   font-size: 30px;
   font-weight: bold;
   text-align: center;
 `;
 const Location = styled.Text`
-  color: ${colors.darkGrey};
   font-size: 10px;
   text-align: center;
   width: 100%;
   overflow: hidden;
 `;
 const AwayText = styled.Text`
-  color: ${colors.darkGrey};
   font-weight: 600;
   font-size: 25px;
 `;
 const VersusText = styled.Text`
-  color: ${colors.darkGrey};
   font-size: 15px;
   text-align: center;
 `;
 const ClubName = styled.Text`
-  color: ${colors.black};
   font-size: 15px;
   font-weight: 600;
   text-align: center;
@@ -93,6 +82,7 @@ const ClubName = styled.Text`
 `;
 
 function MatchItem({ user, homeGame, awayGame }) {
+  const { colors } = useTheme();
   const navigation = useNavigation();
   const goToProfile = () => {
     navigation.navigate("Profile", {
@@ -105,25 +95,25 @@ function MatchItem({ user, homeGame, awayGame }) {
   const awayClubname = awayGame?.club.clubname;
   const awayEmblem = awayGame?.club.emblem;
   return (
-    <Container>
+    <Container style={{ backgroundColor: colors.cardHeader }}>
       <HeaderAvatar
         onPress={goToProfile}
         image={user.avatar}
         topData={user.username}
         bottomData={homeClubname}
       />
-      <ExtraContainer>
+      <ExtraContainer style={{ backgroundColor: colors.cardContent }}>
 
         <Row>
           <DateContent>
-            <DateText>23</DateText>
+            <DateText style={{ color: colors.text }}>23</DateText>
             <View style={{ paddingLeft: 10 }}>
-              <WeekText>SUNDAY</WeekText>
-              <MonthText>OCT</MonthText>
+              <WeekText style={{ color: colors.text }}>SUNDAY</WeekText>
+              <MonthText style={{ color: colors.subText }}>OCT</MonthText>
             </View>
           </DateContent>
           <View>
-            <Sports>Soccer Match</Sports>
+            <Sports style={{ color: colors.text }}>Soccer Match</Sports>
           </View>
         </Row>
 
@@ -134,8 +124,13 @@ function MatchItem({ user, homeGame, awayGame }) {
             <ClubEmblem source={require('../../data/1ars.jpg')} />
           }
           <KickOffData>
-            <KickOffTime>10:00</KickOffTime>
-            <Location numberOfLines={1}>Santiago Bernabéu</Location>
+            <KickOffTime style={{ color: colors.yellow }}>10:00</KickOffTime>
+            <Location 
+              numberOfLines={1}
+              style={{ color: colors.subText }}
+            >
+              Santiago Bernabéu
+            </Location>
           </KickOffData>
 
           {awayClubname ? (
@@ -147,16 +142,16 @@ function MatchItem({ user, homeGame, awayGame }) {
               )}
             </View>
           ) : (
-            <AwayText>Away</AwayText>
+            <AwayText style={{ color: colors.subText }}>Away</AwayText>
           )}
         </GameContent>
-        <VersusText>
-          <ClubName>{homeClubname} </ClubName>
+        <VersusText style={{ color: colors.subText }}>
+          <ClubName style={{ color: colors.text }}>{homeClubname} </ClubName>
           V
           {awayClubname ?
-            <ClubName> {awayClubname}</ClubName>
+            <ClubName style={{ color: colors.text }}> {awayClubname}</ClubName>
             :
-            <ClubName> 없음</ClubName>
+            <ClubName style={{ color: colors.text }}> 없음</ClubName>
           }
         </VersusText>
       </ExtraContainer>

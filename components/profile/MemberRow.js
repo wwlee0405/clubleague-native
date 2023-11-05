@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Wrapper = styled.View`
@@ -23,11 +23,11 @@ const Avatar = styled.Image`
 `;
 const Username = styled.Text`
   font-weight: 600;
-  color: ${colors.black};
 `;
 
 function MemberRow({ user, boardAuth }) {
   const navigation = useNavigation();
+  const { colors } = useTheme();
   return (
     <Wrapper>
       <Column
@@ -41,8 +41,8 @@ function MemberRow({ user, boardAuth }) {
           : 
           <Avatar source={require('../../data/gggg.jpg')} />
         }
-        <Username>{user.username}</Username>
-        {boardAuth ? <MaterialCommunityIcons name="crown" size={20} color={colors.seaGreen} />: null}
+        <Username style={{color: colors.text}}>{user.username}</Username>
+        {boardAuth ? <MaterialCommunityIcons name="crown" size={20} color={colors.symbolColor} />: null}
       </Column>
     </Wrapper>
   );

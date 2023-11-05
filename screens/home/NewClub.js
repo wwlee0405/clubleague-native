@@ -8,7 +8,7 @@ import DismissKeyboard from "../../components/DismissKeyboard";
 import HeaderRightLoading from "../../components/shared/HeaderRightLoading";
 import HeaderRight from "../../components/shared/HeaderRight";
 import { Feather } from "@expo/vector-icons";
-import { colors } from "../../colors";
+import { themeColors } from "../../themeColors";
 
 const CREATE_CLUB = gql`
   mutation createClub(
@@ -34,7 +34,7 @@ const Container = styled.View`
    justify-content: center;
    align-items: center;
    flex: 1;
-   background-color: ${colors.white};
+   background-color: ${themeColors.white};
 `;
 const Emblem = styled.View`
    justify-content: center;
@@ -42,7 +42,7 @@ const Emblem = styled.View`
    width: 130px;
    height: 130px;
    border-radius: 65px;
-   background-color: ${colors.seaGreen};
+   background-color: ${themeColors.seaGreen};
 `;
 const EmblemImg = styled.Image`
   width: 130px;
@@ -51,7 +51,7 @@ const EmblemImg = styled.Image`
 `;
 const TextInput = styled.TextInput`
 	padding: 10px;
-	background-color: ${colors.white};
+	background-color: ${themeColors.white};
 	text-align: center;
 	font-size: 20px;
 `;
@@ -139,7 +139,7 @@ export default function NewClub({ route, navigation }) {
               <EmblemImg resizeMode="contain" source={{ uri: route.params.emblem }} />
             ):(
               <Emblem>
-                <Feather name="camera" size={40} style={{ color: colors.greyColor }} />
+                <Feather name="camera" size={40} style={{ color: themeColors.greyColor }} />
               </Emblem>
             )}
           </TouchableOpacity>

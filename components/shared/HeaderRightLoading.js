@@ -1,12 +1,12 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
-import { colors } from "../../colors";
+import { commonTheme } from "../../theme/commonTheme";
 
 export default function HeaderRightLoading() {
   return (
     <ActivityIndicator
       size="small"
-      color={colors.seaGreen}
+      color={commonTheme.seaGreen}
       style={{ marginRight: 15 }}
     />
   );

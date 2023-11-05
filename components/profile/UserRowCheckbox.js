@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Pressable } from "react-native";
+import { Pressable } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 
 const UserData = styled.View`
   flex-direction: row;
@@ -23,7 +23,6 @@ const Avatar = styled.Image`
 `;
 const Username = styled.Text`
   font-weight: 600;
-  color: ${colors.black};
 `;
 const Checkbox = styled.View`
   position: absolute;
@@ -38,18 +37,19 @@ function UserRowCheckbox({
   id,
   choice
 }) {
+  const { colors } = useTheme();
   return (
     <Pressable onPress={onPress}>
       <UserData>
         {avatar ? (
           <Column>
             <Avatar source={{ uri: avatar }} />
-            <Username>{username}</Username>
+            <Username style={{color: colors.text}}>{username}</Username>
           </Column>
         ) : (
           <Column>
             <Avatar source={require('../../data/gggg.jpg')} />
-            <Username>{username}</Username>
+            <Username style={{color: colors.text}}>{username}</Username>
           </Column>
         )}
       </UserData>
@@ -62,7 +62,7 @@ function UserRowCheckbox({
           }
           size={26}
           color={id === choice ?
-            colors.seaGreen
+            colors.symbolColor
             :
             colors.grey03
           }

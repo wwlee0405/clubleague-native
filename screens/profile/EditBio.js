@@ -3,7 +3,7 @@ import { gql, useMutation } from "@apollo/client";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { themeColors } from "../../themeColors";
 import { TextInput } from "../../components/auth/AuthShared";
 import DismissKeyboard from "../../components/DismissKeyboard";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
@@ -22,7 +22,7 @@ const EDIT_PROFILE_MUTATION = gql`
 
 const Container = styled.View`
   flex: 1;
-  background-color: ${colors.white};
+  background-color: ${themeColors.white};
   padding: 10px 20px;
 `;
 

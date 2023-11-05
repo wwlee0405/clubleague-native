@@ -3,7 +3,7 @@ import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 import useMe from "../../hooks/useMe";
 
 const SEE_CLUB = gql`
@@ -20,7 +20,6 @@ const SEE_CLUB = gql`
 `;
 
 const Text = styled.Text`
-  color: ${colors.black};
   justify-content: center;
   align-items: center;
   padding: 10px 15px;
@@ -30,6 +29,7 @@ const Text = styled.Text`
 export default function ClubSetting({route}) {
   const { data: userData } = useMe();
   const navigation = useNavigation();
+  const { colors } = useTheme();
   const { data } = useQuery(SEE_CLUB, {
     variables: {
       id: route?.params?.clubId,
@@ -44,44 +44,44 @@ export default function ClubSetting({route}) {
   return (
     <View>
 
-      <Text>-클럽 기본 정보 관리-</Text>
+      <Text style={{color: colors.text}}>-클럽 기본 정보 관리-</Text>
 
       <TouchableOpacity
         onPress={() => navigation.navigate("EditNameEmblem", {
           clubId: data?.seeClub?.id,
         })}
       >
-        <Text>클럽이름 및 커버설정</Text>
+        <Text style={{color: colors.text}}>클럽이름 및 커버설정</Text>
       </TouchableOpacity>
       
       <TouchableOpacity>
-        <Text>클럽소개</Text>
+        <Text style={{color: colors.text}}>클럽소개</Text>
       </TouchableOpacity>
 
-      <Text>-멤버 가입관리-</Text>
+      <Text style={{color: colors.text}}>-멤버 가입관리-</Text>
       <TouchableOpacity>
-        <Text>가입신청</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity>
-        <Text>유저차단설정</Text>
+        <Text style={{color: colors.text}}>가입신청</Text>
       </TouchableOpacity>
 
       <TouchableOpacity>
-        <Text>팀차단설정</Text>
+        <Text style={{color: colors.text}}>유저차단설정</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity>
+        <Text style={{color: colors.text}}>팀차단설정</Text>
       </TouchableOpacity>
 
       {clubLeader === me ? (
         <View>
 
-          <Text>-멤버 활동관리-</Text>
+          <Text style={{color: colors.text}}>-멤버 활동관리-</Text>
 
           <TouchableOpacity
             onPress={() => navigation.navigate("MemberAuth", {
               clubId: data?.seeClub?.id,
             })}
           >
-            <Text>멤버권한 설정</Text>
+            <Text style={{color: colors.text}}>멤버권한 설정</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -89,7 +89,7 @@ export default function ClubSetting({route}) {
               clubId: data?.seeClub?.id,
             })}
           >
-            <Text>임원임명</Text>
+            <Text style={{color: colors.text}}>임원임명</Text>
           </TouchableOpacity>
             
           <TouchableOpacity
@@ -97,7 +97,7 @@ export default function ClubSetting({route}) {
               clubId: data?.seeClub?.id,
             })}
           >
-            <Text>임원해제</Text>
+            <Text style={{color: colors.text}}>임원해제</Text>
           </TouchableOpacity>
 
             
@@ -106,15 +106,15 @@ export default function ClubSetting({route}) {
               clubId: data?.seeClub?.id,
             })}
           >
-            <Text>리더양도</Text>
+            <Text style={{color: colors.text}}>리더양도</Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Text>멤버탈퇴</Text>
+            <Text style={{color: colors.text}}>멤버탈퇴</Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Text>클럽 삭제하기</Text>
+            <Text style={{color: colors.text}}>클럽 삭제하기</Text>
           </TouchableOpacity>
 
         </View>

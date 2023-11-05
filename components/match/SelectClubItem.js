@@ -1,14 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { colors } from "../../colors";
 import styled from "styled-components/native";
+import { useTheme } from "@react-navigation/native";
 
 const Container = styled.TouchableOpacity`
   flex-direction: row;
   padding: 10px;
   margin: 3px;
   border-radius: 15px;
-  background-color: ${colors.white};
   elevation: 1;
   width: 100%;
 `;
@@ -28,13 +27,16 @@ const ClubName = styled.Text`
 	font-weight: bold;
 `;
 const ClubArea = styled.Text`
-	color: ${colors.darkGrey};
 	font-size: 14px;
 `;
 
 function SelectClubItem({ onPress, clubId, club, clubname, emblem }) {
+  const { colors } = useTheme();
   return (
-    <Container onPress={onPress}>
+    <Container 
+      onPress={onPress}
+      style={{backgroundColor: colors.background}}
+    >
       <Column>
         {emblem ? (
           <Emblem source={{ uri: emblem }} />
@@ -42,8 +44,8 @@ function SelectClubItem({ onPress, clubId, club, clubname, emblem }) {
           <Emblem source={require('../../data/2bar.jpg')} />
         )}
         <Data>
-          <ClubName>{clubname}</ClubName>
-          <ClubArea>Madrid, Spain</ClubArea>
+          <ClubName style={{color: colors.text}}>{clubname}</ClubName>
+          <ClubArea style={{color: colors.subText}}>Madrid, Spain</ClubArea>
         </Data>
       </Column>
     </Container>

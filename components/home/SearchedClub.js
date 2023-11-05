@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 
 const View = styled.View``;
 const Container = styled.View`
   flex: 1;
   flex-direction: row;
   border-radius: 15px;
-  background-color: ${colors.white};
   margin: 5px;
   padding-vertical: 10px;
   elevation: 1;
@@ -36,12 +35,10 @@ const ClubArea = styled.Text`
 `;
 const Text = styled.Text`
   font-size: 12px;
-  color: ${colors.darkGrey};
 `;
 const PaddingText = styled.Text`
   font-size: 12px;
   padding-left: 20px;
-  color: ${colors.darkGrey};
 `;
 
 function SearchedClub({
@@ -52,25 +49,26 @@ function SearchedClub({
   totalMember,
   clubLeader,
 }) {
+  const { colors } = useTheme();
   return (
-    <Container>
+    <Container style={{backgroundColor: colors.cardContent}}>
       <Emblem>
         <ClubEmblem source={require('../../data/1ars.jpg')} />
       </Emblem>
       <View>
         <View>
-          <ClubName>{clubname}</ClubName>
+          <ClubName style={{color: colors.text}}>{clubname}</ClubName>
         </View>
         <View>
-          <ClubArea>{clubArea}</ClubArea>
+          <ClubArea style={{color: colors.text}}>{clubArea}</ClubArea>
         </View>
         <RowContainer>
-          <Text>sports</Text>
-          <PaddingText>clubInfo</PaddingText>
+          <Text style={{color: colors.subText}}>sports</Text>
+          <PaddingText style={{color: colors.subText}}>clubInfo</PaddingText>
         </RowContainer>
         <RowContainer>
-          <Text>{totalMember} Members</Text>
-          <PaddingText>Leader {clubLeader.username}</PaddingText>
+          <Text style={{color: colors.subText}}>{totalMember} Members</Text>
+          <PaddingText style={{color: colors.subText}}>Leader {clubLeader.username}</PaddingText>
         </RowContainer>
       </View>
     </Container>

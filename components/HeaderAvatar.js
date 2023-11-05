@@ -1,7 +1,7 @@
 import React from "react";
 import TabIcon from "../components/nav/TabIcon";
 import styled from "styled-components/native";
-import { colors } from "../colors";
+import { useTheme } from "@react-navigation/native";
 
 const ButtonTochable = styled.Pressable``;
 const Wrapper = styled.View`
@@ -17,7 +17,6 @@ const Avatar = styled.Image`
 `;
 const TextData = styled.View``;
 const TextTop = styled.Text`
-  color: ${colors.black};
   font-weight: bold;
 `;
 const TextBottom = styled.Text`
@@ -26,22 +25,23 @@ const TextBottom = styled.Text`
 `;
 
 export default function HeaderAvatar({ onPress, image, topData, bottomData }) {
+  const { colors } = useTheme();
   return (
     <ButtonTochable onPress={onPress}>
       {image ?
         (<Wrapper>
           <Avatar resizeMode="cover" source={{ uri: image }} />
           <TextData>
-            <TextTop>{topData}</TextTop>
-            <TextBottom>{bottomData}</TextBottom>
+            <TextTop style={{ color: colors.text }}>{topData}</TextTop>
+            <TextBottom style={{ color: colors.subText }}>{bottomData}</TextBottom>
           </TextData>
         </Wrapper>)
         :
         (<Wrapper>
           <Avatar resizeMode="cover" source={require('../data/cccc.jpg')} />
           <TextData>
-            <TextTop>{topData}</TextTop>
-            <TextBottom>{bottomData}</TextBottom>
+            <TextTop style={{ color: colors.text }}>{topData}</TextTop>
+            <TextBottom style={{ color: colors.subText }}>{bottomData}</TextBottom>
           </TextData>
         </Wrapper>)
       }

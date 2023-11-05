@@ -5,8 +5,7 @@ import PropTypes from "prop-types";
 import { Feather } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import { Text, View, Image, FlatList } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { colors } from "../../colors";
+import { commonTheme } from "../../theme/commonTheme";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
 import Comment from "./Comment";
 import AuthButton from "../auth/AuthButton";
@@ -33,10 +32,10 @@ const CommentCount = styled.Text`
 `;
 
 const PostCommentContainer = styled.View`
-  background-color: ${colors.white};
+  background-color: ${commonTheme.white};
   height: 55px;
   width: 100%;
-  border-top: 1px solid ${colors.emerald};
+  border-top: 1px solid ${commonTheme.emerald};
   padding-top: 15px;
   padding-bottom: 10px;
   flex-direction: row;
@@ -49,7 +48,7 @@ const PostCommentInput = styled.TextInput`
   border-radius: 7px;
 `;
 const Post = styled.View`
-  background-color: ${colors.yellow};
+  background-color: ${commonTheme.yellow};
   height: 50px;
   width: 50px;
 `;

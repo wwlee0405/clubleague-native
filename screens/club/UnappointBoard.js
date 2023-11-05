@@ -2,10 +2,9 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
 import { View, FlatList } from "react-native";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import UserRowCheckbox from "../../components/profile/UserRowCheckbox";
-import UserColumn from "../../components/profile/UserColumn";
 import HeaderRight from "../../components/shared/HeaderRight";
 
 const UNAPPOINT_BOARD = gql`
@@ -43,7 +42,6 @@ const Top = styled.View`
 const Title = styled.Text`
   margin: 5px 15px;
   font-size: 12px;
-  color: ${colors.darkGrey};
 `;
 const UserData = styled.View`
   padding: 0px 0px;
@@ -64,6 +62,7 @@ const Username = styled.Text`
 
 export default function UnappointBoard({ route }) {
   const navigation = useNavigation();
+  const { colors } = useTheme();
   const [chosenBoard, setChosenBoard] = useState("");
   const { data } = useQuery(SEE_CLUBMEMBER, {
     variables: {
@@ -124,7 +123,7 @@ export default function UnappointBoard({ route }) {
       ) : null}
       </Top>
 
-      <Title>Board</Title>
+      <Title style={{color: colors.subText}}>Board</Title>
       <FlatList
         data={data?.seeClubMembers}
         keyExtractor={(board) => "" + board.id}

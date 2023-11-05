@@ -1,14 +1,12 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
-import { Feather } from "@expo/vector-icons";
-import { RefreshControl, View, Text, TouchableOpacity, Image, Alert, useWindowDimensions } from "react-native";
+import { RefreshControl, Alert, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { GAME_FRAGMENT } from "../../fragments";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { commonTheme } from "../../theme/commonTheme";
 import { useNavigation } from "@react-navigation/native";
 import ScreenLayout from "../../components/ScreenLayout";
-import HeaderAvatar from "../../components/HeaderAvatar.js";
 import Game from "../../components/match/Game";
 
 const SEE_GAME = gql`
@@ -45,7 +43,7 @@ const JoinGameContainer = styled.View`
   height: ${joinBtnHeight};
   width: 100%;
   align-items: center;
-  border-top: 1px solid ${colors.emerald};
+  border-top: 1px solid ${commonTheme.emerald};
   padding: 5px 0px;
 `;
 const JoinGame = styled.TouchableOpacity`
@@ -54,10 +52,10 @@ const JoinGame = styled.TouchableOpacity`
   border-radius: 8px;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => (props.$joinGame ? colors.blue : colors.grey03)};
+  background-color: ${(props) => (props.$joinGame ? commonTheme.blue : commonTheme.grey03)};
 `;
 const BtnText = styled.Text`
-  color: ${(props) => (props.$joinGame ? colors.white : colors.black)};
+  color: ${(props) => (props.$joinGame ? commonTheme.white : commonTheme.black)};
   font-weight: 600;
   font-size: 15px;
 `;

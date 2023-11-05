@@ -1,18 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 
-const View = styled.View``;
 const Text = styled.Text``;
 const Container = styled.View`
   width: 100%;
-  background-color: ${colors.grey00};
 `;
 const Header = styled.View`
   flex-direction: row;
   border-bottom-width: 0.3px;
-  border-color: ${colors.grey03};
 `;
 const EmblemWrap = styled.View`
   margin: 30px 60px 30px 50px;
@@ -31,16 +28,13 @@ const ClubnameText = styled.Text`
 `;
 const ClubAreaText = styled.Text`
   font-size: 14px;
-  color: ${colors.darkGrey};
 `;
 const LeaderText = styled.Text`
   margin-top: 15px;
   font-size: 12px;
-  color: ${colors.darkGrey};
 `;
 const MemberText = styled.Text`
   font-size: 12px;
-  color: ${colors.darkGrey};
 `;
 
 function ClubItem({
@@ -49,12 +43,12 @@ function ClubItem({
   clubArea,
   sports,
   clubLeader,
-  clubInfo,
   totalMember
 }) {
+  const { colors } = useTheme();
   return (
-    <Container>
-      <Header>
+    <Container style={{backgroundColor: colors.background}}>
+      <Header style={{borderBottomColor: colors.border}}>
         <EmblemWrap>
           {emblem ? (
             <ClubEmblem source={{ uri: emblem }} />
@@ -63,11 +57,11 @@ function ClubItem({
           )}
         </EmblemWrap>
         <InfoWrap>
-          <ClubnameText>{clubname}</ClubnameText>
-          <ClubAreaText>{clubArea}</ClubAreaText>
-          <Text>sports</Text>
-          <LeaderText>Leader <Text>{clubLeader?.username}</Text></LeaderText>
-          <MemberText>Members <Text>{totalMember}</Text></MemberText>
+          <ClubnameText style={{color: colors.text}}>{clubname}</ClubnameText>
+          <ClubAreaText style={{color: colors.subText}}>{clubArea}</ClubAreaText>
+          <Text style={{color: colors.text}}>sports</Text>
+          <LeaderText style={{color: colors.subText}}>Leader <Text>{clubLeader?.username}</Text></LeaderText>
+          <MemberText style={{color: colors.subText}}>Members <Text>{totalMember}</Text></MemberText>
         </InfoWrap>
       </Header>
     </Container>

@@ -2,18 +2,16 @@ import React, { useState } from "react";
 import { Modal, Pressable, TouchableOpacity } from "react-native";
 import { FontAwesome5, Ionicons, FontAwesome } from '@expo/vector-icons';
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 
 const Container = styled.View`
   height: 60px;
-  background-color: ${colors.white};
   flex-direction: row;
   justify-content: space-between;
   elevation: 3;
 `;
 const ModalContent = styled.View`
-  background-color: ${colors.grey00};
   margin-top: 110px;
   padding: 10px;
   width: 150px;
@@ -40,8 +38,6 @@ const Action = styled.TouchableOpacity`
 `;
 const InputBox = styled.TouchableOpacity`
   flex-direction: row;
-  background-color: rgba(255, 255, 255, 1);
-  color: black;
   margin-left: 25px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -52,13 +48,14 @@ const InputBox = styled.TouchableOpacity`
 `;
 const Text = styled.Text`
   margin-left: 15px;
-`;
+`
 
 function ScrollMatchHeader() {
+  const { colors } = useTheme();
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   return (
-    <Container>
+    <Container style={{backgroundColor: colors.background}}>
       <Modal
         animationType="fade"
         transparent={true}
@@ -108,12 +105,15 @@ function ScrollMatchHeader() {
         </Pressable>
       </Modal>
 
-      <InputBox onPress={() => navigation.navigate("SearchClub")}>
-        <Ionicons name="search" size={25} />
-        <Text>search</Text>
+      <InputBox 
+        onPress={() => navigation.navigate("SearchClub")}
+        style={{ backgroundColor: colors.buttonBackground }}
+      >
+        <Ionicons name="search" color={colors.placeholder} size={25} />
+        <Text style={{ color: colors.placeholder }}>search</Text>
       </InputBox>
       <Action onPress={() => setModalVisible(true)}>
-        <FontAwesome5 name="plus" color={colors.seaGreen} size={25} />
+        <FontAwesome5 name="plus" color={colors.symbolColor} size={25} />
       </Action>
     </Container>
   );

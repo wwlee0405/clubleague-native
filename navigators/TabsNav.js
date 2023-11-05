@@ -4,20 +4,22 @@ import { Image, View } from "react-native";
 import TabIcon from "../components/nav/TabIcon";
 import SharedStackNav from "./SharedStackNav";
 import useMe from "../hooks/useMe";
-import { colors } from "../colors";
+import { useTheme } from "@react-navigation/native";
 
 const Tabs = createBottomTabNavigator();
 
 export default function TabsNav() {
   const { data } = useMe();
+  const { colors } = useTheme();
   return (
     <Tabs.Navigator
       tabBarOptions={{
-        activeTintColor: colors.seaGreen,
+        activeTintColor: colors.symbolColor,
+        inactiveTintColor: colors.subText,
         showLabel: false,
         style: {
           borderTopColor: "rgba(255, 255, 255, 0.3)",
-          backgroundColor: colors.white,
+          backgroundColor: colors.background,
         },
       }}
     >
@@ -91,7 +93,7 @@ export default function TabsNav() {
                   height: 30,
                   width: 30,
                   borderRadius: 20,
-                  ...(focused && { borderColor: colors.seaGreen, borderWidth: 2 }),
+                  ...(focused && { borderColor: colors.symbolColor, borderWidth: 2 }),
                 }}
               />
             ) : (

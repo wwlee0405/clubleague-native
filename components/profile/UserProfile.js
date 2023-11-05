@@ -3,11 +3,9 @@ import PropTypes from "prop-types";
 import { View, Pressable, TouchableOpacity, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
+import { commonTheme } from "../../theme/commonTheme";
 
-const Container = styled.View`
-  background-color: ${colors.white};
-`;
 const ProfileWrap = styled.View`
   flex-direction: row;
   margin-top: 30px;
@@ -28,11 +26,9 @@ const ProfileInfoWrap = styled.View`
 `;
 const NameTag = styled.Text`
   font-size: 10px;
-  color: ${colors.darkGrey};
 `;
 const Property = styled.Text`
   font-size: 15px;
-  color: ${colors.black};
 `;
 const EditProfileBtn = styled.View`
   margin-top: 20px;
@@ -41,13 +37,12 @@ const EditProfileBtn = styled.View`
   justify-content: center;
   height: 40px;
   border-width: 1px;
-  border-color: ${colors.emerald};
-  background-color: ${colors.white};
+  border-color: ${commonTheme.emerald};
   border-radius: 8px;
 `;
 const EditProfileBtnText = styled.Text`
   font-weight: 600;
-  color: ${colors.emerald};
+  color: ${commonTheme.emerald};
 `;
 const SubText = styled.Text`
   padding: 20px 0px 10px 20px;
@@ -55,7 +50,7 @@ const SubText = styled.Text`
 `;
 const ClubTeam = styled.View`
   margin-horizontal: 3px;
-  border: 0.3px solid ${colors.emerald};
+  border: 0.3px solid ${commonTheme.emerald};
   border-radius: 8px;
   width: 100px;
   height: 140px;
@@ -79,6 +74,7 @@ function UserProfile({
   userMember,
 }) {
   const navigation = useNavigation();
+  const { colors } = useTheme();
   const renderItem = ({ item: myClubs }) => (
     <Pressable
       onPress={() => navigation.navigate("Clubhouse", {
@@ -87,13 +83,18 @@ function UserProfile({
       <ClubTeam>
         <ClubEmblem source={require('../../data/2bar.jpg')} />
         <View>
-          <ClubName numberOfLines={3}>{myClubs?.club?.clubname}</ClubName>
+          <ClubName 
+            numberOfLines={3} 
+            style={{color: colors.text}}
+          >
+            {myClubs?.club?.clubname}
+          </ClubName>
         </View>
       </ClubTeam>
     </Pressable>
   );
   return (
-    <Container>
+    <View style={{backgroundColor: colors.background}}>
       <ProfileWrap>
         <AvatarWrap>
           <Pressable
@@ -108,16 +109,16 @@ function UserProfile({
         </AvatarWrap>
         <ProfileInfoWrap>
           <View>
-            <NameTag>Username</NameTag>
-            <Property>{username}</Property>
+            <NameTag style={{color: colors.subText}}>Username</NameTag>
+            <Property style={{color: colors.text}}>{username}</Property>
           </View>
           <View>
-            <NameTag>Name</NameTag>
-            <Property>{fullName}</Property>
+            <NameTag style={{color: colors.subText}}>Name</NameTag>
+            <Property style={{color: colors.text}}>{fullName}</Property>
           </View>
           <View>
-            <NameTag>Area</NameTag>
-            <Property>Barcelona, Spain</Property>
+            <NameTag style={{color: colors.subText}}>Area</NameTag>
+            <Property style={{color: colors.text}}>Barcelona, Spain</Property>
           </View>
         </ProfileInfoWrap>
       </ProfileWrap>
@@ -126,7 +127,7 @@ function UserProfile({
         <TouchableOpacity 
           onPress={() => navigation.navigate("EditProfile")}
         >
-          <EditProfileBtn>
+          <EditProfileBtn style={{backgroundColor: colors.background}}>
             <EditProfileBtnText>Edit Profile</EditProfileBtnText>
           </EditProfileBtn>
         </TouchableOpacity>
@@ -141,7 +142,7 @@ function UserProfile({
         keyExtractor={(myClubs) => "" + myClubs.club.clubname}
         renderItem={renderItem}
       />
-    </Container>
+    </View>
   );
 }
 

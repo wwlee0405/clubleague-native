@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { colors } from "../colors";
+import { commonTheme } from "../theme/commonTheme";
 
 const Wrapper = styled.View`
   flex-direction: row;
@@ -24,7 +24,7 @@ const Username = styled.Text`
   color: white;
 `;
 const FollowBtn = styled.TouchableOpacity`
-  background-color: ${colors.blue};
+  background-color: ${commonTheme.blue};
   justify-content: center;
   padding: 5px 10px;
   border-radius: 4px;

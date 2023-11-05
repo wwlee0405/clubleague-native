@@ -13,23 +13,25 @@ import SearchClub from "../screens/home/SearchClub";
 import GameMatch from "../screens/match/GameMatch";
 
 import Likes from "../screens/Likes";
-import { colors } from "../colors";
+import { colors } from "../themeColors";
 import { TouchableOpacity } from "react-native";
 import { isLoggedInVar, logUserOut } from "../apollo";
+import { useTheme } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
 export default function SharedStackNav({ screenName }) {
+  const { colors } = useTheme();
   return (
     <Stack.Navigator
       headerMode="screen"
       screenOptions={{
         headerBackTitleVisible: false,
-        headerTintColor: "black",
+        headerTintColor: colors.text,
         headerStyle: {
           borderBottomColor: "rgba(255, 255, 255, 0.3)",
           shadowColor: "rgba(255, 255, 255, 0.3)",
-          backgroundColor: colors.white,
+          backgroundColor: colors.background,
         },
       }}
     >

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 import ScreenLayout from "../../components/ScreenLayout";
 import MyClubList from "../../components/home/MyClubList";
 import MySchedItem from "../../components/home/MySchedItem";
@@ -50,9 +50,7 @@ const SEE_MY_CLUB = gql`
     }
   }
 `;
-const theme = {
-  center: "center"
-};
+
 const ClubTitle = styled.View`
   padding: 10px 15px;
   flex-direction: row;
@@ -62,7 +60,6 @@ const ClubTitle = styled.View`
 const ScheuleTitle = styled.View`
   padding: 10px 15px;
   border-bottom-width: 1px;
-  border-color: ${colors.grey02};
 `;
 const TitleText = styled.Text`
   font-weight: bold;
@@ -70,6 +67,7 @@ const TitleText = styled.Text`
 `;
 
 export default function Feed({ navigation }) {
+  const { colors } = useTheme();
   const refresh = async () => {
     setRefreshing(true);
     await refetch();
@@ -93,13 +91,13 @@ export default function Feed({ navigation }) {
         style={{ marginRight: 25 }}
         onPress={() => navigation.navigate("Messages")}
       >
-        <Ionicons name="paper-plane" color={colors.seaGreen} size={25} />
+        <Ionicons name="paper-plane" color={colors.symbolColor} size={25} />
       </TouchableOpacity>
       <TouchableOpacity
         style={{ marginRight: 25 }}
         onPress={() => navigation.navigate("SearchClub")}
       >
-        <Ionicons name="search" color={colors.seaGreen} size={25} />
+        <Ionicons name="search" color={colors.symbolColor} size={25} />
       </TouchableOpacity>
     </View>
   );
@@ -119,12 +117,12 @@ export default function Feed({ navigation }) {
     <ScreenLayout loading={loading}>
 
       <ClubTitle>
-        <TitleText>My Club</TitleText>
+        <TitleText style={{color: colors.text}}>My Club</TitleText>
         <TouchableOpacity
           style={{ marginRight: 10 }}
           onPress={() => navigation.navigate("NewClub")}
         >
-          <FontAwesome5 name="plus" color={colors.seaGreen} size={25} />
+          <FontAwesome5 name="plus" color={colors.symbolColor} size={25} />
         </TouchableOpacity>
       </ClubTitle>
 
@@ -138,8 +136,8 @@ export default function Feed({ navigation }) {
         />
       </View>
 
-      <ScheuleTitle>
-        <TitleText>My Scheule</TitleText>
+      <ScheuleTitle style={{borderBottomColor: colors.border}}>
+        <TitleText style={{color: colors.text}}>My Scheule</TitleText>
       </ScheuleTitle>
       <FlatList
         showsVerticalScrollIndicator={false}

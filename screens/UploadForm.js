@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { ActivityIndicator, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import styled from "styled-components/native";
-import { colors } from "../colors";
+import { themeColors } from "../themeColors";
 import DismissKeyboard from "../components/DismissKeyboard";
 import { FEED_PHOTO } from "../fragments";
 
@@ -37,7 +37,7 @@ const Caption = styled.TextInput`
 `;
 
 const HeaderRightText = styled.Text`
-  color: ${colors.blue};
+  color: ${themeColors.blue};
   font-size: 16px;
   font-weight: 600;
   margin-right: 7px;

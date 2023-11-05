@@ -1,5 +1,5 @@
 import React from "react";
-import { colors } from "../../colors";
+import { commonTheme } from "../../theme/commonTheme";
 import styled from "styled-components/native";
 import useMe from "../../hooks/useMe";
 import { useNavigation } from "@react-navigation/core";
@@ -27,7 +27,7 @@ const UnreadDot = styled.View`
   width: 10px;
   border-radius: 5px;
   height: 10px;
-  background-color: ${colors.blue};
+  background-color: ${commonTheme.blue};
 `;
 const Username = styled.Text`
   color: white;

@@ -1,6 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 import { View } from "react-native";
+import { useTheme } from "@react-navigation/native";
 import UserProfile from "../../components/profile/UserProfile";
 
 const SEE_PROFILE_QUERY = gql`
@@ -28,6 +29,7 @@ const SEE_PROFILE_QUERY = gql`
 `;
 
 export default function Profile({ navigation, route }) {
+  const { colors } = useTheme();
   const { data, loading } = useQuery(SEE_PROFILE_QUERY, {
     variables: {
       username: route?.params?.username
@@ -44,7 +46,7 @@ export default function Profile({ navigation, route }) {
   console.log(route);
 
   return (
-    <View style={{ backgroundColor: "white", flex: 1}}>
+    <View style={{ backgroundColor: colors.background, flex: 1}}>
       <UserProfile {...data?.seeProfile} />
     </View>
   );

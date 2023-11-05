@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components"
-import { colors } from "../colors";
+import { themeColors } from "../../themeColors";
 import {SafeAreaView, View, Text, TouchableOpacity, Modal, Alert, Pressable, TouchableWithoutFeedback, ScrollView, Animated } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import ScrollHeader from "../components/ScrollHeader";
 
 const HEADER_HEIGHT = 60;
 const ModalContent = styled.View`
-  background-color: ${colors.white};
+  background-color: ${themeColors.white};
   margin: 50px;
   padding: 10px;
   border-radius: 8px;

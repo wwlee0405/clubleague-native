@@ -1,8 +1,7 @@
 import React from "react";
-import { Pressable, ActivityIndicator } from "react-native";
+import { Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { commonTheme } from "../../theme/commonTheme";
 
 export default function HeaderRight({ disabled, onPress }) {
   return (
@@ -10,7 +9,7 @@ export default function HeaderRight({ disabled, onPress }) {
       <Feather
         name="check"
         size={25}
-        color={colors.seaGreen}
+        color={commonTheme.seaGreen}
         style={{ paddingRight: 15, opacity: disabled? 0.2 : 1,}}
       />
     </Pressable>

@@ -1,13 +1,13 @@
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
-import { colors } from "../../colors";
+import { commonTheme } from "../../theme/commonTheme";
 
 export default function HomeLayout({ loading, children }) {
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: colors.white,
+        backgroundColor: commonTheme.white,
         alignItems: "center",
         justifyContent: "center",
       }}

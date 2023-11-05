@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { useTheme } from "@react-navigation/native";
 
 const avatarDimensions = '40px'
 const UserData = styled.View`
@@ -22,10 +22,16 @@ const Username = styled.Text`
 `;
 
 function UserColumn({ avatar, username }) {
+  const { colors } = useTheme();
   return (
     <UserData>
       <Avatar source={require('../../data/eeee.png')} />
-      <Username numberOfLines={1}>{username}</Username>
+      <Username 
+        numberOfLines={1}
+        style={{color: colors.text}}
+      >
+        {username}
+      </Username>
     </UserData>
   );
 }

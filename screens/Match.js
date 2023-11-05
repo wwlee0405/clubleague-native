@@ -1,13 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components/native";
-import { colors } from "../colors";
-import { SafeAreaView, View, Text, TouchableOpacity, Modal, Pressable, ScrollView, Animated, FlatList } from "react-native";
+import React, { useState, useRef } from "react";
+import { Pressable, Animated, FlatList } from "react-native";
 import ScrollMatchHeader from "../components/match/ScrollMatchHeader";
 import ScreenLayout from "../components/ScreenLayout";
-import { FontAwesome } from "@expo/vector-icons";
 import MatchItem from "../components/match/MatchItem";
-import ScrollFeedHeader from "../components/ScrollFeedHeader";
 import { GAME_FRAGMENT } from "../fragments";
 
 const MATCH_QUERY = gql`
@@ -32,19 +28,6 @@ const MATCH_QUERY = gql`
 `;
 
 const HEADER_HEIGHT = 60;
-const theme = {
-  center: "center"
-};
-const ModalContent = styled.View`
-  background-color: ${colors.grey01};
-  margin-top: 110px;
-  padding: 10px;
-  width: 100px;
-  border-radius: 10px;
-`;
-const ModalWrapper = styled.View`
-  flex-direction: row;
-`;
 
 export default function Match({ navigation }) {
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -54,6 +37,9 @@ export default function Match({ navigation }) {
     outputRange: [0, -HEADER_HEIGHT]
   });
   const renderMatch = ({ item: match }) => {
+    const logPress = (pressType) => {
+      console.log(pressType);
+    };
     return (
       <Pressable
         onPress={() =>
@@ -62,6 +48,14 @@ export default function Match({ navigation }) {
             username: match.user?.username,
           })
         }
+        onPressIn={() => logPress("onPressIn")}
+        onLongPress={() => logPress("onLongPress")}
+        onPressOut={() => logPress("onPressOut")}
+        style={({pressed}) => [
+          {
+            opacity: pressed ? 0.5 : 1,
+          },
+        ]}
       >
         <MatchItem {...match} />
       </Pressable>
@@ -79,7 +73,7 @@ export default function Match({ navigation }) {
   };
   const [refreshing, setRefreshing] = useState(false);
   return (
-    <ScreenLayout theme={theme} loading={loading}>
+    <ScreenLayout loading={loading}>
       <Animated.View
         style={{
           transform: [{ translateY: translateY }],

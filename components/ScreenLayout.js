@@ -1,23 +1,11 @@
 import React from "react";
-import { ActivityIndicator } from "react-native";
-import styled from "styled-components/native";
-import { colors } from "../colors";
+import { ActivityIndicator, View } from "react-native";
+import { useTheme } from "@react-navigation/native";
 
-const View = styled.View`
-  background-color: ${colors.grey00};
-  flex: 1;
-  align-items: ${(props) => (props.theme.center)};
-  justify-content: ${(props) => (props.theme.center)};
-`;
-View.defaultProps = {
-  theme: {
-    center: "null"
-  }
-}
-
-export default function ScreenLayout({ theme, loading, children }) {
+export default function ScreenLayout({ loading, children }) {
+  const { colors } = useTheme();
   return (
-    <View theme={theme}>
+    <View style={{ backgroundColor: colors.background }}>
       {loading ? <ActivityIndicator color="white" /> : children}
     </View>
   );

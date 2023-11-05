@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
-import { colors } from "../../colors";
+import { commonTheme } from "../../theme/commonTheme";
 
 const Wrapper = styled.View`
   flex-direction: row;
@@ -21,7 +21,7 @@ const Avatar = styled.Image`
 `;
 const Username = styled.Text`
   font-weight: 600;
-  color: ${colors.black};
+  color: ${commonTheme.black};
 `;
 
 function UserProfileRow({ onPress, avatar, username }) {
