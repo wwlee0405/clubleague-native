@@ -1,12 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { View, Text, TouchableOpacity, Image, Alert, useWindowDimensions } from "react-native";
+import { View, Text, Modal, Pressable, TouchableOpacity, Image, Alert, useWindowDimensions } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { commonTheme } from "../../theme/commonTheme";
 import HeaderAvatar from "../HeaderAvatar.js";
+
+const UNJOIN_GAME_MUTATION = gql`
+  mutation unjoinGame($id: Int!) {
+    unjoinGame(id: $id) {
+      ok
+    }
+  }
+`;
 
 const joinBtnHeight = '60px'
 const Container = styled.View`
@@ -34,7 +43,7 @@ const GameContent = styled.View`
   margin: 0px 15px 0px;
   flex-direction: row;
 `;
-const ClubData = styled.View`
+const ClubData = styled.Pressable`
   margin-bottom: 15px;
   align-items: center;
   width: 35%;
@@ -108,8 +117,22 @@ const CommentCount = styled.Text`
   font-size: 14px;
 `;
 
+const ModalContent = styled.View`
+  flex: 1;
+  margin-top: 120px;
+  padding: 10px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+`;
+const ModalWrapper = styled.TouchableOpacity`
+  padding: 10px;
+`;
+const ModalText = styled.Text`
+  font-size: 17px;
+  text-align: left;
+`;
+
 function Game({ 
-  matchId,
   id,
   user,
   caption,
@@ -119,6 +142,7 @@ function Game({
 }) {
   const navigation = useNavigation();
   const { colors } = useTheme();
+  const [modalVisible, setModalVisible] = useState(false);
   const goToProfile = () => {
     navigation.navigate("Profile", {
       username: user.username,
@@ -132,8 +156,66 @@ function Game({
   ]);
   const { width } = useWindowDimensions();
 
+
+  const updateUnjoinGame = (cache, result) => {
+    const {
+      data: {
+        unjoinGame: { ok },
+      },
+    } = result;
+    if (ok) {
+      cache.evict({ id: `Game:${awayGame?.id}` });
+    }
+  };
+  const [unjoinGameMutation] = useMutation(UNJOIN_GAME_MUTATION, {
+    variables: {
+      id: awayGame?.id,
+    },
+    update: updateUnjoinGame,
+  });
+  const onDeleteClick = () => {
+    unjoinGameMutation();
+  };
+
+  const logPress = (pressType) => {
+    console.log(pressType);
+  };
   return (
     <Container style={{backgroundColor: colors.cardHeader}}>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <Pressable
+          onPress={() => setModalVisible(!modalVisible)}
+          style={{ flex:1 }}
+        >
+          <ModalContent style={{backgroundColor: colors.placeholder}}>
+              
+            <ModalWrapper
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <ModalText style={{color: colors.text}}>Update Match</ModalText>
+            </ModalWrapper>
+
+            <ModalWrapper 
+              onPress={onDeleteClick}
+            >
+              <ModalText style={{color: colors.text}}>Delete Match</ModalText>
+            </ModalWrapper>
+             
+          </ModalContent>
+
+        </Pressable>
+      </Modal>
+
+
       <HeaderAvatar
         onPress={goToProfile}
         image={user.avatar}
@@ -161,7 +243,10 @@ function Game({
             <Location numberOfLines={1} style={{color: colors.subText}}>Santiago Bernabéu dkndkfnbkdfnbkfjdnb</Location>
           </KickOffData>
           {awayGame?.id ? (
-            <ClubData>
+            <ClubData
+              onPress={() => null}
+              onLongPress={() => setModalVisible(true)}
+            >
               {awayGame?.club.emblem ? (
                 <ClubEmblem source={{ uri: awayGame?.club.emblem }} />
               ) : (

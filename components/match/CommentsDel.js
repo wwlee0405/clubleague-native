@@ -1,3 +1,5 @@
+//삭제예정//
+
 import React, { useEffect } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
@@ -53,7 +55,7 @@ const Post = styled.View`
   width: 50px;
 `;
 
-function Comments({ route, matchId, author, caption, refreshing, refresh, comments }) {
+function Comments({ matchId, author, refreshing, refresh, comments }) {
   const { data: meData } = useMe();
   const { register, handleSubmit, setValue, getValues, watch } = useForm();
 

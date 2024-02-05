@@ -13,18 +13,19 @@ export default function TabsNav() {
   const { colors } = useTheme();
   return (
     <Tabs.Navigator
-      tabBarOptions={{
-        activeTintColor: colors.symbolColor,
-        inactiveTintColor: colors.subText,
-        showLabel: false,
-        style: {
+      screenOptions={{
+        tabBarActiveTintColor: colors.symbolColor,
+        tabBarInactiveTintColor: colors.subText,
+        tabBarShowLabel: true,
+        tabBarStyle: {
           borderTopColor: "rgba(255, 255, 255, 0.3)",
           backgroundColor: colors.background,
         },
+        headerShown: false
       }}
     >
       <Tabs.Screen
-        name="Feed"
+        name="home"
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <TabIcon iconName={"home"} color={color} focused={focused} />
@@ -35,18 +36,19 @@ export default function TabsNav() {
       </Tabs.Screen>
 
       <Tabs.Screen
-        name="Match"
+        name="match"
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <TabIcon iconName={"tv"} color={color} focused={focused} />
           ),
+          tabBarBadge: 5,
         }}
       >
         {() => <SharedStackNav screenName="Match" />}
       </Tabs.Screen>
 
       <Tabs.Screen
-        name="Search"
+        name="search"
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <TabIcon iconName={"search"} color={color} focused={focused} />
@@ -56,7 +58,7 @@ export default function TabsNav() {
         {() => <SharedStackNav screenName="Search" />}
       </Tabs.Screen>
       <Tabs.Screen
-        name="Camera"
+        name="camera"
         component={View}
         listeners={({ navigation }) => {
           return {
@@ -73,7 +75,7 @@ export default function TabsNav() {
         }}
       />
       <Tabs.Screen
-        name="Notifications"
+        name="notifications"
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <TabIcon iconName={"heart"} color={color} focused={focused} />
@@ -83,7 +85,7 @@ export default function TabsNav() {
         {() => <SharedStackNav screenName="Notifications" />}
       </Tabs.Screen>
       <Tabs.Screen
-        name="Me"
+        name="me"
         options={{
           tabBarIcon: ({ focused, color, size }) =>
             data?.me?.avatar ? (

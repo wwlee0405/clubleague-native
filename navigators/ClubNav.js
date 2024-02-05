@@ -1,56 +1,50 @@
-//수정 혹은 삭제 예정
-
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
-import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useTheme } from "@react-navigation/native";
 import Clubhouse from "../screens/club/Clubhouse";
 import ClubCalendar from "../screens/club/ClubCalendar";
+import ClubMember from "../screens/club/ClubMember";
+import ClubSetting from "../screens/club/ClubSetting";
 
-import { gql, useMutation, useQuery } from "@apollo/client";
-
-const Tab = createMaterialTopTabNavigator();
-const Stack = createStackNavigator();
+const MaterialTopTab = createMaterialTopTabNavigator();
 
 export default function ClubNav({ route, clubId }) {
-
+  const { colors } = useTheme();
   return (
-    <Tab.Navigator
-      tabBarPosition="top"
-      tabBarOptions={{
-        style: {
-          backgroundColor: "black",
-        },
-        activeTintColor: "white",
-        indicatorStyle: {
-          backgroundColor: "white",
-          top: 0,
+    <MaterialTopTab.Navigator
+      screenOptions={{
+        tabBarScrollEnabled : true,
+        tabBarStyle: { backgroundColor: colors.background },
+        tabBarItemStyle: { width: 100 },
+        tabBarLabelStyle: { fontSize: 10 },
+        tabBarInactiveTintColor: colors.text,
+        tabBarActiveTintColor: colors.symbolColor,
+        tabBarIndicatorStyle: {
+          backgroundColor: colors.symbolColor,
+          bottom: 0,
         },
       }}
     >
-      <Tab.Screen name="ClubHome">
-        {() => (
-          <Stack.Navigator
-            screenOptions={{
-              headerTintColor: "white",
-              headerBackTitleVisible: false,
-              headerBackImage: ({ tintColor }) => (
-                <Ionicons color={tintColor} name="close" size={28} />
-              ),
-              headerStyle: {
-                backgroundColor: "black",
-                shadowOpacity: 0.3,
-              },
-            }}
-          >
-            <Stack.Screen
-              name="ClubHome"
-              options={{ title: "Choose a photo" }}
-              component={ClubCalendar}
-            />
-          </Stack.Navigator>
-        )}
-      </Tab.Screen>
-    </Tab.Navigator>
+      <MaterialTopTab.Screen 
+        name="home"
+        component={Clubhouse}
+        initialParams={ route.params }
+       />
+       <MaterialTopTab.Screen
+        name="Calendar"
+        component={ClubCalendar}
+        initialParams={ route.params }
+      />
+      <MaterialTopTab.Screen
+        name="Member"
+        component={ClubMember}
+        initialParams={ route.params }
+      />
+      <MaterialTopTab.Screen
+        name="Setting"
+        component={ClubSetting}
+        initialParams={ route.params }
+      />
+    </MaterialTopTab.Navigator>
   );
 }

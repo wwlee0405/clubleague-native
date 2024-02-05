@@ -143,6 +143,7 @@ export default function Feed({ navigation }) {
         showsVerticalScrollIndicator={false}
         refreshing={refreshing}
         onRefresh={refresh}
+        contentContainerStyle={{ width: "100%", paddingBottom: 230 }}
         data={data?.seeMySched}
         keyExtractor={(sched) => "" + sched.id}
         renderItem={renderSched}

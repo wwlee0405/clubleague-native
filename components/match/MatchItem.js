@@ -1,10 +1,19 @@
-import React from "react";
+import { gql, useMutation } from "@apollo/client";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { useTheme } from "@react-navigation/native";
 import HeaderAvatar from "../HeaderAvatar.js";
-import { View } from "react-native";
+import { Alert, Modal, Pressable, View } from "react-native";
+
+const DELETE_MATCH_MUTATION = gql`
+  mutation deleteMatch($id: Int!) {
+    deleteMatch(id: $id) {
+      ok
+    }
+  }
+`;
 
 const Container = styled.View`
   border-radius: 15px;
@@ -81,8 +90,24 @@ const ClubName = styled.Text`
   overflow: hidden;
 `;
 
-function MatchItem({ user, homeGame, awayGame }) {
+const ModalContent = styled.View`
+  flex: 1;
+  margin-top: 120px;
+  padding: 10px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+`;
+const ModalWrapper = styled.TouchableOpacity`
+  padding: 10px;
+`;
+const ModalText = styled.Text`
+  font-size: 17px;
+  text-align: left;
+`;
+
+function MatchItem({ id, user, homeGame, awayGame }) {
   const { colors } = useTheme();
+  const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const goToProfile = () => {
     navigation.navigate("Profile", {
@@ -90,17 +115,69 @@ function MatchItem({ user, homeGame, awayGame }) {
       id: user.id,
     });
   };
+  const updateDeleteMatch = (cache, result) => {
+    const {
+      data: {
+        deleteMatch: { ok },
+      },
+    } = result;
+    if (ok) {
+      cache.evict({ id: `Match:${id}` });
+    }
+  };
+  const [deleteMatchMutation] = useMutation(DELETE_MATCH_MUTATION, {
+    variables: {
+      id,
+    },
+    update: updateDeleteMatch,
+  });
+  const onDeleteClick = () => {
+    deleteMatchMutation();
+  };
   const homeClubname = homeGame.club.clubname;
   const homeEmblem = homeGame.club.emblem;
   const awayClubname = awayGame?.club.clubname;
   const awayEmblem = awayGame?.club.emblem;
   return (
     <Container style={{ backgroundColor: colors.cardHeader }}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <Pressable
+          onPress={() => setModalVisible(!modalVisible)}
+          style={{ flex:1 }}
+        >
+          <ModalContent style={{backgroundColor: colors.placeholder}}>
+              
+            <ModalWrapper
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <ModalText style={{color: colors.text}}>Update Match</ModalText>
+            </ModalWrapper>
+
+            <ModalWrapper 
+              onPress={onDeleteClick}
+            >
+              <ModalText style={{color: colors.text}}>Delete Match</ModalText>
+            </ModalWrapper>
+             
+          </ModalContent>
+
+        </Pressable>
+      </Modal>
+
       <HeaderAvatar
         onPress={goToProfile}
         image={user.avatar}
         topData={user.username}
         bottomData={homeClubname}
+        modalVisible={() => setModalVisible(true)}
       />
       <ExtraContainer style={{ backgroundColor: colors.cardContent }}>
 

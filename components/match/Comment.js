@@ -1,10 +1,8 @@
 import { gql, useMutation } from "@apollo/client";
 import React from "react";
 import PropTypes from "prop-types";
-import { Feather } from "@expo/vector-icons";
 import styled from "styled-components/native";
-import { Text, View, Image, FlatList } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Text, TouchableOpacity } from "react-native";
 import { useTheme } from "@react-navigation/native";
 
 const DELETE_COMMENT_MUTATION = gql`

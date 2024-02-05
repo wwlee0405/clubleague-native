@@ -5,12 +5,7 @@ import styled from "styled-components/native";
 import { useTheme } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 
-const Container = styled.View`
-  height: 60px;
-  flex-direction: row;
-  justify-content: space-between;
-  elevation: 3;
-`;
+const Container = styled.View``;
 const ModalContent = styled.View`
   margin-top: 110px;
   padding: 10px;
@@ -36,21 +31,12 @@ const Action = styled.TouchableOpacity`
   justify-content: center;
   margin-right: 25px;
 `;
-const InputBox = styled.TouchableOpacity`
-  flex-direction: row;
-  margin-left: 25px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 5px 10px;
-  border-radius: 7px;
-  align-items: center;
-  width: 70%;
-`;
+
 const Text = styled.Text`
   margin-left: 15px;
 `
 
-function ScrollMatchHeader() {
+function HeaderAvatarDotButton() {
   const { colors } = useTheme();
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
@@ -66,7 +52,7 @@ function ScrollMatchHeader() {
           style={{ flex:1, alignItems: 'flex-end', paddingRight: 15 }}
           onPress={() => setModalVisible(!modalVisible)}
         >
-          <ModalContent style={{backgroundColor: colors.placeholder}}>
+          <ModalContent style={{backgroundColor: colors.cardContent}}>
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(!modalVisible);
@@ -75,7 +61,7 @@ function ScrollMatchHeader() {
             >
               <ModalWrapper>
                 <ModalImgWrapper>
-                  <FontAwesome name="paper-plane" size={25} style={{color: colors.text}} />
+                  <FontAwesome name="paper-plane" size={25} />
                 </ModalImgWrapper>
                 <MoadalText style={{color: colors.text}}>Game</MoadalText>
               </ModalWrapper>
@@ -86,7 +72,7 @@ function ScrollMatchHeader() {
             >
               <ModalWrapper>
                 <ModalImgWrapper>
-                  <FontAwesome5 name="newspaper" size={25} style={{color: colors.text}} />
+                  <FontAwesome5 name="newspaper" size={25} />
                 </ModalImgWrapper>
                 <MoadalText style={{color: colors.text}}>Foreign</MoadalText>
               </ModalWrapper>
@@ -97,7 +83,7 @@ function ScrollMatchHeader() {
             >
               <ModalWrapper>
                 <ModalImgWrapper>
-                  <Ionicons name="person" size={25} style={{color: colors.text}} />
+                  <Ionicons name="person" size={25} />
                 </ModalImgWrapper>
                 <MoadalText style={{color: colors.text}}>Wanted</MoadalText>
               </ModalWrapper>
@@ -107,13 +93,7 @@ function ScrollMatchHeader() {
         </Pressable>
       </Modal>
 
-      <InputBox 
-        onPress={() => navigation.navigate("SearchClub")}
-        style={{ backgroundColor: colors.buttonBackground }}
-      >
-        <Ionicons name="search" color={colors.placeholder} size={25} />
-        <Text style={{ color: colors.placeholder }}>search</Text>
-      </InputBox>
+      
       <Action onPress={() => setModalVisible(true)}>
         <FontAwesome5 name="plus" color={colors.symbolColor} size={25} />
       </Action>
@@ -121,4 +101,4 @@ function ScrollMatchHeader() {
   );
 };
 
-export default ScrollMatchHeader;
+export default HeaderAvatarDotButton;

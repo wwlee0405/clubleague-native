@@ -93,7 +93,7 @@ export default function GameMatch({ route }) {
   ]);
   const { width } = useWindowDimensions();
   console.log(route);
-
+  console.log(data);
   return (
     <ScreenLayout loading={loading}>  
       <ScrollView>

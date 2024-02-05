@@ -27,19 +27,16 @@ const MATCH_QUERY = gql`
   ${GAME_FRAGMENT}
 `;
 
-const HEADER_HEIGHT = 60;
-
 export default function Match({ navigation }) {
+  const HEADER_HEIGHT = 60;
   const scrollY = useRef(new Animated.Value(0)).current;
   const diffClamp = Animated.diffClamp(scrollY, 0, HEADER_HEIGHT)
   const translateY = diffClamp.interpolate({
     inputRange: [0, HEADER_HEIGHT],
-    outputRange: [0, -HEADER_HEIGHT]
+    outputRange: [0, -HEADER_HEIGHT],
+    extrapolate: 'clamp'
   });
   const renderMatch = ({ item: match }) => {
-    const logPress = (pressType) => {
-      console.log(pressType);
-    };
     return (
       <Pressable
         onPress={() =>
@@ -48,9 +45,6 @@ export default function Match({ navigation }) {
             username: match.user?.username,
           })
         }
-        onPressIn={() => logPress("onPressIn")}
-        onLongPress={() => logPress("onLongPress")}
-        onPressOut={() => logPress("onPressOut")}
         style={({pressed}) => [
           {
             opacity: pressed ? 0.5 : 1,
@@ -78,13 +72,11 @@ export default function Match({ navigation }) {
         style={{
           transform: [{ translateY: translateY }],
           position: "absolute",
-          top: 0,
           right: 0,
           left: 0,
           zIndex: 10,
         }}
       >
-
         <ScrollMatchHeader  />
       </Animated.View>
       <FlatList
@@ -103,7 +95,7 @@ export default function Match({ navigation }) {
         }
         refreshing={refreshing}
         onRefresh={refresh}
-        style={{ width: "100%", marginTop: 60 }}
+        contentContainerStyle={{ width: "100%", paddingTop: HEADER_HEIGHT }}
         showsVerticalScrollIndicator={false}
         data={data?.seeMatch}
         keyExtractor={(match) => "" + match.id}

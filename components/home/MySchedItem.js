@@ -152,8 +152,8 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
         <MatchContent>
           <MatchData>
             <HomeAway>
-              <MatchEmblem style={{ bolderColor: colors.border }} source={require('../../data/1ars.jpg')} />
-              <MatchEmblem style={{ bolderColor: colors.border }} source={require('../../data/2bar.jpg')} />
+              <MatchEmblem style={{ borderColor: colors.border }} source={require('../../data/1ars.jpg')} />
+              <MatchEmblem style={{ borderColor: colors.border }} source={require('../../data/2bar.jpg')} />
             </HomeAway>
           </MatchData>
 

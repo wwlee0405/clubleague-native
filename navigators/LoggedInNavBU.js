@@ -5,9 +5,6 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { useTheme } from "@react-navigation/native";
 import TabsNav from "./TabsNav";
 import ClubNav from "./ClubNav";
-import UploadAvatarNav from "./UploadAvatarNav";
-import UploadAvatarForm from "../screens/profile/UploadAvatarForm";
-
 import UploadNav from "./UploadNav";
 import UploadForm from "../screens/UploadForm";
 import MessagesNav from "./MessagesNav";
@@ -18,6 +15,11 @@ import Entry from "../screens/match/Entry";
 import Comments from "../screens/match/Comments";
 import NewMatch from "../screens/match/NewMatch";
 import SelectAway from "../screens/match/SelectAway";
+
+import Clubhouse from "../screens/club/Clubhouse";
+import ClubCalendar from "../screens/club/ClubCalendar";
+import ClubMember from "../screens/club/ClubMember";
+import ClubSetting from "../screens/club/ClubSetting";
 
 import EditNameEmblem from "../screens/club/EditNameEmblem";
 import MemberAuth from "../screens/club/MemberAuth";
@@ -30,6 +32,9 @@ import EditProfile from "../screens/profile/EditProfile";
 import EditUsername from "../screens/profile/EditUsername";
 import EditName from "../screens/profile/EditName";
 import EditBio from "../screens/profile/EditBio";
+import SelectAvatarPhoto from "../screens/profile/SelectAvatarPhoto";
+import TakeAvatarPhoto from "../screens/profile/TakeAvatarPhoto";
+import UploadAvatarForm from "../screens/profile/UploadAvatarForm";
 
 import SelectEmblemPhoto from "../screens/home/SelectEmblemPhoto";
 import TakeEmblemPhoto from "../screens/home/TakeEmblemPhoto";
@@ -56,11 +61,48 @@ export default function LoggedInNav() {
       />
       <Stack.Screen 
         name="Clubhouse"
-        component={ClubNav}
         options={{
           headerTitle: "clubname"
         }}
-      />
+      >
+        { (props) => (
+          <MaterialTab.Navigator
+            screenOptions={{
+              tabBarScrollEnabled : true,
+              tabBarStyle: { backgroundColor: colors.background },
+              tabBarItemStyle: { width: 100 },
+              tabBarLabelStyle: { fontSize: 10 },
+              tabBarInactiveTintColor: colors.text,
+              tabBarActiveTintColor: colors.symbolColor,
+              tabBarIndicatorStyle: {
+                backgroundColor: colors.symbolColor,
+                bottom: 0,
+              },
+            }}
+          >
+            <MaterialTab.Screen
+              name="Home"
+              component={Clubhouse}
+              initialParams={ props.route.params }
+            />
+            <MaterialTab.Screen
+              name="Calendar"
+              component={ClubCalendar}
+              initialParams={ props.route.params }
+            />
+            <MaterialTab.Screen
+              name="Member"
+              component={ClubMember}
+              initialParams={ props.route.params }
+            />
+            <MaterialTab.Screen
+              name="Setting"
+              component={ClubSetting}
+              initialParams={ props.route.params }
+            />
+          </MaterialTab.Navigator>
+        )}
+      </Stack.Screen>
 
       <Stack.Screen name="EditNameEmblem" component={EditNameEmblem} />
       <Stack.Screen name="MemberAuth" component={MemberAuth} />
@@ -80,11 +122,57 @@ export default function LoggedInNav() {
       <Stack.Screen name="EditName" component={EditName} />
       <Stack.Screen name="EditBio" component={EditBio} />
       
-      <Stack.Screen 
+      <Stack.Screen
         name="UploadAvatar"
-        component={UploadAvatarNav}
         options={{ headerShown: false }}
-      />
+      >
+        { (props) => (
+          <MaterialTab.Navigator
+            tabBarPosition="bottom"
+            tabBarOptions={{
+              style: {
+                backgroundColor: colors.background,
+              },
+              activeTintColor: colors.text,
+              indicatorStyle: {
+                backgroundColor: "yellow",
+                bottom: 0,
+              },
+            }}
+          >
+            <MaterialTab.Screen name="Gallery">
+              {() => (
+                <Stack.Navigator
+                  screenOptions={{
+                    headerTintColor: colors.text,
+                    headerBackTitleVisible: false,
+                    headerBackImage: ({ tintColor }) => (
+                      <Ionicons color={tintColor} name="close" size={28} />
+                    ),
+                    headerStyle: {
+                      backgroundColor: colors.background,
+                      shadowOpacity: 0.3,
+                    },
+                  }}
+                >
+                  <Stack.Screen
+                    name="Gallery"
+                    options={{ title: "Choose a photo" }}
+                    component={SelectAvatarPhoto}
+                    initialParams={ props.route.params }
+                  />
+                </Stack.Navigator>
+              )}
+            </MaterialTab.Screen>
+
+            <MaterialTab.Screen
+              name="Photo"
+              component={TakeAvatarPhoto}
+              initialParams={ props.route.params }
+            />
+          </MaterialTab.Navigator>
+        )}
+      </Stack.Screen>
 
       <Stack.Screen
         name="UploadAvatarForm"
@@ -101,7 +189,6 @@ export default function LoggedInNav() {
           },
         }}
       />
-
       <Stack.Screen
         name="Upload"
         component={UploadNav}

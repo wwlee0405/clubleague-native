@@ -10,8 +10,6 @@ import Notifications from "../screens/Notifications";
 import Me from "../screens/Me";
 import NewClub from "../screens/home/NewClub";
 import SearchClub from "../screens/home/SearchClub";
-import GameMatch from "../screens/match/GameMatch";
-
 import Likes from "../screens/Likes";
 import { colors } from "../themeColors";
 import { TouchableOpacity } from "react-native";
@@ -24,8 +22,8 @@ export default function SharedStackNav({ screenName }) {
   const { colors } = useTheme();
   return (
     <Stack.Navigator
-      headerMode="screen"
       screenOptions={{
+        headerMode: 'screen',
         headerBackTitleVisible: false,
         headerTintColor: colors.text,
         headerStyle: {
