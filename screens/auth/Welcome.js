@@ -1,12 +1,12 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import { themeColors } from "../../themeColors";
+import { commonTheme } from "../../theme/commonTheme";
 import AuthLayout from "../../components/auth/AuthLayout";
 import AuthButton from "../../components/auth/AuthButton";
 
 const LoginLink = styled.Text`
-  color: ${themeColors.seaGreen};
+  color: ${commonTheme.seaGreen};
   font-weight: 600;
   margin-top: 20px;
   text-align: center;

@@ -1,5 +1,4 @@
 import React from "react";
-import { gql, useMutation } from "@apollo/client";
 import PropTypes from "prop-types";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
@@ -9,20 +8,11 @@ import { View } from "react-native";
 import HeaderAvatar from "../HeaderAvatar.js";
 import Button from "../Button.js";
 
-const TOGGLE_ENTRY_MUTATION = gql`
-  mutation toggleEntry($gameId: Int!) {
-    toggleEntry(gameId: $gameId) {
-      ok
-      error
-      id
-    }
-  }
-`;
-
 const Container = styled.View`
   border-radius: 15px;
   margin: 5px;
   elevation: 2;
+  border: 1px solid black;
 `;
 const ExtraContainer = styled.View`
   padding-bottom: 8px;
@@ -50,8 +40,9 @@ const MonthText = styled.Text`
   margin-top: -8px;
 `;
 const Sports = styled.Text`
-  font-weight: 600;
   font-size: 15px;
+  font-weight: bold;
+  padding: 0px 15px 20px;
 `;
 const MatchContent = styled.View`
   flex-direction: row;
@@ -59,23 +50,24 @@ const MatchContent = styled.View`
   justify-content: space-between;
   margin-horizontal: 15px;
 `;
-const MatchData = styled.View`
-  align-items: center;
-  justify-content: center;
-`;
 const HomeAway = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
 `;
-const MatchEmblem = styled.Image`
-  margin-right: -10px;
+const ClubEmblem = styled.Image`
   width: 40px;
   height: 40px;
-  border-width: 3px;
   border-radius: 20px;
 `;
-const EnteryText = styled.Text`
+const ClubName = styled.Text`
+  padding-left: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  overflow: hidden;
+`;
+const OutcluberText = styled.Text`
   margin-left: 15px;
 `;
 const TimeLocationContent = styled.View`
@@ -96,45 +88,20 @@ const textColor = {
   main: commonTheme.white
 };
 
-function MySchedItem({ id, club, entryNumber, isEntry }) {
+function OutcluberItem() {
   const { colors } = useTheme();
   const navigation = useNavigation();
-  const toggleEntryUpdate = (cache, result) => {
-    const {
-      data: {
-        toggleEntry: { ok },
-      },
-    } = result;
-    if (ok) {
-      const gameId = `Game:${id}`;
-      cache.modify({
-        id: gameId,
-        fields: {
-          isEntry(prev) {
-            return !prev;
-          },
-          entryNumber(prev) {
-            if (isEntry) {
-              return prev - 1;
-            }
-            return prev + 1;
-          },
-        },
-      });
-    }
+  const goToProfile = () => {
+    navigation.navigate("Profile", {
+      username: user.username,
+      id: user.id,
+    });
   };
-  const [toggleEntry] = useMutation(TOGGLE_ENTRY_MUTATION, {
-    variables: {
-      gameId: id,
-    },
-    update: toggleEntryUpdate,
-  });
-  return (
+  return(
     <Container style={{ backgroundColor: colors.cardHeader }}>
       <HeaderAvatar
-        image={club?.emblem}
-        topData={club?.clubname}
-        bottomData="Seoul, Korea"
+        onPress={goToProfile}
+        modalVisible={() => setModalVisible(true)}
       />
       <ExtraContainer style={{ backgroundColor: colors.cardContent }}>
         <Row>
@@ -150,22 +117,20 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
           </View>
         </Row>
         <MatchContent>
-          <MatchData>
-            <HomeAway>
-              <MatchEmblem style={{ borderColor: colors.border }} source={require('../../data/1ars.jpg')} />
-              <MatchEmblem style={{ borderColor: colors.border }} source={require('../../data/2bar.jpg')} />
-            </HomeAway>
-          </MatchData>
-
+          <HomeAway>
+            <ClubEmblem source={require('../../data/1ars.jpg')} />
+            <ClubName style={{ color: colors.text }}>arsenal</ClubName>
+          </HomeAway>
+          
           <Button
-            onPress={toggleEntry}
-            buttonColor={isEntry ? { main : commonTheme.grey03 } : buttonColor}
-            textColor={isEntry ? { main : commonTheme.black } : textColor}
-            text={isEntry ? "Unentry" : "Entry"}
+            onPress={null}
+            buttonColor={buttonColor}
+            textColor={textColor}
+            text={"Entry"}
           />
-
         </MatchContent>
-        <EnteryText>{entryNumber === 1 ? "1 entry" : `${entryNumber} entries`}</EnteryText>
+
+        <OutcluberText>1/5 outcluber</OutcluberText>
         <TimeLocationContent>
           <TimeText style={{ color: colors.symbolColor }}>10:00-14:00</TimeText>
           <Location style={{ color: colors.subText }}>Santiago Bernabéu</Location>
@@ -173,33 +138,7 @@ function MySchedItem({ id, club, entryNumber, isEntry }) {
       </ExtraContainer>
     </Container>
   );
+
 }
 
-MySchedItem.propTypes = {
-  id: PropTypes.number.isRequired,
-  club: PropTypes.shape({
-    clubname: PropTypes.string.isRequired,
-  }),
-  home: PropTypes.shape({
-    homeGame: PropTypes.shape({
-      club: PropTypes.shape({
-        id: PropTypes.number,
-        clubname: PropTypes.string,
-        emblem: PropTypes.string,
-      }),
-    }),
-  }),
-  away: PropTypes.shape({
-    awayGame: PropTypes.shape({
-      club: PropTypes.shape({
-        id: PropTypes.number,
-        clubname: PropTypes.string,
-        emblem: PropTypes.string,
-      }),
-    }),
-  }),
-  entryNumber: PropTypes.number,
-  isEntry: PropTypes.bool,
-};
-
-export default MySchedItem;
+export default OutcluberItem;

@@ -59,7 +59,7 @@ export default function TabsNav() {
       </Tabs.Screen>
 
       <Tabs.Screen
-        name="rank"
+        name="search"
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <TabIcon iconName={"search"} color={color} focused={focused} />
@@ -68,7 +68,23 @@ export default function TabsNav() {
       >
         {() => <SharedStackNav screenName="Search" />}
       </Tabs.Screen>
-      
+      <Tabs.Screen
+        name="camera"
+        component={View}
+        listeners={({ navigation }) => {
+          return {
+            tabPress: (e) => {
+              e.preventDefault();
+              navigation.navigate("Upload");
+            },
+          };
+        }}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <TabIcon iconName={"camera"} color={color} focused={focused} />
+          ),
+        }}
+      />
       <Tabs.Screen
         name="notifications"
         options={{
@@ -79,7 +95,6 @@ export default function TabsNav() {
       >
         {() => <SharedStackNav screenName="Notifications" />}
       </Tabs.Screen>
-      
       <Tabs.Screen
         name="me"
         options={{

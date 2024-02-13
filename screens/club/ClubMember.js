@@ -3,7 +3,7 @@ import React from "react";
 import { View, FlatList } from "react-native";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
-import { themeColors } from "../../themeColors";
+import { commonTheme } from "../../theme/commonTheme";
 import MemberRow from "../../components/profile/MemberRow";
 
 const SEE_CLUB = gql`
@@ -30,7 +30,7 @@ const MemberCount = styled.Text`
   opacity: 0.7;
   margin: 5px 15px;
   font-size: 12px;
-  color: ${themeColors.darkGrey};
+  color: ${commonTheme.darkGrey};
 `;
 
 export default function ClubMember({ route }) {

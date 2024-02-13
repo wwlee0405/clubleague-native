@@ -8,7 +8,8 @@ import DismissKeyboard from "../../components/DismissKeyboard";
 import HeaderRightLoading from "../../components/shared/HeaderRightLoading";
 import HeaderRight from "../../components/shared/HeaderRight";
 import { Feather } from "@expo/vector-icons";
-import { themeColors } from "../../themeColors";
+import { useTheme } from "@react-navigation/native";
+import { commonTheme } from "../../theme/commonTheme";
 
 const CREATE_CLUB = gql`
   mutation createClub(
@@ -34,7 +35,6 @@ const Container = styled.View`
    justify-content: center;
    align-items: center;
    flex: 1;
-   background-color: ${themeColors.white};
 `;
 const Emblem = styled.View`
    justify-content: center;
@@ -42,7 +42,7 @@ const Emblem = styled.View`
    width: 130px;
    height: 130px;
    border-radius: 65px;
-   background-color: ${themeColors.seaGreen};
+   background-color: ${commonTheme.seaGreen};
 `;
 const EmblemImg = styled.Image`
   width: 130px;
@@ -51,7 +51,7 @@ const EmblemImg = styled.Image`
 `;
 const TextInput = styled.TextInput`
 	padding: 10px;
-	background-color: ${themeColors.white};
+	background-color: ${commonTheme.white};
 	text-align: center;
 	font-size: 20px;
 `;
@@ -61,6 +61,7 @@ const ExplanationText = styled.Text`
    text-align: center;
 `;
 export default function NewClub({ route, navigation }) {
+  const { colors } = useTheme();
   const { register, handleSubmit, setValue, getValues, watch } = useForm({
     defaultValues: {
       clubname: route?.params?.clubname,
@@ -132,14 +133,14 @@ export default function NewClub({ route, navigation }) {
   console.log(route);
   return (
     <DismissKeyboard>
-      <Container>
+      <Container style={{ backgroundColor: colors.background }}>
         <View style={{ paddingBottom: 30 }}>
           <TouchableOpacity onPress={() => navigation.navigate("UploadEmblem")}>
             {route.params?.emblem ? (
               <EmblemImg resizeMode="contain" source={{ uri: route.params.emblem }} />
             ):(
               <Emblem>
-                <Feather name="camera" size={40} style={{ color: themeColors.greyColor }} />
+                <Feather name="camera" size={40} style={{ color: commonTheme.greyColor }} />
               </Emblem>
             )}
           </TouchableOpacity>

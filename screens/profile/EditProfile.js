@@ -1,21 +1,18 @@
 import React from "react";
 import styled from "styled-components/native";
-import { themeColors } from "../../themeColors";
-import useMe, { ME_QUERY } from "../../hooks/useMe";
+import { useTheme } from "@react-navigation/native";
+import useMe from "../../hooks/useMe";
 import EditProfileForm from "../../components/profile/EditProfileForm";
 
 const Container = styled.View`
   flex: 1;
-  background-color: ${themeColors.white};
 `;
 
 export default function EditProfile({ navigation, route }) {
   const { data: userData } = useMe();
-
-  console.log(route);
-
+  const { colors } = useTheme();
   return (
-    <Container>
+    <Container style={{ backgroundColor: colors.background }}>
       <EditProfileForm {...userData?.me} />
     </Container>
   );

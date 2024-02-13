@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
-import { themeColors } from "../../themeColors";
+import { commonTheme } from "../../theme/commonTheme";
 
 const Container = styled.View`
   flex: 1;
@@ -29,7 +29,7 @@ const IconContainer = styled.View`
   right: 0px;
 `;
 const HeaderRightText = styled.Text`
-  color: ${themeColors.blue};
+  color: ${commonTheme.blue};
   font-size: 16px;
   font-weight: 600;
   margin-right: 7px;
@@ -93,7 +93,7 @@ export default function SelectAvatarPhoto({ navigation, route }) {
         <Ionicons
           name="checkmark-circle"
           size={18}
-          color={photo.uri === chosenPhoto ? themeColors.blue : "white"}
+          color={photo.uri === chosenPhoto ? commonTheme.blue : "white"}
         />
       </IconContainer>
     </TouchableOpacity>

@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import DismissKeyboard from "../../components/DismissKeyboard";
 import styled from "styled-components/native";
-import { themeColors } from "../../themeColors";
+import { commonTheme } from "../../theme/commonTheme";
 import { FEED_MATCH } from "../../fragments";
 
 const CREATE_GAME_MUTATION = gql`
@@ -32,14 +32,14 @@ const CaptionContainer = styled.View`
   margin-top: 10px;
 `;
 const Caption = styled.TextInput`
-  background-color: ${themeColors.white};
+  background-color: ${commonTheme.white};
   color: black;
   padding: 10px 20px;
   border-radius: 100px;
 `;
 const LabelText = styled.Text`
   font-size: 15px;
-  color: ${themeColors.yellow};
+  color: ${commonTheme.yellow};
 `;
 const Emblem = styled.Image`
   width: 40px;
@@ -63,7 +63,7 @@ const BtnRow = styled.View`
   justify-content: space-between;
   width: 70px;
   margin-left: 50px;
-  background-color: ${themeColors.greyColor};
+  background-color: ${commonTheme.greyColor};
 `;
 const UpDownBtn = styled.View`
   width: 30px;
@@ -71,14 +71,14 @@ const UpDownBtn = styled.View`
   border-radius: 8px;
   align-items: center;
   justify-content: center;
-  background-color: ${themeColors.blue};
+  background-color: ${commonTheme.blue};
 `;
 const BtnText = styled.Text`
-  color: ${themeColors.white};
+  color: ${commonTheme.white};
   align-items: center;
 `;
 const HeaderRightText = styled.Text`
-color: ${themeColors.blue};
+color: ${commonTheme.blue};
 font-size: 16px;
 font-weight: 600;
 margin-right: 7px;
@@ -134,8 +134,6 @@ export default function NewMatch({ navigation, route }) {
   };
 
   console.log(route.params?.id);
-  console.log(route.params?.clubId);
-  console.log(route.params?.clubname);
   console.log(route);
   return (
     <DismissKeyboard>

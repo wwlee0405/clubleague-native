@@ -35,7 +35,7 @@ const MessageText = styled.Text`
 const Input = styled.TextInput`
   background-color: rgba(255, 255, 255, 1);
   color: black;
-  width: ${(props) => props.width / 1.5}px;
+  width: ${(props) => props.width / 1.1}px;
   padding: 5px 10px;
   border-radius: 7px;
 `;

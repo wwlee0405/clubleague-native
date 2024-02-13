@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Photo from "../screens/Photo";
 import Feed from "../screens/home/Feed";
 import Match from "../screens/Match";
+import Outcluber from "../screens/Outcluber";
 import Search from "../screens/Search";
 import Notifications from "../screens/Notifications";
 import Me from "../screens/Me";
 import NewClub from "../screens/home/NewClub";
 import SearchClub from "../screens/home/SearchClub";
 import Likes from "../screens/Likes";
-import { colors } from "../themeColors";
 import { TouchableOpacity } from "react-native";
 import { isLoggedInVar, logUserOut } from "../apollo";
 import { useTheme } from "@react-navigation/native";
@@ -56,6 +56,9 @@ export default function SharedStackNav({ screenName }) {
       ) : null}
       {screenName === "Match" ? (
         <Stack.Screen name={"Match"} component={Match} options={{ headerShown: true }} />
+      ) : null}
+      {screenName === "Outcluber" ? (
+        <Stack.Screen name={"Outcluber"} component={Outcluber} options={{ headerShown: true }} />
       ) : null}
       {screenName === "Search" ? (
         <Stack.Screen name={"Search"} component={Search} />

@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
-import { themeColors } from "../themeColors";
+import { commonTheme } from "../theme/commonTheme";
 
 const Container = styled.View`
   flex: 1;
@@ -34,7 +34,7 @@ const IconContainer = styled.View`
 `;
 
 const HeaderRightText = styled.Text`
-  color: ${themeColors.blue};
+  color: ${commonTheme.blue};
   font-size: 16px;
   font-weight: 600;
   margin-right: 7px;
@@ -96,7 +96,7 @@ export default function SelectPhoto({ navigation }) {
         <Ionicons
           name="checkmark-circle"
           size={25}
-          color={photo.uri === chosenPhoto ? themeColors.blue : "white"}
+          color={photo.uri === chosenPhoto ? commonTheme.blue : "white"}
         />
       </IconContainer>
     </ImageContainer>

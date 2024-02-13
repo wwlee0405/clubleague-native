@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { gql, useMutation } from "@apollo/client";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components/native";
-import { themeColors } from "../../themeColors";
+import { useTheme } from "@react-navigation/native";
 import { TextInput } from "../../components/auth/AuthShared";
 import DismissKeyboard from "../../components/DismissKeyboard";
 import useMe, { ME_QUERY } from "../../hooks/useMe";
@@ -22,12 +21,12 @@ const EDIT_PROFILE_MUTATION = gql`
 
 const Container = styled.View`
   flex: 1;
-  background-color: ${themeColors.white};
   padding: 10px 20px;
 `;
 
 export default function EditBio({ navigation }) {
   const { data: userData } = useMe();
+  const { colors } = useTheme();
   const onCompleted = (cache, result) => {
     const {
       data: {
@@ -77,7 +76,7 @@ export default function EditBio({ navigation }) {
   };
   return (
     <DismissKeyboard>
-      <Container>
+      <Container style={{ backgroundColor: colors.background }}>
         <TextInput
           placeholder="bio"
           defaultValue={userData?.me?.bio}

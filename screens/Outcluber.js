@@ -4,25 +4,21 @@ import { useForm } from "react-hook-form";
 import {
   ActivityIndicator,
   FlatList,
-  Pressable,
+  Image,
+  TouchableOpacity,
   useWindowDimensions,
   View,
 } from "react-native";
 import styled from "styled-components/native";
-import DismissKeyboard from "../../components/DismissKeyboard";
-import SearchedClub from "../../components/home/SearchedClub";
+import DismissKeyboard from "../components/DismissKeyboard";
 import { useTheme } from "@react-navigation/native";
+import OutcluberItem from "../components/outcluber/OutcluberItem";
 
-const SEARCH_CLUBS = gql`
-  query searchClubs($keyword: String!) {
-    searchClubs(keyword: $keyword) {
+const SEARCH_PHOTOS = gql`
+  query searchPhotos($keyword: String!) {
+    searchPhotos(keyword: $keyword) {
       id
-      clubname
-      clubArea
-      totalMember
-      clubLeader{
-        username
-      }
+      file
     }
   }
 `;
@@ -36,17 +32,18 @@ const MessageText = styled.Text`
   margin-top: 15px;
   font-weight: 600;
 `;
+
 const Input = styled.TextInput`
-  width: ${(props) => props.width / 1.3}px;
+  width: ${(props) => props.width / 1.1}px;
   padding: 5px 10px;
   border-radius: 7px;
 `;
 
-export default function SearchClub({ navigation }) {
+export default function Outcluber({ navigation }) {
   const { colors } = useTheme();
   const { width } = useWindowDimensions();
   const { setValue, register, watch, handleSubmit } = useForm();
-  const [startQueryFn, { loading, data, called }] = useLazyQuery(SEARCH_CLUBS);
+  const [startQueryFn, { loading, data, called }] = useLazyQuery(SEARCH_PHOTOS);
   const onValid = ({ keyword }) => {
     startQueryFn({
       variables: {
@@ -78,47 +75,24 @@ export default function SearchClub({ navigation }) {
       minLength: 3,
     });
   }, []);
-  console.log(data);
-
-
-  const renderItem = ({ item: club }) => (
-    <Pressable
+  const renderItem = ({ item: photo }) => (
+    <TouchableOpacity
       onPress={() =>
-        navigation.navigate("Clubhouse", {
-          clubId: club.id,
+        navigation.navigate("Photo", {
+          photoId: photo.id,
         })
       }
     >
-      <SearchedClub {...club} />
-    </Pressable>
+      <Image
+        source={{ uri: photo.file }}
+        style={{ width: width / numColumns, height: 100 }}
+      />
+    </TouchableOpacity>
   );
   return (
     <DismissKeyboard>
       <View style={{ flex: 1, backgroundColor: colors.background }}>
-        {loading ? (
-          <MessageContainer>
-            <ActivityIndicator size="large" />
-            <MessageText style={{ flex: 1, color: colors.text }}>Searching...</MessageText>
-          </MessageContainer>
-        ) : null}
-        {!called ? (
-          <MessageContainer>
-            <MessageText style={{ flex: 1, color: colors.text }}>Search by keyword</MessageText>
-          </MessageContainer>
-        ) : null}
-        {data?.searchClubs !== undefined ? (
-          data?.searchClubs?.length === 0 ? (
-            <MessageContainer>
-              <MessageText style={{ flex: 1, color: colors.text }}>Could not find anything.</MessageText>
-            </MessageContainer>
-          ) : (
-            <FlatList
-              data={data?.searchClubs}
-              keyExtractor={(club) => "" + club.id}
-              renderItem={renderItem}
-            />
-          )
-        ) : null}
+        <OutcluberItem />
       </View>
     </DismissKeyboard>
   );

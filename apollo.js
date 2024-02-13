@@ -48,11 +48,11 @@ export const disableDarkMode = async () => {
 };
 
 const uploadHttpLink = createUploadLink({
-  uri: "https://a251-211-201-123-102.ngrok-free.app/graphql",
+  uri: "https://1994-211-201-123-102.ngrok-free.app/graphql",
 });
 
 const wsLink = new GraphQLWsLink(createClient({
-  url: "ws://a251-211-201-123-102.ngrok-free.app/graphql",
+  url: "ws://1994-211-201-123-102.ngrok-free.app/graphql",
   connectionParams: {
     token: tokenVar(),
   },

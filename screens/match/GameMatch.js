@@ -7,7 +7,7 @@ import styled from "styled-components/native";
 import { commonTheme } from "../../theme/commonTheme";
 import { useNavigation } from "@react-navigation/native";
 import ScreenLayout from "../../components/ScreenLayout";
-import Game from "../../components/match/Game";
+import GameItem from "../../components/match/GameItem";
 
 const SEE_GAME = gql`
   query seeGame($id: Int!) {
@@ -97,7 +97,7 @@ export default function GameMatch({ route }) {
   return (
     <ScreenLayout loading={loading}>  
       <ScrollView>
-        <Game {...data?.seeGame} />
+        <GameItem {...data?.seeGame} />
       </ScrollView>    
 
       {!data?.seeGame?.awayGame?.id ? (
