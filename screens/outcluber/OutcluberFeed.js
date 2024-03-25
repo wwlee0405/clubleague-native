@@ -24,6 +24,7 @@ const SEE_OUTCLUBER = gql`
           avatar
         }
       }
+      outcluberNumber
       isOutcluber
     
     }

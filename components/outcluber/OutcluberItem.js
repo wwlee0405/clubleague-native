@@ -63,8 +63,11 @@ const Location = styled.Text`
   text-align: center;
   overflow: hidden;
 `;
+const EnteryText = styled.Text`
+  margin-left: 15px;
+`;
 
-function OutcluberItem({ id }) {
+function OutcluberItem({ outcluberNumber }) {
     const { colors } = useTheme();
   
     return (
@@ -87,12 +90,15 @@ function OutcluberItem({ id }) {
             </KickOffData>
           </GameContent>
           
+          <EnteryText>{outcluberNumber === 1 ? "1 outcluber" : `${outcluberNumber} outclubers`}</EnteryText>
+
         </ExtraContainer>
       </Container>
     );
   }
   
   OutcluberItem.propTypes = {
+    outcluberNumber: PropTypes.number,
  
   };
   
