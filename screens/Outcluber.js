@@ -1,26 +1,37 @@
-import { gql, useLazyQuery } from "@apollo/client";
-import React, { useEffect } from "react";
+import { gql, useQuery } from "@apollo/client";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { FlatList, Pressable } from "react-native";
 import styled from "styled-components/native";
-import DismissKeyboard from "../components/DismissKeyboard";
 import { useTheme } from "@react-navigation/native";
-import OutcluberItem from "../components/outcluber/OutcluberItem";
+import ScreenLayout from "../components/ScreenLayout";
+import OutcluberFeedItem from "../components/outcluber/OutcluberFeedItem";
+import { GAME_FRAGMENT } from "../fragments";
 
-const SEARCH_PHOTOS = gql`
-  query searchPhotos($keyword: String!) {
-    searchPhotos(keyword: $keyword) {
+const SEE_OUTCLUBER_FEED = gql`
+  query seeOutcluberFeed($offset: Int!) {
+    seeOutcluberFeed(offset: $offset) {
       id
-      file
+      sport
+      club {
+        id
+        clubname
+        emblem
+      }
+      home {
+        homeGame {
+          ...GameFragment
+        }
+      }
+      away {
+        awayGame {
+          ...GameFragment
+        }
+      }
+      createdAt
     }
   }
+  ${GAME_FRAGMENT}
 `;
 
 const MessageContainer = styled.View`
@@ -41,59 +52,53 @@ const Input = styled.TextInput`
 
 export default function Outcluber({ navigation }) {
   const { colors } = useTheme();
-  const { width } = useWindowDimensions();
-  const { setValue, register, watch, handleSubmit } = useForm();
-  const [startQueryFn, { loading, data, called }] = useLazyQuery(SEARCH_PHOTOS);
-  const onValid = ({ keyword }) => {
-    startQueryFn({
-      variables: {
-        keyword,
-      },
-    });
+  const [refreshing, setRefreshing] = useState(false);
+  const { data, loading, refetch, fetchMore } = useQuery(SEE_OUTCLUBER_FEED, {
+    variables: {
+      offset: 0,
+    },
+  });
+  const renderOutcluber = ({ item: feed }) => {
+    return (
+      <Pressable
+        onPress={() => 
+          navigation.navigate("OutcluberFeed", {
+            id: feed.id,
+            
+          })
+        }
+        style={({pressed}) => [
+          {
+            opacity: pressed ? 0.5 : 1,
+          },
+        ]}
+      >
+        <OutcluberFeedItem {...feed} />
+      </Pressable>
+    );
   };
-  const SearchBox = () => (
-    <Input
-      width={width}
-      backgroundColor={colors.buttonBackground}
-      color={colors.text}
-      placeholderTextColor={colors.placeholder}
-      placeholder="Search clubs"
-      autoCapitalize="none"
-      returnKeyLabel="Search"
-      returnKeyType="search"
-      autoCorrect={false}
-      onChangeText={(text) => setValue("keyword", text)}
-      onSubmitEditing={handleSubmit(onValid)}
-    />
-  );
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: SearchBox,
-    });
-    register("keyword", {
-      required: true,
-      minLength: 3,
-    });
-  }, []);
-  const renderItem = ({ item: photo }) => (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("Photo", {
-          photoId: photo.id,
-        })
-      }
-    >
-      <Image
-        source={{ uri: photo.file }}
-        style={{ width: width / numColumns, height: 100 }}
-      />
-    </TouchableOpacity>
-  );
+  const refresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
   return (
-    <DismissKeyboard>
-      <View style={{ flex: 1, backgroundColor: colors.background }}>
-        <OutcluberItem />
-      </View>
-    </DismissKeyboard>
+    <ScreenLayout loading={loading}>  
+      <FlatList
+        onEndReached={() =>
+          fetchMore({
+            variables: {
+              offset: data?.seeOutcluberFeed?.length,
+            },
+          })
+        }
+        refreshing={refreshing}
+        onRefresh={refresh}
+        showsVerticalScrollIndicator={false}
+        data={data?.seeOutcluberFeed}
+        keyExtractor={(feed) => "" + feed.id}
+        renderItem={renderOutcluber}
+      />
+    </ScreenLayout>
   );
 }

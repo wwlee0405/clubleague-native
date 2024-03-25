@@ -88,7 +88,7 @@ function ScrollMatchHeader() {
                 <ModalImgWrapper>
                   <FontAwesome5 name="newspaper" size={25} style={{color: colors.text}} />
                 </ModalImgWrapper>
-                <MoadalText style={{color: colors.text}}>Foreign</MoadalText>
+                <MoadalText style={{color: colors.text}}>Outcluber</MoadalText>
               </ModalWrapper>
             </TouchableOpacity>
 

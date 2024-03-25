@@ -1,11 +1,9 @@
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
-import { useTheme } from "@react-navigation/native";
 
-export default function ScreenLayout({ loading, children }) {
-  const { colors } = useTheme();
+export default function ScreenLayout({ backgroundColor, loading, children }) {
   return (
-    <View style={{ backgroundColor: colors.background }}>
+    <View style={{ flex:1, backgroundColor }}>
       {loading ? <ActivityIndicator color="white" /> : children}
     </View>
   );

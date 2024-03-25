@@ -99,7 +99,6 @@ export default function ClubSetting({route}) {
           >
             <Text style={{color: colors.text}}>임원해제</Text>
           </TouchableOpacity>
-
             
           <TouchableOpacity
             onPress={() => navigation.navigate("TransferLeader", {

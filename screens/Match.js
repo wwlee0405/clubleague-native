@@ -36,13 +36,13 @@ export default function Match({ navigation }) {
     outputRange: [0, -HEADER_HEIGHT],
     extrapolate: 'clamp'
   });
-  const renderMatch = ({ item: match }) => {
+  const renderMatch = ({ item: feed }) => {
     return (
       <Pressable
         onPress={() =>
-          navigation.navigate("GameMatch", {
-            matchId: match.id,
-            username: match.user?.username,
+          navigation.navigate("GameFeed", {
+            matchId: feed.id,
+            username: feed.user?.username,
           })
         }
         style={({pressed}) => [
@@ -51,7 +51,7 @@ export default function Match({ navigation }) {
           },
         ]}
       >
-        <MatchItem {...match} />
+        <MatchItem {...feed} />
       </Pressable>
     );
   };
@@ -98,7 +98,7 @@ export default function Match({ navigation }) {
         contentContainerStyle={{ width: "100%", paddingTop: HEADER_HEIGHT }}
         showsVerticalScrollIndicator={false}
         data={data?.seeMatch}
-        keyExtractor={(match) => "" + match.id}
+        keyExtractor={(feed) => "" + feed.id}
         renderItem={renderMatch}
       />
     </ScreenLayout>

@@ -44,8 +44,14 @@ const SEE_CLUB_SCHED = gql`
         homeGame {
           ...GameFragment
         }
+        awayGame {
+          ...GameFragment
+        }
       }
       away {
+        homeGame {
+          ...GameFragment
+        }
         awayGame {
           ...GameFragment
         }

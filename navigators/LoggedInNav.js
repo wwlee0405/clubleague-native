@@ -12,7 +12,8 @@ import UploadNav from "./UploadNav";
 import UploadForm from "../screens/UploadForm";
 import MessagesNav from "./MessagesNav";
 
-import GameMatch from "../screens/match/GameMatch";
+import GameFeed from "../screens/match/GameFeed";
+import OutcluberFeed from "../screens/outcluber/OutcluberFeed"
 import SelectClub from "../screens/match/SelectClub";
 import Entry from "../screens/match/Entry";
 import Comments from "../screens/match/Comments";
@@ -68,7 +69,8 @@ export default function LoggedInNav() {
       <Stack.Screen name="UnappointBoard" component={UnappointBoard} />
       <Stack.Screen name="TransferLeader" component={TransferLeader} />
 
-      <Stack.Screen name="GameMatch" component={GameMatch} />
+      <Stack.Screen name="GameFeed" component={GameFeed} />
+      <Stack.Screen name="OutcluberFeed" component={OutcluberFeed} />
       <Stack.Screen name="SelectClub" component={SelectClub} />
       <Stack.Screen name="Entry" component={Entry} />
       <Stack.Screen name="Comments" component={Comments} />

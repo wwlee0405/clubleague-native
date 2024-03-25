@@ -4,6 +4,7 @@ import { RefreshControl, Alert, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { GAME_FRAGMENT } from "../../fragments";
 import styled from "styled-components/native";
+import { useTheme } from "@react-navigation/native";
 import { commonTheme } from "../../theme/commonTheme";
 import { useNavigation } from "@react-navigation/native";
 import ScreenLayout from "../../components/ScreenLayout";
@@ -60,7 +61,8 @@ const BtnText = styled.Text`
   font-size: 15px;
 `;
 
-export default function GameMatch({ route }) {
+export default function GameFeed({ route }) {
+  const { colors } = useTheme();
   const navigation = useNavigation();
   useEffect(() => {
     if (route?.params?.username) {
@@ -95,7 +97,7 @@ export default function GameMatch({ route }) {
   console.log(route);
   console.log(data);
   return (
-    <ScreenLayout loading={loading}>  
+    <ScreenLayout loading={loading} backgroundColor={colors.cardContent}> 
       <ScrollView>
         <GameItem {...data?.seeGame} />
       </ScrollView>    

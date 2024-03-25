@@ -162,17 +162,17 @@ function ClubSchedItem({
         </Row>
         <MatchContent>
           <MatchData>
-            {club.id !== home.homeGame.club.id ? (
+            {club.id === home.homeGame?.club.id ? (
               <HomeAway>
                 <VersusText style={{color: colors.subText}}>VS</VersusText>
                 <MatchEmblem source={require('../../data/2bar.jpg')} />
-                <ClubName style={{color: colors.text}}>{home.homeGame.club.clubname}</ClubName>
+                <ClubName style={{color: colors.text}}>{away.homeGame?.club.clubname}1</ClubName>
               </HomeAway>
             ) : (
               <HomeAway>
                 <VersusText>VS</VersusText>
                 <MatchEmblem source={require('../../data/2bar.jpg')} />
-                <ClubName style={{color: colors.text}}>away.awayGame.club.clubname</ClubName>
+                <ClubName style={{color: colors.text}}>{away.awayGame?.club.clubname}Not Yet</ClubName>
               </HomeAway>
             )}
             
@@ -205,6 +205,13 @@ ClubSchedItem.propTypes = {
   }),
   home: PropTypes.shape({
     homeGame: PropTypes.shape({
+      club: PropTypes.shape({
+        id: PropTypes.number,
+        clubname: PropTypes.string,
+        emblem: PropTypes.string,
+      }),
+    }),
+    awayGame: PropTypes.shape({
       club: PropTypes.shape({
         id: PropTypes.number,
         clubname: PropTypes.string,
