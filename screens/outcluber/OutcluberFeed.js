@@ -76,6 +76,13 @@ export default function OutcluberFeed({ route }) {
           isOutcluber(prev) {
             return !prev;
           },
+          outcluberNumber(prev) {
+            if (isOutcluber) {
+              return prev - 1;
+            }
+            return prev + 1;
+          },
+
         },
       });
     }
@@ -91,7 +98,7 @@ export default function OutcluberFeed({ route }) {
   return (
     <ScreenLayout backgroundColor={colors.cardContent}>
       <ScrollView>
-        <OutcluberItem />
+        <OutcluberItem {...data?.seeOutcluber} />
       </ScrollView>
       
       <JoinGameContainer>

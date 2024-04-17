@@ -91,16 +91,17 @@ const textColor = {
 function OutcluberFeedItem({ club, home, away }) {
   const { colors } = useTheme();
   const navigation = useNavigation();
-  const goToProfile = () => {
-    navigation.navigate("Profile", {
-      username: user.username,
-      id: user.id,
+  const goToClubhouse = () => {
+    navigation.navigate("Clubhouse", {
+      clubId: club.id,
     });
   };
   return(
     <Container style={{ backgroundColor: colors.cardHeader }}>
       <HeaderAvatar
-        onPress={goToProfile}
+        onPress={goToClubhouse}
+        topData={club.clubname}
+        bottomData={club.clubname}
         modalVisible={() => setModalVisible(true)}
       />
       <ExtraContainer style={{ backgroundColor: colors.cardContent }}>
@@ -117,7 +118,7 @@ function OutcluberFeedItem({ club, home, away }) {
           </View>
         </Row>
         <MatchContent>
-          {club.id === home.homeGame.club.id ? (
+          {home.homeGame.club.id === home.homeGame.club.id ? (
             <HomeAway>
               <ClubEmblem source={require('../../data/1ars.jpg')} />
               <ClubName style={{ color: colors.text }}>{home.homeGame.club.clubname}</ClubName>

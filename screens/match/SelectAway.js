@@ -18,9 +18,9 @@ const SEE_MY_CLUB = gql`
     }
   }
 `;
-const JOIN_GAME_MUTATION = gql`
-  mutation joinGame($id: Int!, $matchId: Int!, $clubId: Int!, $userId: Int) {
-    joinGame(id:$id, matchId: $matchId, clubId: $clubId, userId: $userId) {
+const JOIN_AWAY_GAME_MUTATION = gql`
+  mutation joinAwayGame($id: Int!, $matchId: Int!, $clubId: Int!, $userId: Int) {
+    joinAwayGame(id:$id, matchId: $matchId, clubId: $clubId, userId: $userId) {
       error
       id
       ok
@@ -59,10 +59,10 @@ export default function SelectAway({ navigation, route }) {
   const [chosenClubname, setChosenClubname] = useState("");
   const [chosenEmblem, setChosenEmblem] = useState("");
 
-  const joinGameUpdate = (cache, result) => {
+  const joinAwayGameUpdate = (cache, result) => {
     const {
       data: {
-        joinGame: { ok, id },
+        joinAwayGame: { ok, id },
       },
     } = result;
     if (ok) {
@@ -93,24 +93,24 @@ export default function SelectAway({ navigation, route }) {
           },
         },
       });
-      navigation.navigate("GameMatch", {
+      navigation.navigate("GameFeed", {
         matchId: route?.params?.matchId
       });
     };
   }
-  const [joinGame] = useMutation(JOIN_GAME_MUTATION, {
+  const [joinAwayGame] = useMutation(JOIN_AWAY_GAME_MUTATION, {
     variables: {
       id: chosenId,
       clubId: chosenClub,
       matchId: route?.params?.matchId,
       userId: route?.params?.userId,
     },
-    update: joinGameUpdate,
+    update: joinAwayGameUpdate,
   });
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <HeaderRight onPress={joinGame} />
+        <HeaderRight onPress={joinAwayGame} />
       ),
     });
   }, [chosenId, chosenClub]);

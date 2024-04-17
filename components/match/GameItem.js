@@ -9,9 +9,9 @@ import { useTheme } from "@react-navigation/native";
 import { commonTheme } from "../../theme/commonTheme.js";
 import HeaderAvatar from "../HeaderAvatar.js";
 
-const UNJOIN_GAME_MUTATION = gql`
-  mutation unjoinGame($id: Int!) {
-    unjoinGame(id: $id) {
+const UNJOIN_AWAY_GAME_MUTATION = gql`
+  mutation unjoinAwayGame($id: Int!) {
+    unjoinAwayGame(id: $id) {
       ok
     }
   }
@@ -156,24 +156,24 @@ function GameItem({
   ]);
   const { width } = useWindowDimensions();
 
-  const updateUnjoinGame = (cache, result) => {
+  const updateUnjoinAwayGame = (cache, result) => {
     const {
       data: {
-        unjoinGame: { ok },
+        unjoinAwayGame: { ok },
       },
     } = result;
     if (ok) {
       cache.evict({ id: `Game:${awayGame?.id}` });
     }
   };
-  const [unjoinGameMutation] = useMutation(UNJOIN_GAME_MUTATION, {
+  const [unjoinAwayGameMutation] = useMutation(UNJOIN_AWAY_GAME_MUTATION, {
     variables: {
       id: awayGame?.id,
     },
-    update: updateUnjoinGame,
+    update: updateUnjoinAwayGame,
   });
   const onDeleteClick = () => {
-    unjoinGameMutation();
+    unjoinAwayGameMutation();
   };
 
   const logPress = (pressType) => {
@@ -249,7 +249,7 @@ function GameItem({
               ) : (
                 <ClubEmblem source={require('../../data/2bar.jpg')} />
               )}
-                <ClubName>{awayGame?.club.clubname}hvbhjvhvhgvhgvgvvgvgvgvgv</ClubName>
+                <ClubName style={{color: colors.text}}>{awayGame?.club.clubname}hvbhjvhvhgvhgvgvvgvgvgvgv</ClubName>
             </ClubData>
           ) : (
             <AwayBtn>

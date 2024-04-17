@@ -67,40 +67,42 @@ const EnteryText = styled.Text`
   margin-left: 15px;
 `;
 
-function OutcluberItem({ outcluberNumber }) {
-    const { colors } = useTheme();
+function OutcluberItem({ club, outcluberNumber }) {
+  const { colors } = useTheme();
   
-    return (
-      <Container style={{backgroundColor: colors.cardHeader}}>
+  return (
+    <Container style={{backgroundColor: colors.cardHeader}}>
 
-        <ExtraContainer style={{backgroundColor: colors.cardContent}}>
-          <Dates>
-            <MatchDate style={{color: colors.text}}>APR 23</MatchDate>
-            <MatchWeek style={{color: colors.text}}>Saturday</MatchWeek>
-          </Dates>
+      <ExtraContainer style={{backgroundColor: colors.cardContent}}>
+        <Dates>
+          <MatchDate style={{color: colors.text}}>APR 23</MatchDate>
+          <MatchWeek style={{color: colors.text}}>Saturday</MatchWeek>
+        </Dates>
 
-          <GameContent>
-            <ClubData>
-              <ClubEmblem source={require('../../data/2bar.jpg')} />
-              <ClubName style={{color: colors.text}}>arsenal</ClubName>
-            </ClubData>
-            <KickOffData>
-              <KickOffTime>10:00</KickOffTime>
-              <Location numberOfLines={1} style={{color: colors.subText}}>Santiago Bernabéu dkndkfnbkdfnbkfjdnb</Location>
-            </KickOffData>
-          </GameContent>
+        <GameContent>
+          <ClubData>
+            <ClubEmblem source={require('../../data/2bar.jpg')} />
+            <ClubName style={{color: colors.text}}>{club?.clubname}</ClubName>
+          </ClubData>
+          <KickOffData>
+            <KickOffTime>10:00</KickOffTime>
+            <Location numberOfLines={1} style={{color: colors.subText}}>Santiago Bernabéu dkndkfnbkdfnbkfjdnb</Location>
+          </KickOffData>
+        </GameContent>
           
-          <EnteryText>{outcluberNumber === 1 ? "1 outcluber" : `${outcluberNumber} outclubers`}</EnteryText>
+        <EnteryText style={{color: colors.text}}>{outcluberNumber === 1 ? "1 outcluber" : `${outcluberNumber} outclubers`}</EnteryText>
 
-        </ExtraContainer>
-      </Container>
-    );
-  }
+      </ExtraContainer>
+    </Container>
+  );
+}
   
-  OutcluberItem.propTypes = {
-    outcluberNumber: PropTypes.number,
- 
-  };
+OutcluberItem.propTypes = {
+  club: PropTypes.shape({
+    clubname: PropTypes.string,
+  }),
+  outcluberNumber: PropTypes.number,
+};
   
-  export default OutcluberItem;
+export default OutcluberItem;
   

@@ -7,9 +7,9 @@ import { useTheme } from "@react-navigation/native";
 import HeaderAvatar from "../HeaderAvatar.js";
 import { Alert, Modal, Pressable, View } from "react-native";
 
-const DELETE_MATCH_MUTATION = gql`
-  mutation deleteMatch($id: Int!) {
-    deleteMatch(id: $id) {
+const DELETE_GAME_MUTATION = gql`
+  mutation deleteGame($id: Int!) {
+    deleteGame(id: $id) {
       ok
     }
   }
@@ -115,24 +115,24 @@ function MatchItem({ id, user, homeGame, awayGame }) {
       id: user.id,
     });
   };
-  const updateDeleteMatch = (cache, result) => {
+  const updateDeleteGame = (cache, result) => {
     const {
       data: {
-        deleteMatch: { ok },
+        deleteGame: { ok },
       },
     } = result;
     if (ok) {
       cache.evict({ id: `Match:${id}` });
     }
   };
-  const [deleteMatchMutation] = useMutation(DELETE_MATCH_MUTATION, {
+  const [deleteGameMutation] = useMutation(DELETE_GAME_MUTATION, {
     variables: {
       id,
     },
-    update: updateDeleteMatch,
+    update: updateDeleteGame,
   });
   const onDeleteClick = () => {
-    deleteMatchMutation();
+    deleteGameMutation();
   };
   const homeClubname = homeGame.club.clubname;
   const homeEmblem = homeGame.club.emblem;
@@ -158,13 +158,13 @@ function MatchItem({ id, user, homeGame, awayGame }) {
             <ModalWrapper
               onPress={() => setModalVisible(!modalVisible)}
             >
-              <ModalText style={{color: colors.text}}>Update Match</ModalText>
+              <ModalText style={{color: colors.text}}>Update Game</ModalText>
             </ModalWrapper>
 
             <ModalWrapper 
               onPress={onDeleteClick}
             >
-              <ModalText style={{color: colors.text}}>Delete Match</ModalText>
+              <ModalText style={{color: colors.text}}>Delete Game</ModalText>
             </ModalWrapper>
              
           </ModalContent>

@@ -3,7 +3,7 @@ import { gql, useQuery } from "@apollo/client";
 import { View, TouchableOpacity, FlatList } from "react-native";
 import styled from "styled-components/native";
 import { commonTheme } from "../../theme/commonTheme";
-import useMe, { ME_QUERY } from "../../hooks/useMe";
+import { useTheme } from "@react-navigation/native";
 import SelectClubItem from "../../components/match/SelectClubItem";
 
 const SEE_MY_CLUB = gql`
@@ -45,8 +45,8 @@ const ClubnameText = styled.Text`
   font-weight: bold;
 `;
 
-export default function SelectClub({ navigation, route }) {
-  const { data: meData } = useMe();
+export default function SelectClub({ navigation }) {
+  const { colors } = useTheme();
   const { data } = useQuery(SEE_MY_CLUB, {
     variables: {
       offset: 0,
@@ -112,7 +112,7 @@ export default function SelectClub({ navigation, route }) {
             ) : (
               <Emblem source={require('../../data/2bar.jpg')} />
             )}
-            <ClubnameText numberOfLines={1}>{chosenClubname}</ClubnameText>
+            <ClubnameText style={{color: colors.text}} numberOfLines={1}>{chosenClubname}</ClubnameText>
           </ClubData>
         ) : null}
       </Top>

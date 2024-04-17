@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import DismissKeyboard from "../../components/DismissKeyboard";
 import styled from "styled-components/native";
+import { useTheme } from "@react-navigation/native";
 import { commonTheme } from "../../theme/commonTheme";
 import { FEED_MATCH } from "../../fragments";
 
@@ -85,7 +86,7 @@ margin-right: 7px;
 `;
 
 export default function NewMatch({ navigation, route }) {
-
+  const { colors } = useTheme();
 
   const [createGameMutation, { loading, error }] = useMutation(
     CREATE_GAME_MUTATION,
@@ -150,7 +151,12 @@ export default function NewMatch({ navigation, route }) {
         <Text>Sports</Text>
         <Text>Date</Text>
         <Text>Time</Text>
-        <Text>Location</Text>
+
+        <Pressable onPress={() => navigation.navigate("SelectLocation")}>
+          <Text>Location</Text>
+        </Pressable>
+
+
         <Pressable onPress={() => navigation.navigate("SelectClub")}>
           <LabelText>Home</LabelText>
           {route.params?.clubname ? (
@@ -160,7 +166,7 @@ export default function NewMatch({ navigation, route }) {
               ) : (
                 <Emblem resizeMode="contain" source={require('../../data/2bar.jpg')} />
               )}
-              <SubmitText>{route.params?.clubname}</SubmitText>
+              <SubmitText style={{color: colors.text}}>{route.params?.clubname}</SubmitText>
             </Row>  
           ) : null}
         </Pressable>

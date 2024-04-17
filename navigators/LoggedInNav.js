@@ -15,6 +15,7 @@ import MessagesNav from "./MessagesNav";
 import GameFeed from "../screens/match/GameFeed";
 import OutcluberFeed from "../screens/outcluber/OutcluberFeed"
 import SelectClub from "../screens/match/SelectClub";
+import SelectLocation from "../screens/match/SelectLocation";
 import Entry from "../screens/match/Entry";
 import Comments from "../screens/match/Comments";
 import NewMatch from "../screens/match/NewMatch";
@@ -72,6 +73,7 @@ export default function LoggedInNav() {
       <Stack.Screen name="GameFeed" component={GameFeed} />
       <Stack.Screen name="OutcluberFeed" component={OutcluberFeed} />
       <Stack.Screen name="SelectClub" component={SelectClub} />
+      <Stack.Screen name="SelectLocation" component={SelectLocation} />
       <Stack.Screen name="Entry" component={Entry} />
       <Stack.Screen name="Comments" component={Comments} />
       <Stack.Screen name="NewMatch" component={NewMatch} />
